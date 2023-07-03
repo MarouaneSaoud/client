@@ -116,7 +116,7 @@ function App() {
           path="/"
           element={
             <Suspense fallback={<Loading />}>
-              <Login />
+              <Login2 />
             </Suspense>
           }
         />
@@ -140,7 +140,7 @@ function App() {
           path="/register"
           element={
             <Suspense fallback={<Loading />}>
-              <Register />
+              <Register2 />
             </Suspense>
           }
         />
@@ -164,7 +164,7 @@ function App() {
           path="/forgot-password"
           element={
             <Suspense fallback={<Loading />}>
-              <ForgotPass />
+              <ForgotPass2 />
             </Suspense>
           }
         />
@@ -188,7 +188,7 @@ function App() {
           path="/lock-screen"
           element={
             <Suspense fallback={<Loading />}>
-              <LockScreen />
+              <LockScreen2 />
             </Suspense>
           }
         />
