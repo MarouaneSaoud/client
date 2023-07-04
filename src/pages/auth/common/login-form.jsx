@@ -64,7 +64,8 @@ const LoginForm = () => {
         <Textinput
             name="email"
             label="email"
-            defaultValue={users[0].email}
+            placeholder={"Enter your email"}
+            //defaultValue={users[0].email}
             type="email"
             register={register}
             error={errors.email}
@@ -74,7 +75,8 @@ const LoginForm = () => {
             name="password"
             label="passwrod"
             type="password"
-            defaultValue={users[0].password}
+            placeholder={"Enter your password"}
+            //defaultValue={users[0].password}
             register={register}
             error={errors.password}
             className="h-[48px]"
