@@ -4,14 +4,21 @@ import Textinput from "@/components/ui/Textinput";
 import Icon from "@/components/ui/Icon";
 import Button from "@/components/ui/Button";
 import { useForm, useFieldArray } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 const FormRepeater = () => {
     const { register, control, handleSubmit, reset, trigger, setError } = useForm(
         {
             defaultValues: {
-                test: [{ Name: "", Adresse: "" }],
+                test: [{ Name: "", email: "" }],
             },
         }
     );
+    const history= useNavigate();
+
+    const handleClick = () => {
+        history('/list-company');
+    };
+
     const { fields, append, remove } = useFieldArray({
         control,
         name: "test",
@@ -20,7 +27,7 @@ const FormRepeater = () => {
     return (
         <div>
             <Card
-                title="Company"
+                title="Create Company"
                 headerslot={
                     <Button
                         text="Add new"
@@ -46,12 +53,12 @@ const FormRepeater = () => {
                             />
 
                             <Textinput
-                                label="Adresse"
-                                type="text"
+                                label="Email"
+                                type="email"
                                 id={`name2${index}`}
-                                placeholder="Adresse"
+                                placeholder="email"
                                 register={register}
-                                name={`test[${index}].Adresse`}
+                                name={`test[${index}].email`}
                             />
 
                             <div className="flex justify-between items-end space-x-5">
@@ -70,7 +77,7 @@ const FormRepeater = () => {
                     ))}
 
                     <div className="ltr:text-right rtl:text-left">
-                        <Button text="Submit" className="btn-dark" />
+                        <Button text="Submit" className="btn-dark"  onClick={handleClick}  />
                     </div>
                 </form>
             </Card>

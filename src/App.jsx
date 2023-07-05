@@ -59,11 +59,13 @@ const FormWizard = lazy(() => import("./pages/forms/form-wizard"));
 const SelectPage = lazy(() => import("./pages/forms/select"));
 const Flatpicker = lazy(() => import("./pages/forms/date-time-picker"));
 
-// form numotronique
-const  CompanyForm = lazy(() => import("./pages/NumoTroniqueForms/companyForm"));
-const  ReferenceForm = lazy(() => import("./pages/NumoTroniqueForms/referenceForm"));
-const  DevicesForm = lazy(() => import("./pages/NumoTroniqueForms/devicesForm"));
-
+// form numotronic
+const  CompanyForm = lazy(() => import("./pages/NumoTronic/forms/companyForm"));
+const  ReferenceForm = lazy(() => import("./pages/NumoTronic/forms/referenceForm"));
+const  DevicesForm = lazy(() => import("./pages/NumoTronic/forms/devicesForm"));
+//table numotronic
+const  Companyliste = lazy(() => import("./pages/NumoTronic/Tables/companyliste"));
+const  Devicesliste = lazy(() => import("./pages/NumoTronic/Tables/devicesliste"));
 
 // chart page
 const AppexChartPage = lazy(() => import("./pages/chart/appex-chart"));
@@ -235,6 +237,10 @@ function App() {
           <Route path="add-company" element={<CompanyForm />} />
           <Route path="add-reference" element={<ReferenceForm/>} />
           <Route path="add-devices" element={<DevicesForm/>} />
+
+          <Route path="list-devices" element={<Devicesliste/>} />
+          <Route path="list-company" element={<Companyliste/>} />
+
           {/* Components pages */}
 
           <Route path="button" element={<Button />} />

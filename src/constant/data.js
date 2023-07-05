@@ -7,9 +7,12 @@ export const menuItems = [
   {
     title: "Dashboard",
     icon: "heroicons-outline:home",
+    link: "dashboard",
     isOpen: true,
     isHide: true,
-    child: [
+
+  },
+    /*child: [
       {
         childtitle: "Analytics Dashboard",
         childlink: "dashboard",
@@ -29,42 +32,64 @@ export const menuItems = [
       {
         childtitle: "Banking Dashboard",
         childlink: "banking",
+      },*/
+
+
+  {
+    isHeadr: true,
+    title: "Companies",
+    isOpen: true,
+    isHide: true,
+    icon: "heroicons-outline:home-modern",
+    child: [
+
+      {
+        childtitle: "New company",
+        childlink: "add-company",
+      },
+
+      {
+        childtitle: "Companies",
+        childlink:  "list-company",
+      },
+    ],
+  },
+
+  {
+    isHeadr: true,
+    title: "Devices",
+    isOpen: true,
+    isHide: true,
+    icon: "heroicons-outline:cpu-chip",
+    child: [
+
+      {
+        childtitle:"New device",
+        childlink:"add-devices",
+      },
+
+      {
+        childtitle: "Devices",
+        childlink:  "list-devices",
       },
     ],
   },
   {
     isHeadr: true,
-    title: "Companies",
-  },
-
-  {
-    title: "add company",
-    isHide: true,
-    icon: "heroicons-outline:home",
-    link: "add-company",
-  },
-  {
-    isHeadr: true,
     title: "References",
-  },
-  {
-    title: "add reference",
+    isOpen: true,
     isHide: true,
     icon: "heroicons-outline:link",
-    link: "add-reference",
-  },
-  {
-    isHeadr: true,
-    title: "Devices",
-  },
-  {
-    title: "add device",
-    isHide: true,
-    icon: "heroicons-outline:cpu-chip",
-    link: "add-devices",
+    child: [
+
+      {
+        childtitle:"New reference",
+        childlink:"add-reference",
+      },
+    ],
   },
 
-  {
+   /*   {
     isHeadr: true,
     title: "apps",
   },
@@ -102,8 +127,8 @@ export const menuItems = [
     icon: "heroicons-outline:clipboard-check",
     link: "todo",
   },
-
-  {
+*/
+  /*{
     title: "Projects",
     icon: "heroicons-outline:document",
     link: "#",
@@ -118,8 +143,8 @@ export const menuItems = [
         childlink: "project-details",
       },
     ],
-  },
-  {
+  },*/
+ /* {
     isHeadr: true,
     title: "Pages",
   },
@@ -177,8 +202,8 @@ export const menuItems = [
         childlink: "/lock-screen3",
       },
     ],
-  },
-  {
+  },*/
+ /* {
     title: "Utility",
     icon: "heroicons-outline:view-boards",
     link: "#",
@@ -230,8 +255,8 @@ export const menuItems = [
         childlink: "/under-construction",
       },
     ],
-  },
-  {
+  },*/
+  /*{
     isHeadr: true,
     title: "Elements",
   },
@@ -249,8 +274,8 @@ export const menuItems = [
         childlink: "statistic",
       },
     ],
-  },
-  {
+  },*/
+ /* {
     title: "Components",
     icon: "heroicons-outline:collection",
     link: "#",
@@ -320,8 +345,8 @@ export const menuItems = [
         childlink: "tooltip-popover",
       },
     ],
-  },
-  {
+  },*/
+ /* {
     title: "Forms",
     icon: "heroicons-outline:clipboard-list",
     link: "#",
@@ -383,8 +408,8 @@ export const menuItems = [
         childlink: "date-time-picker",
       },
     ],
-  },
-  {
+  },*/
+  /*{
     title: "Table",
     icon: "heroicons-outline:table",
     link: "#",
@@ -398,8 +423,8 @@ export const menuItems = [
         childlink: "react-table",
       },
     ],
-  },
-  {
+  },*/
+ /* {
     title: "Chart",
     icon: "heroicons-outline:chart-bar",
     link: "#",
@@ -417,8 +442,8 @@ export const menuItems = [
         childlink: "recharts",
       },
     ],
-  },
-  {
+  },*/
+ /* {
     title: "Map",
     icon: "heroicons-outline:map",
     link: "map",
@@ -427,8 +452,8 @@ export const menuItems = [
     title: "Icons",
     icon: "heroicons-outline:emoji-happy",
     link: "icons",
-  },
-  {
+  },*/
+/*  {
     title: "Multi Level",
     icon: "heroicons:share",
     link: "#",
@@ -452,7 +477,7 @@ export const menuItems = [
         ],
       },
     ],
-  },
+  },*/
 ];
 
 export const topMenu = [

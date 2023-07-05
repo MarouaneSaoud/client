@@ -17,30 +17,30 @@ const steps = [
     },
     {
         id: 2,
-        title: "Company info",
+        title: "Sim info",
     },
     {
         id: 3,
-        title: "Address",
-    },
-    {
-        id: 4,
-        title: "Social Links",
+        title: "Company info",
     },
 ];
 
 let stepSchema = yup.object().shape({
     serialnumber: yup.string().required(" User serial number is required"),
-    Emei: yup.string().required("Emei is required"),
+    imei: yup.string().required("Emei is required"),
+    description: yup.string().required("Description is required"),
+    firmware: yup.string().required("Firmware is required"),
+    configuration: yup.string().required("configuration is required"),
 
 });
 
 let personalSchema = yup.object().shape({
-    fname: yup.string().required("Name is required"),
+    iccid: yup.string().required("iccid is required"),
+    imsi: yup.string().required("imsi is required"),
 
 });
 let addressSchema = yup.object().shape({
-    address: yup.string().required(" Address is required"),
+    /*address: yup.string().required(" Address is required"),*/
 });
 
 
@@ -83,6 +83,7 @@ const FormWizard = () => {
         let totalSteps = steps.length;
         const isLastStep = stepNumber === totalSteps - 1;
         if (isLastStep) {
+
             console.log(data);
         } else {
             setStepNumber(stepNumber + 1);
@@ -92,9 +93,19 @@ const FormWizard = () => {
     const handlePrev = () => {
         setStepNumber(stepNumber - 1);
     };
-    const furits = [
+    const ref = [
+        { value: "ref", label: "ref" },
+
+
+    ];
+    const status = [
+        { value: "online", label: "online" },
+        { value: "offline", label: "offline" },
+
+    ];
+    const company = [
         { value: "numotronic", label: "numotronic" },
-        { value: "fotaweb", label: "fotaweb" },
+
 
     ];
     const styles = {
@@ -103,9 +114,13 @@ const FormWizard = () => {
             fontSize: "14px",
         }),
     };
+
+
+
+
     return (
         <div>
-            <Card title="fr">
+            <Card title="Create devices">
                 <div className="grid gap-5 grid-cols-12">
                     <div className="lg:col-span-3 col-span-12">
                         <div className="flex z-[5] items-start relative flex-col lg:min-h-full md:min-h-[300px] min-h-[250px]">
@@ -169,13 +184,14 @@ const FormWizard = () => {
                                             register={register}
                                         />
                                         <Textinput
-                                            label="Emei"
+                                            label="Imei"
                                             type="number"
-                                            placeholder="Type your Emei"
-                                            name="Emei"
-                                            error={errors.Emei}
+                                            placeholder="Type your Imei"
+                                            name="imei"
+                                            error={errors.imei}
                                             register={register}
                                         />
+
                                         <div>
                                             <label htmlFor=" hh2" className="form-label ">
                                                 Reference
@@ -183,15 +199,55 @@ const FormWizard = () => {
                                             <Select
                                                 className="react-select"
                                                 classNamePrefix="select"
-                                                defaultValue={furits[0]}
+                                                defaultValue={ref[0]}
                                                 styles={styles}
                                                 name="clear"
-                                                options={furits}
+                                                options={ref}
                                                 isClearable
                                                 id="hh2"
                                                 register={register}
                                             />
                                         </div>
+                                        <div>
+                                            <label htmlFor=" hh2" className="form-label ">
+                                                Status
+                                            </label>
+                                            <Select
+                                                className="react-select"
+                                                classNamePrefix="select"
+                                                defaultValue={status[0]}
+                                                styles={styles}
+                                                name="clear"
+                                                options={status}
+                                                isClearable
+                                                id="hh2"
+                                                register={register}
+                                            />
+                                        </div>
+                                        <Textinput
+                                            label="Description"
+                                            type="text"
+                                            placeholder="Description"
+                                            name="description"
+                                            error={errors.description}
+                                            register={register}
+                                        />
+                                        <Textinput
+                                            label="Firmware"
+                                            type="text"
+                                            placeholder="Firmware"
+                                            name="firmware"
+                                            error={errors.firmware}
+                                            register={register}
+                                        />
+                                        <Textinput
+                                            label="Configuration"
+                                            type="text"
+                                            placeholder="Configuration"
+                                            name="configuration"
+                                            error={errors.configuration}
+                                            register={register}
+                                        />
 
                                     </div>
                                 </div>
@@ -202,28 +258,48 @@ const FormWizard = () => {
                                     <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
                                         <div className="md:col-span-2 col-span-1">
                                             <h4 className="text-base text-slate-800 dark:text-slate-300 mb-6">
-                                                Enter Your Company info
+                                                Enter Your Sim details
                                             </h4>
                                         </div>
                                         <Textinput
-                                            label="Name"
-                                            type="text"
-                                            placeholder="Type your company name"
-                                            name="fname"
-                                            error={errors.fname}
+                                            label="ICCID"
+                                            type="number"
+                                            name="iccid"
+                                            placeholder="add your iccid"
+                                            error={errors.iccid}
                                             register={register}
                                         />
+                                        <Textinput
+                                            label="IMSI"
+                                            type="number"
+                                            name="imsi"
+                                            placeholder="add your imsi"
+                                            error={errors.imsi}
+                                            register={register}
+                                        />
+
+                                    </div>
+                                </div>
+                            )}
+                            {stepNumber === 2 && (
+                                <div>
+                                    <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
+                                        <div className="md:col-span-2 col-span-1">
+                                            <h4 className="text-base text-slate-800 dark:text-slate-300 mb-6">
+                                                Enter Your Company info
+                                            </h4>
+                                        </div>
                                         <div>
                                             <label htmlFor=" hh2" className="form-label ">
-                                                device
+                                                Company
                                             </label>
                                             <Select
                                                 className="react-select"
                                                 classNamePrefix="select"
-                                                defaultValue={furits[0]}
+                                                defaultValue={company[0]}
                                                 styles={styles}
                                                 name="clear"
-                                                options={furits}
+                                                options={company}
                                                 isClearable
                                                 id="hh2"
                                                 register={register}
@@ -233,44 +309,7 @@ const FormWizard = () => {
                                     </div>
                                 </div>
                             )}
-                            {stepNumber === 2 && (
-                                <div>
-                                    <div className="grid grid-cols-1 gap-5">
-                                        <div className="">
-                                            <h4 className="text-base text-slate-800 dark:text-slate-300 mb-6">
-                                                Enter Your Address
-                                            </h4>
-                                        </div>
-                                        <Textarea
-                                            label="Address"
-                                            type="text"
-                                            placeholder="Write Address"
-                                            name="address"
-                                            error={errors.address}
-                                            register={register}
-                                        />
-                                    </div>
-                                </div>
-                            )}
-                            {stepNumber === 3 && (
-                                <div>
-                                    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5">
-                                        <div className="lg:col-span-3 md:col-span-2 col-span-1">
-                                            <h4 className="text-base text-slate-800 dark:text-slate-300 mb-6">
-                                                Enter Your Address
-                                            </h4>
-                                        </div>
-                                        <Textinput
-                                            label="Facebook"
-                                            type="text"
-                                            placeholder="https://www.facebook.com/profile"
-                                            name="fburl"
-                                            error={errors.fburl}
-                                            register={register}
-                                        />
-                                    </div>
-                                </div>
-                            )}
+
 
                             <div
                                 className={`${
@@ -288,6 +327,7 @@ const FormWizard = () => {
                                     text={stepNumber !== steps.length - 1 ? "next" : "submit"}
                                     className="btn-dark"
                                     type="submit"
+
                                 />
                             </div>
                         </form>
