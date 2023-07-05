@@ -8,7 +8,7 @@ const FormRepeater = () => {
     const { register, control, handleSubmit, reset, trigger, setError } = useForm(
         {
             defaultValues: {
-                test: [{ firstName: "Bill", lastName: "Luo", phone: "123456" }],
+                test: [{ Name: "", Adresse: "" }],
             },
         }
     );
@@ -20,7 +20,7 @@ const FormRepeater = () => {
     return (
         <div>
             <Card
-                title="Repeating Forms"
+                title="Company"
                 headerslot={
                     <Button
                         text="Add new"
@@ -37,34 +37,23 @@ const FormRepeater = () => {
                             key={index}
                         >
                             <Textinput
-                                label="First Name"
+                                label="Name"
                                 type="text"
-                                id={`name${index}`}
-                                placeholder="First Name"
+                                placeholder="Name"
                                 register={register}
-                                name={`test[${index}].firstName`}
+                                name={`test[${index}].Name`}
                             />
 
                             <Textinput
-                                label="last Name"
+                                label="Adresse"
                                 type="text"
-                                id={`name2${index}`}
-                                placeholder="Last Name"
+                                placeholder="Adresse"
                                 register={register}
-                                name={`test[${index}].lastName`}
+                                name={`test[${index}].Adresse`}
                             />
 
                             <div className="flex justify-between items-end space-x-5">
-                                <div className="flex-1">
-                                    <Textinput
-                                        label="Phone"
-                                        type="text"
-                                        id={`name3${index}`}
-                                        placeholder="Phone"
-                                        register={register}
-                                        name={`test[${index}].phone`}
-                                    />
-                                </div>
+
                                 <div className="flex-none relative">
                                     <button
                                         onClick={() => remove(index)}

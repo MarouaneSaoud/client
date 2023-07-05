@@ -8,15 +8,16 @@ import Icon from "@/components/ui/Icon";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Select from "react-select";
 
 const steps = [
     {
         id: 1,
-        title: "Account Details",
+        title: "Mark Details",
     },
     {
         id: 2,
-        title: "Personal info-500",
+        title: "Company info",
     },
     {
         id: 3,
@@ -29,39 +30,20 @@ const steps = [
 ];
 
 let stepSchema = yup.object().shape({
-    username: yup.string().required(" User name is required"),
-    fullname: yup.string().required("Full name is required"),
-    email: yup.string().email("Email is not valid").required("Email is required"),
-    phone: yup
-        .string()
-        .required("Phone number is required")
-        .matches(/^[0-9]{9}$/, "Phone number is not valid"),
-    password: yup
-        .string()
-        .required("Password is required")
-        .min(8, "Password must be at least 8 characters"),
-    confirmpass: yup
-        .string()
-        .required("Confirm Password is required")
-        .oneOf([yup.ref("password"), null], "Passwords must match"),
+    serialnumber: yup.string().required(" User serial number is required"),
+    Emei: yup.string().required("Emei is required"),
+
 });
 
 let personalSchema = yup.object().shape({
-    fname: yup.string().required(" First name is required"),
-    lname: yup.string().required(" Last name is required"),
+    fname: yup.string().required("Name is required"),
+
 });
 let addressSchema = yup.object().shape({
     address: yup.string().required(" Address is required"),
 });
-const url =
-    /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?$/gm;
 
-let socialSchema = yup.object().shape({
-    fburl: yup
-        .string()
-        .required("Facebook url is required")
-        .matches(url, "Facebook url is not valid"),
-});
+
 const FormWizard = () => {
     const [stepNumber, setStepNumber] = useState(0);
 
@@ -77,9 +59,7 @@ const FormWizard = () => {
         case 2:
             currentStepSchema = addressSchema;
             break;
-        case 3:
-            currentStepSchema = socialSchema;
-            break;
+
         default:
             currentStepSchema = stepSchema;
     }
@@ -111,6 +91,17 @@ const FormWizard = () => {
 
     const handlePrev = () => {
         setStepNumber(stepNumber - 1);
+    };
+    const furits = [
+        { value: "numotronic", label: "numotronic" },
+        { value: "fotaweb", label: "fotaweb" },
+
+    ];
+    const styles = {
+        option: (provided, state) => ({
+            ...provided,
+            fontSize: "14px",
+        }),
     };
     return (
         <div>
@@ -166,60 +157,42 @@ const FormWizard = () => {
                                     <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5">
                                         <div className="lg:col-span-3 md:col-span-2 col-span-1">
                                             <h4 className="text-base text-slate-800 dark:text-slate-300 mb-6">
-                                                Enter Your Account Details
+                                                Provide the details of your mark
                                             </h4>
                                         </div>
                                         <Textinput
-                                            label="Username"
-                                            type="text"
-                                            placeholder="Type your User Name"
-                                            name="username"
-                                            error={errors.username}
+                                            label="Serial number"
+                                            type="number"
+                                            placeholder="Type your serial number "
+                                            name="serialnumber"
+                                            error={errors.serialnumber}
                                             register={register}
                                         />
                                         <Textinput
-                                            label="Full name"
-                                            type="text"
-                                            placeholder="Full name"
-                                            name="fullname"
-                                            error={errors.fullname}
+                                            label="Emei"
+                                            type="number"
+                                            placeholder="Type your Emei"
+                                            name="Emei"
+                                            error={errors.Emei}
                                             register={register}
                                         />
-                                        <Textinput
-                                            label="Email"
-                                            type="email"
-                                            placeholder="Type your email"
-                                            name="email"
-                                            error={errors.email}
-                                            register={register}
-                                        />
-                                        <InputGroup
-                                            label="Phone Number"
-                                            type="text"
-                                            prepend="MY (+212)"
-                                            placeholder="Phone Number"
-                                            name="phone"
-                                            error={errors.phone}
-                                            register={register}
-                                        />
-                                        <Textinput
-                                            label="Password"
-                                            type="password"
-                                            placeholder="8+ characters, 1 capitat letter "
-                                            name="password"
-                                            error={errors.password}
-                                            hasicon
-                                            register={register}
-                                        />
-                                        <Textinput
-                                            label="Confirm Password"
-                                            type="password"
-                                            placeholder="Password"
-                                            name="confirmpass"
-                                            error={errors.confirmpass}
-                                            register={register}
-                                            hasicon
-                                        />
+                                        <div>
+                                            <label htmlFor=" hh2" className="form-label ">
+                                                Reference
+                                            </label>
+                                            <Select
+                                                className="react-select"
+                                                classNamePrefix="select"
+                                                defaultValue={furits[0]}
+                                                styles={styles}
+                                                name="clear"
+                                                options={furits}
+                                                isClearable
+                                                id="hh2"
+                                                register={register}
+                                            />
+                                        </div>
+
                                     </div>
                                 </div>
                             )}
@@ -229,25 +202,34 @@ const FormWizard = () => {
                                     <div className="grid md:grid-cols-2 grid-cols-1 gap-5">
                                         <div className="md:col-span-2 col-span-1">
                                             <h4 className="text-base text-slate-800 dark:text-slate-300 mb-6">
-                                                Enter Your Personal info-500
+                                                Enter Your Company info
                                             </h4>
                                         </div>
                                         <Textinput
-                                            label="First name"
+                                            label="Name"
                                             type="text"
-                                            placeholder="First name"
+                                            placeholder="Type your company name"
                                             name="fname"
                                             error={errors.fname}
                                             register={register}
                                         />
-                                        <Textinput
-                                            label="Last name"
-                                            type="text"
-                                            placeholder="Last name"
-                                            name="lname"
-                                            error={errors.lname}
-                                            register={register}
-                                        />
+                                        <div>
+                                            <label htmlFor=" hh2" className="form-label ">
+                                                device
+                                            </label>
+                                            <Select
+                                                className="react-select"
+                                                classNamePrefix="select"
+                                                defaultValue={furits[0]}
+                                                styles={styles}
+                                                name="clear"
+                                                options={furits}
+                                                isClearable
+                                                id="hh2"
+                                                register={register}
+                                            />
+                                        </div>
+
                                     </div>
                                 </div>
                             )}

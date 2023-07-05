@@ -34,25 +34,33 @@ export const menuItems = [
   },
   {
     isHeadr: true,
-    title: "Forms",
+    title: "Companies",
   },
 
   {
     title: "add company",
     isHide: true,
-    icon: "heroicons-outline:chat",
+    icon: "heroicons-outline:home",
     link: "add-company",
+  },
+  {
+    isHeadr: true,
+    title: "References",
   },
   {
     title: "add reference",
     isHide: true,
-    icon: "heroicons-outline:chat",
+    icon: "heroicons-outline:link",
     link: "add-reference",
   },
   {
-    title: "add devices",
+    isHeadr: true,
+    title: "Devices",
+  },
+  {
+    title: "add device",
     isHide: true,
-    icon: "heroicons-outline:map-pin",
+    icon: "heroicons-outline:cpu-chip",
     link: "add-devices",
   },
 

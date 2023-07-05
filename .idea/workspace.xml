@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4aa9475a-0d26-4615-8c37-4d93bea7dcad" name="Changes" comment="Changes">
-      <change afterPath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/companyForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/devicesForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/referenceForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/constant/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constant/data.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/forms/form-wizard/Vertical.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/forms/form-wizard/Vertical.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/forms/form-wizard/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/forms/form-wizard/index.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/companyForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/companyForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/devicesForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/devicesForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/referenceForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/referenceForm.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +52,7 @@
       <option name="presentableId" value="Default" />
       <updated>1688391568087</updated>
       <workItem from="1688391569319" duration="422000" />
-      <workItem from="1688402074671" duration="15617000" />
+      <workItem from="1688402074671" duration="20246000" />
     </task>
     <task id="LOCAL-00001" summary="Changes">
       <created>1688473268548</created>
