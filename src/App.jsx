@@ -59,6 +59,12 @@ const FormWizard = lazy(() => import("./pages/forms/form-wizard"));
 const SelectPage = lazy(() => import("./pages/forms/select"));
 const Flatpicker = lazy(() => import("./pages/forms/date-time-picker"));
 
+// form numotronique
+const  CompanyForm = lazy(() => import("./pages/NumoTroniqueForms/companyForm"));
+const  ReferenceForm = lazy(() => import("./pages/NumoTroniqueForms/referenceForm"));
+const  DevicesForm = lazy(() => import("./pages/NumoTroniqueForms/devicesForm"));
+
+
 // chart page
 const AppexChartPage = lazy(() => import("./pages/chart/appex-chart"));
 const ChartJs = lazy(() => import("./pages/chart/chartjs"));
@@ -208,6 +214,8 @@ function App() {
             </Suspense>
           }
         />
+
+
         <Route path="/*" element={<Layout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="ecommerce" element={<Ecommerce />} />
@@ -223,7 +231,12 @@ function App() {
           <Route path="project-details" element={<ProjectDetailsPage />} />
           <Route path="kanban" element={<KanbanPage />} />
           <Route path="calender" element={<CalenderPage />} />
+          {/* Numotronique pages */}
+          <Route path="add-company" element={<CompanyForm />} />
+          <Route path="add-reference" element={<ReferenceForm/>} />
+          <Route path="add-devices" element={<DevicesForm/>} />
           {/* Components pages */}
+
           <Route path="button" element={<Button />} />
           <Route path="dropdown" element={<Dropdown />} />
           <Route path="badges" element={<Badges />} />
@@ -303,6 +316,7 @@ function App() {
           }
         />
       </Routes>
+
     </main>
   );
 }

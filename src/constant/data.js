@@ -33,12 +33,29 @@ export const menuItems = [
     ],
   },
   {
-    title: "changelog",
-    icon: "heroicons:arrow-trending-up",
-    link: "changelog",
-    isHide: false,
-    badge: "1.0.0",
+    isHeadr: true,
+    title: "Forms",
   },
+
+  {
+    title: "add company",
+    isHide: true,
+    icon: "heroicons-outline:chat",
+    link: "add-company",
+  },
+  {
+    title: "add reference",
+    isHide: true,
+    icon: "heroicons-outline:chat",
+    link: "add-reference",
+  },
+  {
+    title: "add devices",
+    isHide: true,
+    icon: "heroicons-outline:map-pin",
+    link: "add-devices",
+  },
+
   {
     isHeadr: true,
     title: "apps",

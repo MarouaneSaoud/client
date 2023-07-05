@@ -35,7 +35,7 @@ let stepSchema = yup.object().shape({
   phone: yup
     .string()
     .required("Phone number is required")
-    .matches(/^[0-9]{12}$/, "Phone number is not valid"),
+    .matches(/^[0-9]{9}$/, "Phone number is not valid"),
   password: yup
     .string()
     .required("Password is required")
@@ -196,7 +196,7 @@ const FormWizard = () => {
                     <InputGroup
                       label="Phone Number"
                       type="text"
-                      prepend="MY (+6)"
+                      prepend="MY (+212)"
                       placeholder="Phone Number"
                       name="phone"
                       error={errors.phone}

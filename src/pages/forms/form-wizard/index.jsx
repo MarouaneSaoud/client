@@ -8,9 +8,9 @@ const FormWizard = () => {
       <div>
         <Vertical />
       </div>
-      <div>
+      {/*<div>
         <HorizentalWizard />
-      </div>
+      </div>*/}
     </div>
   );
 };

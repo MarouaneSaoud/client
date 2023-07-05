@@ -4,23 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4aa9475a-0d26-4615-8c37-4d93bea7dcad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/services/Auth.services.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/http.common.js" afterDir="false" />
+    <list default="true" id="4aa9475a-0d26-4615-8c37-4d93bea7dcad" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/companyForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/devicesForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/NumoTroniqueForms/referenceForm.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/partials/footer/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/partials/footer/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/partials/header/Tools/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/partials/header/Tools/Profile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/partials/header/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/partials/header/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/auth/common/login-form.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/common/login-form.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/auth/common/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/common/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/auth/forgot-password2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/forgot-password2.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/auth/login2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/login2.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/auth/register2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/auth/register2.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/HomeBredCurbs.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/HomeBredCurbs.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/index.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constant/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constant/data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/forms/form-wizard/Vertical.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/forms/form-wizard/Vertical.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/forms/form-wizard/index.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/forms/form-wizard/index.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,14 +55,30 @@
       <option name="presentableId" value="Default" />
       <updated>1688391568087</updated>
       <workItem from="1688391569319" duration="422000" />
-      <workItem from="1688402074671" duration="12128000" />
+      <workItem from="1688402074671" duration="15617000" />
     </task>
+    <task id="LOCAL-00001" summary="Changes">
+      <created>1688473268548</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1688473268548</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="270" y="0" key="CommitChangelistDialog2" timestamp="1688473267497">
+      <screen x="0" y="0" width="1280" height="672" />
+    </state>
+    <state x="270" y="0" key="CommitChangelistDialog2/0.0.1280.672@0.0.1280.672" timestamp="1688473267497" />
     <state width="498" height="446" key="SwitcherDM" timestamp="1688468298962">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
