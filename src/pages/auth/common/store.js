@@ -10,8 +10,8 @@ const initialUsers = () => {
         {
           id: uuidv4(),
           name: "dashcode",
-          email: "numotronique@gmail.com",
-          password: "admin12345",
+          email: "numotronic@gmail.com",
+          password: "admin",
         },
       ];
 };
