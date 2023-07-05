@@ -208,26 +208,50 @@ const shapeLine3 = {
 const statistics = [
   {
     name: shapeLine1,
-    title: "Totel revenue",
+    title: "Devices sold",
     count: "3,564",
     bg: "bg-[#E5F9FF] dark:bg-slate-900	",
     text: "text-info-500",
-    icon: "heroicons:shopping-cart",
+    icon: "heroicons:arrow-trending-up-solid",
   },
   {
     name: shapeLine2,
-    title: "Products sold",
+    title: "Tasks",
     count: "564",
     bg: "bg-[#FFEDE6] dark:bg-slate-900	",
     text: "text-warning-500",
-    icon: "heroicons:cube",
+    icon: "heroicons:arrow-trending-up-solid",
   },
   {
     name: shapeLine3,
-    title: "Growth",
+    title: "Group of devices",
     count: "+5.0%",
     bg: "bg-[#EAE6FF] dark:bg-slate-900	",
     text: "text-[#5743BE]",
+    icon: "heroicons:arrow-trending-up-solid",
+  },
+  {
+    name: shapeLine3,
+    title: "Files",
+    count: "+5.0%",
+    bg: "bg-[#EAE6FF] dark:bg-slate-900	",
+    text: "text-[#5743BE]",
+    icon: "heroicons:arrow-trending-up-solid",
+  },
+  {
+    name: shapeLine1,
+    title: "Users",
+    count: "3,564",
+    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
+    text: "text-info-500",
+    icon: "heroicons:arrow-trending-up-solid",
+  },
+  {
+    name: shapeLine2,
+    title: "Child Company",
+    count: "564",
+    bg: "bg-[#FFEDE6] dark:bg-slate-900	",
+    text: "text-warning-500",
     icon: "heroicons:arrow-trending-up-solid",
   },
 ];
@@ -256,15 +280,7 @@ const GroupChart2 = () => {
                 </div>
               </div>
             </div>
-            <div className="ltr:ml-auto rtl:mr-auto max-w-[124px]">
-              <Chart
-                options={item.name.options}
-                series={item.name.series}
-                type="area"
-                height="41"
-                width="124"
-              />
-            </div>
+
           </Card>
         </div>
       ))}

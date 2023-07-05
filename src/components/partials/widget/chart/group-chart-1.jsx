@@ -1,6 +1,6 @@
 import React from "react";
 import Chart from "react-apexcharts";
-
+import Icon from "@/components/ui/Icon";
 const shapeLine1 = {
   series: [
     {
@@ -206,21 +206,40 @@ const shapeLine3 = {
 const statistics = [
   {
     name: shapeLine1,
-    title: "Totel revenue",
+    title: "Devices sold ",
     count: "3,564",
     bg: "bg-[#E5F9FF] dark:bg-slate-900	",
   },
   {
     name: shapeLine2,
-    title: "Products sold",
+    title: "Tasks",
     count: "564",
     bg: "bg-[#FFEDE5] dark:bg-slate-900	",
   },
   {
     name: shapeLine3,
-    title: "Growth",
+    title: "Group of devices",
     count: "+5.0%",
     bg: "bg-[#EAE5FF] dark:bg-slate-900	",
+  },
+  {
+    name: shapeLine3,
+    title: "Files",
+    count: "+5.0%",
+    bg: "bg-[#FFEDE5] dark:bg-slate-900",
+    icon: "heroicons:cube",
+  },
+  {
+    name: shapeLine3,
+    title: "Users",
+    count: "+5.0%",
+    bg: "bg-[#EAE5FF] dark:bg-slate-900	",
+  },
+  {
+    name: shapeLine3,
+    title: "Child Company",
+    count: "+5.0%",
+    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
   },
 ];
 const GroupChart1 = () => {
@@ -230,13 +249,11 @@ const GroupChart1 = () => {
         <div className={`py-[18px] px-4 rounded-[6px] ${item.bg}`} key={i}>
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
             <div className="flex-none">
-              <Chart
-                options={item.name.options}
-                series={item.name.series}
-                type="area"
-                height={48}
-                width={48}
-              />
+              <div
+                  className={`${item.bg} ${item.text} h-12 w-12 rounded-full flex flex-col items-center justify-center text-2xl`}
+              >
+                <Icon icon={item.icon} />
+              </div>
             </div>
             <div className="flex-1">
               <div className="text-slate-800 dark:text-slate-300 text-sm mb-1 font-medium">

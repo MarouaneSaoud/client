@@ -39,6 +39,7 @@ const FormRepeater = () => {
                             <Textinput
                                 label="Name"
                                 type="text"
+                                id={`name${index}`}
                                 placeholder="Name"
                                 register={register}
                                 name={`test[${index}].Name`}
@@ -47,6 +48,7 @@ const FormRepeater = () => {
                             <Textinput
                                 label="Adresse"
                                 type="text"
+                                id={`name2${index}`}
                                 placeholder="Adresse"
                                 register={register}
                                 name={`test[${index}].Adresse`}

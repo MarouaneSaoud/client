@@ -105,7 +105,7 @@ const FormWizard = () => {
     };
     return (
         <div>
-            <Card title="Vertical">
+            <Card title="fr">
                 <div className="grid gap-5 grid-cols-12">
                     <div className="lg:col-span-3 col-span-12">
                         <div className="flex z-[5] items-start relative flex-col lg:min-h-full md:min-h-[300px] min-h-[250px]">
