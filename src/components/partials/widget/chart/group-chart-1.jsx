@@ -222,6 +222,24 @@ const statistics = [
     count: "+5.0%",
     bg: "bg-[#EAE5FF] dark:bg-slate-900	",
   },
+  {
+    name: shapeLine3,
+    title: "Growth",
+    count: "+5.0%",
+    bg: "bg-[#D9EEEA] dark:bg-slate-900	",
+  },
+  {
+    name: shapeLine3,
+    title: "Growth",
+    count: "+5.0%",
+    bg: "bg-[#D9EEEA] dark:bg-slate-900	",
+  },
+  {
+    name: shapeLine3,
+    title: "Growth",
+    count: "+5.0%",
+    bg: "bg-[#D9EEEA] dark:bg-slate-900	",
+  },
 ];
 const GroupChart1 = () => {
   return (
@@ -229,15 +247,7 @@ const GroupChart1 = () => {
       {statistics.map((item, i) => (
         <div className={`py-[18px] px-4 rounded-[6px] ${item.bg}`} key={i}>
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
-            <div className="flex-none">
-              <Chart
-                options={item.name.options}
-                series={item.name.series}
-                type="area"
-                height={48}
-                width={48}
-              />
-            </div>
+
             <div className="flex-1">
               <div className="text-slate-800 dark:text-slate-300 text-sm mb-1 font-medium">
                 {item.title}
