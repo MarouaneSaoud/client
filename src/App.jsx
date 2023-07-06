@@ -63,6 +63,8 @@ const Flatpicker = lazy(() => import("./pages/forms/date-time-picker"));
 const  CompanyForm = lazy(() => import("./pages/NumoTronic/forms/companyForm"));
 const  ReferenceForm = lazy(() => import("./pages/NumoTronic/forms/referenceForm"));
 const  DevicesForm = lazy(() => import("./pages/NumoTronic/forms/devicesForm"));
+const  UsersForm = lazy(() => import("./pages/NumoTronic/forms/usersform"));
+
 //table numotronic
 const  Companyliste = lazy(() => import("./pages/NumoTronic/Tables/companyliste"));
 const  Devicesliste = lazy(() => import("./pages/NumoTronic/Tables/devicesliste"));
@@ -237,6 +239,7 @@ function App() {
           <Route path="add-company" element={<CompanyForm />} />
           <Route path="add-reference" element={<ReferenceForm/>} />
           <Route path="add-devices" element={<DevicesForm/>} />
+          <Route path="add-users" element={<UsersForm/>} />
 
           <Route path="list-devices" element={<Devicesliste/>} />
           <Route path="list-company" element={<Companyliste/>} />

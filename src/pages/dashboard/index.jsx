@@ -37,7 +37,7 @@ const Ecommerce = () => {
             </Card>
           </div>
 
-          <div className="xl:col-span-6 col-span-12">
+          <div className="col-span-12">
             <Card title="Recent Orders" headerslot={<SelectMonth />} noborder>
               <RecentOrderTable />
             </Card>

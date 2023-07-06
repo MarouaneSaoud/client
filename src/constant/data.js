@@ -81,10 +81,23 @@ export const menuItems = [
     isHide: true,
     icon: "heroicons-outline:link",
     child: [
-
       {
         childtitle:"New reference",
         childlink:"add-reference",
+      },
+    ],
+  },
+  {
+    isHeadr: true,
+    title: "Users",
+    isOpen: true,
+    isHide: true,
+    icon: "heroicons-outline:user",
+    child: [
+
+      {
+        childtitle:"New User",
+        childlink:"add-users",
       },
     ],
   },
