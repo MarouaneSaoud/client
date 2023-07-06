@@ -68,6 +68,7 @@ const  UsersForm = lazy(() => import("./pages/NumoTronic/forms/usersform"));
 //table numotronic
 const  Companyliste = lazy(() => import("./pages/NumoTronic/Tables/companyliste"));
 const  Devicesliste = lazy(() => import("./pages/NumoTronic/Tables/devicesliste"));
+const  Userliste = lazy(() => import("./pages/NumoTronic/Tables/userliste"));
 
 // chart page
 const AppexChartPage = lazy(() => import("./pages/chart/appex-chart"));
@@ -243,6 +244,7 @@ function App() {
 
           <Route path="list-devices" element={<Devicesliste/>} />
           <Route path="list-company" element={<Companyliste/>} />
+          <Route path="list-users" element={<Userliste/>} />
 
           {/* Components pages */}
 

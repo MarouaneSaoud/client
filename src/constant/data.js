@@ -81,6 +81,7 @@ export const menuItems = [
     isHide: true,
     icon: "heroicons-outline:link",
     child: [
+
       {
         childtitle:"New reference",
         childlink:"add-reference",
@@ -98,6 +99,10 @@ export const menuItems = [
       {
         childtitle:"New User",
         childlink:"add-users",
+      },
+      {
+        childtitle:"Users",
+        childlink:"list-users",
       },
     ],
   },
