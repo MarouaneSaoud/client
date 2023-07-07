@@ -1,46 +1,28 @@
-import React from "react";
+import React , {useState} from "react";
 import Textinput from "@/components/ui/Textinput";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Card from "@/components/ui/Card";
-import Select from "react-select";
-import InputGroup from "@/components/ui/InputGroup";
+import ReactFlagsSelect from "react-flags-select";
 
 const FormValidationSchema = yup
     .object({
-        username: yup.string().required("The First name is required"),
-        lastname: yup.string().required("The Last name is required"),
-        phone: yup
+        name: yup.string().required("The name is required"),
+        altName: yup.string().required("Alternative name is required"),
+        cin: yup
             .string()
-            .required("Phone number is required")
-            .matches(/^[0-9]{9}$/, "Phone number is not valid"),
+            .required("National Identity Card is required")
+            .min(8, "National Identity Card must be at least 8 characters"),
+        address: yup.string().required("Address is required"),
+        postalCode: yup.string().required("Postal code is required"),
         email: yup.string().email("Email is not valid").required("Email is required"),
-        password: yup
-            .string()
-            .required("Password is required")
-            .min(8, "Password must be at least 8 characters"),
+
     })
-const role = [
-    { value: "Director", label: "Director" },
-    { value: "restricted user", label: "restricted user" },
-
-
-];
-const company = [
-    { value: "numotronic", label: "numotronic" },
-
-
-
-];
-const styles = {
-    option: (provided, state) => ({
-        ...provided,
-        fontSize: "14px",
-    }),
-};
 
 const particular = () => {
+
+    const [selected, setSelected] = useState("");
     const {
         register,
         formState: { errors },
@@ -61,79 +43,64 @@ const particular = () => {
                         className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
                     >
                         <Textinput
-                            label="First name"
+                            label="Name"
                             type="text"
-                            placeholder="Type your First Name"
-                            name="username"
+                            placeholder=" Name"
+                            name="name"
                             register={register}
-                            error={errors.username}
+                            error={errors.name}
                         />
                         <Textinput
-                            label="Last name"
+                            label="Alternative name"
                             type="text"
-                            placeholder="Type your Last Name"
-                            name="lastname"
+                            placeholder="Alternative name"
+                            name="altName"
                             register={register}
-                            error={errors.lastname}
+                            error={errors.altName}
                         />
-                        <InputGroup
-                            label="Phone Number"
+                        <Textinput
+                            label="National Identity Card"
                             type="text"
-                            prepend="MY (+212)"
-                            placeholder="Phone Number"
-                            name="phone"
-                            error={errors.phone}
+                            placeholder="National Identity Card"
+                            name="cin"
                             register={register}
+                            error={errors.cin}
+                        />
+
+                        <Textinput
+                            label="Address"
+                            type="text"
+                            placeholder="Address"
+                            name="adress"
+                            register={register}
+                            error={errors.address}
+                        />
+                        <Textinput
+                            label="Postal code"
+                            type="text"
+                            placeholder="Postal code"
+                            name="adress"
+                            register={register}
+                            error={errors.postalCode}
                         />
 
                         <Textinput
                             label="Email"
                             type="email"
-                            placeholder="Enter your email"
+                            placeholder="Email"
                             name="email"
                             register={register}
                             error={errors.email}
                         />
-
-                        <Textinput
-                            label="Password"
-                            type="password"
-                            placeholder="8+ characters, 1 Capital letter "
-                            name="password"
-                            register={register}
-                            error={errors.password}
-                        />
-
-                        <div>
-                            <label htmlFor=" hh2" className="form-label ">
-                                company
+                        <div >
+                            <label className="block capitalize form-label  ">
+                                Country
                             </label>
-                            <Select
-                                className="react-select"
-                                classNamePrefix="select"
-                                defaultValue={company[0]}
-                                styles={styles}
-                                name="clear"
-                                options={company}
-                                isClearable
-                                id="hh2"
-                                register={register}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor=" hh2" className="form-label ">
-                                Role
-                            </label>
-                            <Select
-                                className="react-select"
-                                classNamePrefix="select"
-                                defaultValue={role[1]}
-                                styles={styles}
-                                name="clear"
-                                options={role}
-                                isClearable
-                                id="hh2"
-                                register={register}
+
+                            <ReactFlagsSelect
+                                selectedSize={14}
+                                selected={selected}
+                                onSelect={(code) => console.log(setSelected(code))}
                             />
                         </div>
 
