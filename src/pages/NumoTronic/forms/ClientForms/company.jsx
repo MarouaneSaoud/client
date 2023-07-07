@@ -1,16 +1,29 @@
-import React, { Fragment } from "react";
-
-import Card from "@/components/ui/Card";
+import React, {useState} from "react";
 import Textinput from "@/components/ui/Textinput";
-import Icon from "@/components/ui/Icon";
-import Button from "@/components/ui/Button";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import Card from "@/components/ui/Card";
 import Select from "react-select";
-import InputGroup from "@/components/ui/InputGroup";
-import {useForm} from "react-hook-form";
 import DropZone from "@/pages/forms/file-input/DropZone.jsx";
+import ReactFlagsSelect from "react-flags-select";
+const FormValidationSchema = yup
+    .object({
+        name: yup.string().required("The name is required"),
+        altName: yup.string().required("Alternative name is required"),
+        address: yup.string().required("Adress is required"),
+        email: yup.string().email("Email is not valid").required("Email is required"),
 
-const dep = [
-    { value: "ref", label: "ref" },
+    })
+const role = [
+    { value: "Director", label: "Director" },
+    { value: "restricted user", label: "restricted user" },
+
+
+];
+const company = [
+    { value: "numotronic", label: "numotronic" },
+
 
 
 ];
@@ -22,134 +35,166 @@ const styles = {
 };
 
 
-const company = () => {
-    const { register, control, handleSubmit, reset, trigger, setError } = useForm(
-        {
-            defaultValues: {
-                test: [{ Name: "", email: "" }],
-            },
-        }
-    );
+
+const userForm = () => {
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+    } = useForm({
+        resolver: yupResolver(FormValidationSchema),
+    });
+    const [selected, setSelected] = useState("");
+
+    const onSubmit = (data) => {
+        console.log(data);
+    };
+    const dep = [
+        { value: "ref", label: "ref" },
+
+    ];
 
     return (
-        <div>
-            <Card title="Create company">
-                <div className="space-y-4">
-                    <InputGroup
-                        label="Name"
-                        type="text"
-                        placeholder="Name of third party"
-                        prepend={<Icon icon="heroicons-outline:user" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="Alternative name"
-                        type="text"
-                        placeholder="Alternative name"
-                        prepend={<Icon icon="heroicons-outline:user" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="Address"
-                        type="text"
-                        placeholder="Address"
-                        prepend={<Icon icon="heroicons-outline:map-pin" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="Postal code"
-                        type="number"
-                        placeholder="Postal code"
-                        prepend={<Icon icon="heroicons-outline:qr-code" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="Country"
-                        type="text"
-                        placeholder="Country"
-                        prepend={<Icon icon="heroicons-outline:globe-americas" />}
-                        merged
-                    />
-                    <div>
-                        <label htmlFor=" hh2" className="form-label ">
-                            Departement
-                        </label>
-                        <Select
-                            className="react-select"
-                            classNamePrefix="select"
-                            defaultValue={dep[0]}
-                            styles={styles}
-                            name="clear"
-                            options={dep}
-                            isClearable
-                            id="hh2"
+        <div className="xl:col-span-2 col-span-1">
+            <Card title="Validation Types">
+                <div>
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
+                    >
+                        <Textinput
+                            label="Name"
+                            type="text"
+                            placeholder=" Name"
+                            name="name"
+                            register={register}
+                            error={errors.name}
+                        />
+                        <Textinput
+                            label="Alternative name"
+                            type="text"
+                            placeholder="Alternative name"
+                            name="altName"
+                            register={register}
+                            error={errors.altName}
+                        />
+                        <Textinput
+                            label="National Identity Card"
+                            type="text"
+                            placeholder="National Identity Card"
+                            name="cin"
+                            register={register}
+                            error={errors.cin}
+                        />
+
+                        <Textinput
+                            label="Address"
+                            type="text"
+                            placeholder="Address"
+                            name="adress"
+                            register={register}
+                            error={errors.address}
+                        />
+                        <Textinput
+                            label="Postal code"
+                            type="text"
+                            placeholder="Postal code"
+                            name="adress"
+                            register={register}
+                            error={errors.postalCode}
+                        />
+                        <div>
+                            <label htmlFor=" hh2" className="form-label ">
+                                Departement
+                            </label>
+                            <Select
+                                className="react-select"
+                                classNamePrefix="select"
+                                defaultValue={dep[0]}
+                                styles={styles}
+                                name="clear"
+                                options={dep}
+                                isClearable
+                                id="hh2"
+                                register={register}
+                            />
+                        </div>
+                        <Textinput
+                            label="Email"
+                            type="email"
+                            placeholder="Email"
+                            name="email"
+                            register={register}
+                            error={errors.email}
+                        />
+                        <Textinput
+                            label="Website"
+                            type="url"
+                            placeholder="Website"
+                            name="website"
                             register={register}
                         />
-                    </div>
-                    <InputGroup
-                        label="Email"
-                        id="hi_email1"
-                        type="email"
-                        placeholder="Email"
-                        prepend={<Icon icon="heroicons-outline:mail" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="Website"
-                        id="website"
-                        type="text"
-                        placeholder="Website"
-                        prepend={<Icon icon="heroicons-outline:globe-alt" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="Skype"
-                        id="Skype"
-                        type="url"
-                        placeholder="Skype"
-                        prepend={<Icon icon="heroicons-outline:user" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="Id prof (R.C)"
-                        type="number"
-                        placeholder="Id prof (R.C)"
-                        prepend={<Icon icon="heroicons-outline:identification" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="Id prof (I.F)"
-                        type="number"
-                        placeholder="Id prof (I.F)"
-                        prepend={<Icon icon="heroicons-outline:identification" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="Id prof (patent)"
-                        type="number"
-                        placeholder="Id prof (patent)"
-                        prepend={<Icon icon="heroicons-outline:identification" />}
-                        merged
-                    />
-                    <InputGroup
-                        label="CNSS"
-                        type="number"
-                        placeholder="CNSS"
-                        prepend={<Icon icon="heroicons-outline:identification" />}
-                        merged
-                    />
-                    <div className="xl:col-span-2 col-span-1">
-                        <Card title="Logo">
-                            <DropZone />
-                        </Card>
-                    </div>
-                    <div className=" space-y-4">
-                        <Button text="Submit" className="btn-dark" />
-                    </div>
+                        <Textinput
+                            label="Skype"
+                            type="url"
+                            placeholder="Skype"
+                            name="skype"
+                            register={register}
+                        />
+                        <Textinput
+                            label="Id prof (R.C)"
+                            type="number"
+                            placeholder="Id prof (R.C)"
+                            name="rc"
+                            register={register}
+                        />
+                        <Textinput
+                            label="Id prof (I.F)"
+                            type="number"
+                            placeholder="Id prof (I.F)"
+                            name="if"
+                            register={register}
+                        />
+                        <Textinput
+                            label="Id prof (patent)"
+                            type="number"
+                            placeholder="Id prof (patent)"
+                            name="patent"
+                            register={register}
+                        />
+                        <Textinput
+                            label="CNSS"
+                            type="number"
+                            placeholder="CNSS"
+                            name="cnss"
+                            register={register}
+                        />
+                        <div >
+
+                        </div>
+                        <div className="xl:col-span-1 col-span-1">
+                            <label className="block capitalize form-label  ">
+                                Country
+                            </label>
+
+                            <ReactFlagsSelect
+                                selectedSize={14}
+                                selected={selected}
+                                onSelect={(code) => console.log(setSelected(code))}
+                            />
+                        </div>
+
+
+                        <div className="lg:col-span-2 col-span-1">
+                            <div className="ltr:text-right rtl:text-left">
+                                <button className="btn btn-dark  text-center">Submit</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </Card>
         </div>
     );
 };
 
-export default company;
+export default userForm;
