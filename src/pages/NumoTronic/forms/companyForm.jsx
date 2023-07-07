@@ -2,16 +2,12 @@ import React, { Fragment } from "react";
 import Accordion from "@/components/ui/Accordion";
 import { Tab } from "@headlessui/react";
 import Card from "@/components/ui/Card";
-import Textinput from "@/components/ui/Textinput";
 import Icon from "@/components/ui/Icon";
-import Button from "@/components/ui/Button";
+
 import { useForm, useFieldArray } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
-import Select from "react-select";
-import InputGroup from "@/components/ui/InputGroup";
-import ReactFlagsSelect from "react-flags-select";
-import DropZone from "../../forms/file-input/DropZone";
-import Fileinput from "@/components/ui/Fileinput";
+
+import Company from "@/pages/NumoTronic/forms/ClientForms/company.jsx";
+import Particular from "@/pages/NumoTronic/forms/ClientForms/particular.jsx";
 
 
 const faqmenus = [
@@ -49,7 +45,6 @@ const FaqPage = () => {
             },
         }
     );
-    const history= useNavigate();
 
 
 
@@ -95,177 +90,10 @@ const FaqPage = () => {
                     <div className="xl:col-span-9 lg:col-span-8 col-span-12">
                         <Tab.Panels>
                             <Tab.Panel >
-                                <Card title="Create company">
-                                    <div className="space-y-4">
-                                        <InputGroup
-                                            label="Name"
-                                            type="text"
-                                            placeholder="Name of third party"
-                                            prepend={<Icon icon="heroicons-outline:user" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Alternative name"
-                                            type="text"
-                                            placeholder="Alternative name"
-                                            prepend={<Icon icon="heroicons-outline:user" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Address"
-                                            type="text"
-                                            placeholder="Address"
-                                            prepend={<Icon icon="heroicons-outline:map-pin" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Zip code"
-                                            type="number"
-                                            placeholder="Zip code"
-                                            prepend={<Icon icon="heroicons-outline:qr-code" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Pays"
-                                            type="country"
-                                            placeholder="Pays"
-                                            prepend={<Icon icon="heroicons-outline:user" />}
-                                            merged
-                                        />
-                                        <div>
-                                            <label htmlFor=" hh2" className="form-label ">
-                                               Departement
-                                            </label>
-                                            <Select
-                                                className="react-select"
-                                                classNamePrefix="select"
-                                                defaultValue={dep[0]}
-                                                styles={styles}
-                                                name="clear"
-                                                options={dep}
-                                                isClearable
-                                                id="hh2"
-                                                register={register}
-                                            />
-                                        </div>
-                                        <InputGroup
-                                            label="Email"
-                                            id="hi_email1"
-                                            type="email"
-                                            placeholder="Type your email"
-                                            prepend={<Icon icon="heroicons-outline:mail" />}
-                                            merged
-                                        />
-                                        <Textinput
-                                            label="Website"
-                                            type="text"
-                                            placeholder="Enter your website URL"
-                                            register={register}
-                                        />
-                                        <Textinput
-                                            label="Skype"
-                                            type="text"
-                                            placeholder="https://www.skype.com/profile"
-                                            register={register}
-
-                                        />
-                                        <InputGroup
-                                            label="Id prof (R.C)"
-                                            type="number"
-                                            placeholder="Id prof (R.C)"
-                                            prepend={<Icon icon="heroicons-outline:identification" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Id prof (I.F)"
-                                            type="number"
-                                            placeholder="Id prof (I.F)"
-                                            prepend={<Icon icon="heroicons-outline:identification" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Id prof (patent)"
-                                            type="number"
-                                            placeholder="Id prof (patent)"
-                                            prepend={<Icon icon="heroicons-outline:identification" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="CNSS"
-                                            type="number"
-                                            placeholder="CNSS"
-                                            prepend={<Icon icon="heroicons-outline:identification" />}
-                                            merged
-                                        />
-                                        <div className="xl:col-span-2 col-span-1">
-                                            <Card title="Logo">
-                                                <DropZone />
-                                            </Card>
-                                        </div>
-                                        <div className=" space-y-4">
-                                            <Button text="Submit" className="btn-dark" />
-                                        </div>
-                                    </div>
-                                </Card>
+                               <Company/>
                             </Tab.Panel>
                             <Tab.Panel>
-                                <Card title="Create particular company">
-                                    <div className="space-y-4">
-                                        <InputGroup
-                                            label="Name"
-                                            type="text"
-                                            placeholder="Name of third party"
-                                            prepend={<Icon icon="heroicons-outline:user" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Alternative name"
-                                            type="text"
-                                            placeholder="Alternative name"
-                                            prepend={<Icon icon="heroicons-outline:user" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="National Identity Card"
-                                            type="text"
-                                            placeholder="National Identity Card"
-                                            prepend={<Icon icon="heroicons-outline:identification" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Address"
-                                            type="text"
-                                            placeholder="Address"
-                                            prepend={<Icon icon="heroicons-outline:map-pin" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Zip code"
-                                            type="number"
-                                            placeholder="Zip code"
-                                            prepend={<Icon icon="heroicons-outline:qr-code" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Pays"
-                                            type="country"
-                                            placeholder="Alternative name"
-                                            prepend={<Icon icon="heroicons-outline:user" />}
-                                            merged
-                                        />
-                                        <InputGroup
-                                            label="Email"
-                                            id="hi_email1"
-                                            type="email"
-                                            placeholder="Type your email"
-                                            prepend={<Icon icon="heroicons-outline:mail" />}
-                                            merged
-                                        />
-                                        <div className=" space-y-4">
-                                            <Button text="Submit" className="btn-dark" />
-                                        </div>
-                                    </div>
-                                </Card>
+                                <Particular/>
                             </Tab.Panel>
                         </Tab.Panels>
                     </div>

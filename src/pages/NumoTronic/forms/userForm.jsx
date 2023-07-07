@@ -1,6 +1,5 @@
 import React from "react";
 import Textinput from "@/components/ui/Textinput";
-import Textarea from "@/components/ui/Textarea";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -22,7 +21,7 @@ const FormValidationSchema = yup
             .min(8, "Password must be at least 8 characters"),
     })
 const role = [
-    { value: "director", label: "director" },
+    { value: "Director", label: "Director" },
     { value: "restricted user", label: "restricted user" },
 
 
@@ -42,7 +41,7 @@ const styles = {
 
 
 
-const ValidationTypes = () => {
+const userForm = () => {
     const {
         register,
         formState: { errors },
@@ -152,4 +151,4 @@ const ValidationTypes = () => {
     );
 };
 
-export default ValidationTypes;
+export default userForm;
