@@ -1,20 +1,44 @@
-import React, { useState } from "react";
-
-import Card from "@/components/ui/Card";
+import React from "react";
 import Textinput from "@/components/ui/Textinput";
-import Icon from "@/components/ui/Icon";
-import Button from "@/components/ui/Button";
-import InputGroup from "@/components/ui/InputGroup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-
+import Card from "@/components/ui/Card";
+import Select from "react-select";
+import InputGroup from "@/components/ui/InputGroup";
 
 const FormValidationSchema = yup
     .object({
-        name: yup.string().required("The First name is required"),
+        username: yup.string().required("The First name is required"),
+        lastname: yup.string().required("The Last name is required"),
+        phone: yup
+            .string()
+            .required("Phone number is required")
+            .matches(/^[0-9]{9}$/, "Phone number is not valid"),
+        email: yup.string().email("Email is not valid").required("Email is required"),
+        password: yup
+            .string()
+            .required("Password is required")
+            .min(8, "Password must be at least 8 characters"),
     })
+const role = [
+    { value: "Director", label: "Director" },
+    { value: "restricted user", label: "restricted user" },
 
+
+];
+const company = [
+    { value: "numotronic", label: "numotronic" },
+
+
+
+];
+const styles = {
+    option: (provided, state) => ({
+        ...provided,
+        fontSize: "14px",
+    }),
+};
 
 const particular = () => {
     const {
@@ -31,64 +55,92 @@ const particular = () => {
         <div>
             <Card title="Create particular company">
                 <div className="space-y-4">
-                    <form   onSubmit={handleSubmit(onSubmit)}>
+
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
+                    >
                         <Textinput
+                            label="First name"
+                            type="text"
+                            placeholder="Type your First Name"
+                            name="username"
                             register={register}
-                            error={errors.name}
-                            label="Name"
+                            error={errors.username}
+                        />
+                        <Textinput
+                            label="Last name"
                             type="text"
-                            name="name"
-                            placeholder="Name of third party"
-                            prepend={<Icon icon="heroicons-outline:user" />}
-                            merged
+                            placeholder="Type your Last Name"
+                            name="lastname"
+                            register={register}
+                            error={errors.lastname}
                         />
                         <InputGroup
-                            label="Alternative name"
+                            label="Phone Number"
                             type="text"
-                            placeholder="Alternative name"
-                            prepend={<Icon icon="heroicons-outline:user" />}
-                            merged
-                        />
-                        <InputGroup
-                            label="National Identity Card"
-                            type="text"
-                            placeholder="National Identity Card"
-                            prepend={<Icon icon="heroicons-outline:identification" />}
-                            merged
-                        />
-                        <InputGroup
-                            label="Address"
-                            type="text"
-                            placeholder="Address"
-                            prepend={<Icon icon="heroicons-outline:map-pin" />}
-                            merged
-                        />
-                        <InputGroup
-                            label="Postal code"
-                            type="number"
-                            placeholder="Postal code"
-                            prepend={<Icon icon="heroicons-outline:qr-code" />}
-                            merged
-                        />
-                        <InputGroup
-                            label="Country"
-                            type="country"
-                            placeholder="Country"
-                            prepend={<Icon icon="heroicons-outline:globe-americas" />}
-                            merged
+                            prepend="MY (+212)"
+                            placeholder="Phone Number"
+                            name="phone"
+                            error={errors.phone}
+                            register={register}
                         />
 
-                        <InputGroup
+                        <Textinput
                             label="Email"
-                            id="hi_email1"
                             type="email"
-                            placeholder="Type your email"
-                            prepend={<Icon icon="heroicons-outline:mail" />}
-                            merged
+                            placeholder="Enter your email"
+                            name="email"
+                            register={register}
+                            error={errors.email}
                         />
 
-                        <div className=" space-y-4">
-                            <Button text="Submit" className="btn-dark" />
+                        <Textinput
+                            label="Password"
+                            type="password"
+                            placeholder="8+ characters, 1 Capital letter "
+                            name="password"
+                            register={register}
+                            error={errors.password}
+                        />
+
+                        <div>
+                            <label htmlFor=" hh2" className="form-label ">
+                                company
+                            </label>
+                            <Select
+                                className="react-select"
+                                classNamePrefix="select"
+                                defaultValue={company[0]}
+                                styles={styles}
+                                name="clear"
+                                options={company}
+                                isClearable
+                                id="hh2"
+                                register={register}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor=" hh2" className="form-label ">
+                                Role
+                            </label>
+                            <Select
+                                className="react-select"
+                                classNamePrefix="select"
+                                defaultValue={role[1]}
+                                styles={styles}
+                                name="clear"
+                                options={role}
+                                isClearable
+                                id="hh2"
+                                register={register}
+                            />
+                        </div>
+
+                        <div className="lg:col-span-2 col-span-1">
+                            <div className="ltr:text-right rtl:text-left">
+                                <button className="btn btn-dark  text-center">Submit</button>
+                            </div>
                         </div>
                     </form>
                 </div>
