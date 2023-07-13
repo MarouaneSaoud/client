@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { advancedTable } from "../../../constant/table-data";
+import React, { useState, useMemo , useEffect } from "react";
+import { DeviceTable } from "../../../constant/table-data";
 import Card from "../../../components/ui/Card";
 import Icon from "../../../components/ui/Icon";
 import Tooltip from "../../../components/ui/Tooltip";
@@ -11,6 +11,8 @@ import {
     usePagination,
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
+import DeviceService from "../../../services/device.services";
+
 
 const COLUMNS = [
     {
@@ -22,30 +24,30 @@ const COLUMNS = [
     },
     {
         Header: "IMEI",
-        accessor: "order",
+        accessor: "imei",
         Cell: (row) => {
-            return <span>#{row?.cell?.value}</span>;
+            return <span>{row?.cell?.value}</span>;
         },
     },
     {
         Header: "status",
-        accessor: "status",
+        accessor: "statusDevice",
         Cell: (row) => {
             return (
                 <span className="block w-full">
           <span
               className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-                  row?.cell?.value === "paid"
+                  row?.cell?.value === "ONLINE"
                       ? "text-success-500 bg-success-500"
                       : ""
               } 
             ${
-                  row?.cell?.value === "due"
+                  row?.cell?.value === "OFFLINE"
                       ? "text-warning-500 bg-warning-500"
                       : ""
               }
             ${
-                  row?.cell?.value === "cancled"
+                  row?.cell?.value === "INACTIF"
                       ? "text-danger-500 bg-danger-500"
                       : ""
               }
@@ -58,23 +60,25 @@ const COLUMNS = [
             );
         },
     },
-    {
-        Header: "Description",
-        accessor: "date",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
+
     {
         Header: "Firmware",
-        accessor: "quantity",
+        accessor: "firmware",
         Cell: (row) => {
             return <span>{row?.cell?.value}</span>;
         },
     },
     {
         Header: "Configuration",
-        accessor: "amount",
+        accessor: "configuration",
+        Cell: (row) => {
+            return <span>{row?.cell?.value}</span>;
+        },
+    },
+
+    {
+        Header: "Last Seen",
+        accessor: "time",
         Cell: (row) => {
             return <span>{row?.cell?.value}</span>;
         },
@@ -135,9 +139,23 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-const ExampleTwo = ({ title = "Devices" }) => {
+const DevicesList = ({ title = "Devices" }) => {
+    const [Device, setDevice] = useState([]);
+    async function getDevices() {
+        try {
+            let result = await DeviceService.allDevice();
+            setDevice(result.data);
+            console.log(Device)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(()=>{
+        getDevices();
+    },[])
+
     const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => advancedTable, []);
+    const data = useMemo(() => Device , []);
 
     const tableInstance = useTable(
         {
@@ -189,6 +207,8 @@ const ExampleTwo = ({ title = "Devices" }) => {
     } = tableInstance;
 
     const { globalFilter, pageIndex, pageSize } = state;
+
+
     return (
         <>
             <Card>
@@ -341,4 +361,4 @@ const ExampleTwo = ({ title = "Devices" }) => {
     );
 };
 
-export default ExampleTwo;
+export default DevicesList;
