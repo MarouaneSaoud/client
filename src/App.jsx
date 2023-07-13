@@ -69,6 +69,8 @@ const  UsersForm = lazy(() => import("./pages/NumoTronic/forms/userForm.jsx"));
 const  Companyliste = lazy(() => import("./pages/NumoTronic/Tables/companyliste"));
 const  Devicesliste = lazy(() => import("./pages/NumoTronic/Tables/devicesliste"));
 const  Userliste = lazy(() => import("./pages/NumoTronic/Tables/userliste"));
+//page numotronic
+const ManagerDashboard =lazy(()=> import("./pages/dashboard/managerDashboard"))
 
 // chart page
 const AppexChartPage = lazy(() => import("./pages/chart/appex-chart"));
@@ -304,7 +306,7 @@ function App() {
         </Route>
 
         <Route path="/manager" element={<Layout />}>
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard" element={<ManagerDashboard />} />
           <Route path="ecommerce" element={<Ecommerce />} />
           <Route path="crm" element={<CrmPage />} />
           <Route path="project" element={<ProjectPage />} />

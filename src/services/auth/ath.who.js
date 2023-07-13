@@ -7,7 +7,7 @@ const isCurrentUserAdmin = () => {
         const decodedToken = jwt_decode(token);
         const { sub, roles } = decodedToken;
 
-        if (sub === 'admin@numotronic.com' && roles && Array.isArray(roles) && roles.includes('ADMIN')) {
+        if (roles && Array.isArray(roles) && roles.includes('ADMIN')) {
             return true;
         }
     }
@@ -21,7 +21,7 @@ const isCurrentUserManager = () => {
         const decodedToken = jwt_decode(token);
         const { sub, roles } = decodedToken;
 
-        if (sub === 'admin@numotronic.com' && roles && Array.isArray(roles) && roles.includes('ADMIN')) {
+        if (roles && Array.isArray(roles) && roles.includes('USER')) {
             return true;
         }
     }
