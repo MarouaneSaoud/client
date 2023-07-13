@@ -10,14 +10,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { handleLogin } from "./store";
 import { toast } from "react-toastify";
 import ReCAPTCHA from "react-google-recaptcha";
-import AuthService from "@/services/Auth.services.js";
+import jwtDecode from "jwt-decode";
+import AuthService from "@/services/auth/auth.services.js";
+import authRole from "@/services/auth/auth.role.js";
+import getRole from "@/services/auth/auth.role.js";
 const schema = yup
+
     .object({
         username: yup.string().email("Invalid email").required("Email is Required"),
         password: yup.string().required("Password is Required"),
     })
     .required();
 const LoginForm = () => {
+
+    const dispatch = useDispatch();
+
     const [values, setValues] = useState({ username: "", password: "" });
 
 
@@ -25,30 +32,69 @@ const LoginForm = () => {
     function onChange(value) {
         setVerified(true);
     }
-    const dispatch = useDispatch();
-    const { users } = useSelector((state) => state.auth);
     const {
         register,
         formState: { errors },
         handleSubmit,
     } = useForm({
         resolver: yupResolver(schema),
-        //
         mode: "all",
     });
     const navigate = useNavigate();
     const onSubmit  = async (event) =>  {
-        console.log(values)
-        const{data}=AuthService.login(values).then()
-        console.log(data)
+        event.preventDefault();
+    await AuthService.login(values)
+        .then(response=>{
+            if (response.status === 200) {
+                const token = response.headers.get('access-Token');
+                localStorage.setItem('accessToken', token);
+                const role=getRole();
 
+                if (role==='ADMIN') {
+                    navigate("/dashboard")
+                    dispatch(handleLogin(true));
+                } else if (role==='USER')
+                {
+                    navigate("/manager")
+                    dispatch(handleLogin(true));
+                }
 
+            }
+
+        })
+        .catch(error=>{
+            if (error.response && error.response.status === 403) {
+
+                toast.error("Invalid credentials", {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            } else {
+                toast.error("Server error, try again later", {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        })
     };
 
     const [checked, setChecked] = useState(false);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
+    <>
+        <form onSubmit={(e) => onSubmit(e)} className="space-y-4 ">
             <Textinput
                 name="username"
                 label="email"
@@ -93,14 +139,15 @@ const LoginForm = () => {
                     Forgot Password?{" "}
                 </Link>
             </div>
-            <div className="grid place-items-center">
+            {/*<div className="grid place-items-center">
                 <ReCAPTCHA
                     sitekey="6LeOUfAmAAAAABGafdJd2exB5sjKIqh_cZGMB3Mr"
                     onChange={onChange}
                 />
-            </div>
-            <button className="btn btn-dark block w-full text-center" disabled={!verified}>Sign in</button>
+            </div>*/}
+            <button className="btn btn-dark block w-full text-center" >Sign in</button>
         </form>
+    </>
     );
 };
 

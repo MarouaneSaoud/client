@@ -302,6 +302,34 @@ function App() {
           <Route path="changelog" element={<ChangelogPage />} />
           <Route path="*" element={<Navigate to="/404" />} />
         </Route>
+
+        <Route path="/manager" element={<Layout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="ecommerce" element={<Ecommerce />} />
+          <Route path="crm" element={<CrmPage />} />
+          <Route path="project" element={<ProjectPage />} />
+          <Route path="banking" element={<BankingPage />} />
+          {/* App pages */}
+          <Route path="todo" element={<TodoPage />} />
+          <Route path="email" element={<EmailPage />} />
+          <Route path="chat" element={<ChatPage />} />
+          <Route path="projects" element={<ProjectPostPage />} />
+          <Route path={"projects/:id"} element={<ProjectDetailsPage />} />
+          <Route path="project-details" element={<ProjectDetailsPage />} />
+          <Route path="kanban" element={<KanbanPage />} />
+          <Route path="calender" element={<CalenderPage />} />
+          {/* Numotronique pages */}
+          <Route path="add-company" element={<CompanyForm />} />
+          <Route path="add-reference" element={<ReferenceForm/>} />
+          <Route path="add-devices" element={<DevicesForm/>} />
+          <Route path="add-users" element={<UsersForm/>} />
+
+          <Route path="list-devices" element={<Devicesliste/>} />
+          <Route path="list-company" element={<Companyliste/>} />
+          <Route path="list-users" element={<Userliste/>} />
+
+          {/* Components pages */}
+        </Route>
         <Route
           path="/404"
           element={
