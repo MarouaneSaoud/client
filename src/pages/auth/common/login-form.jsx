@@ -49,13 +49,12 @@ const LoginForm = () => {
                 const token = response.headers.get('access-Token');
                 localStorage.setItem('accessToken', token);
                 const role=getRole();
-
                 if (role==='ADMIN') {
                     navigate("/dashboard")
                     dispatch(handleLogin(true));
                 } else if (role==='USER')
                 {
-                    navigate("/manager")
+                    navigate("/manager/dashboard")
                     dispatch(handleLogin(true));
                 }
 
