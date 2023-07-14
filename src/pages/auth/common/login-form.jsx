@@ -9,10 +9,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { handleLogin } from "./store";
 import { toast } from "react-toastify";
-import ReCAPTCHA from "react-google-recaptcha";
-import jwtDecode from "jwt-decode";
-import AuthService from "@/services/auth/auth.services.js";
-import authRole from "@/services/auth/auth.role.js";
+import AuthService from "../../../services/auth.services";
 import getRole from "@/services/auth/auth.role.js";
 const schema = yup
 

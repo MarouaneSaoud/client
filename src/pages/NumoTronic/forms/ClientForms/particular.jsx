@@ -1,10 +1,12 @@
 import React , {useState} from "react";
 import Textinput from "@/components/ui/Textinput";
-import { useForm } from "react-hook-form";
+import {useEffect, useForm} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Card from "@/components/ui/Card";
 import ReactFlagsSelect from "react-flags-select";
+import {useNavigate} from "react-router-dom";
+import whoAuth from "../../../../services/auth/ath.who";
 
 const FormValidationSchema = yup
     .object({
@@ -33,6 +35,7 @@ const particular = () => {
     const onSubmit = (data) => {
         console.log(data);
     };
+
     return (
         <div>
             <Card title="Create particular company">

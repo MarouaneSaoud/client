@@ -5,10 +5,12 @@ import Textarea from "@/components/ui/Textarea";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
-import { useForm } from "react-hook-form";
+import { useForm, useEffect } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Select from "react-select";
+import {useNavigate} from "react-router-dom";
+import whoAuth from "../../../services/auth/ath.who";
 
 const steps = [
     {
@@ -114,8 +116,6 @@ const FormWizard = () => {
             fontSize: "14px",
         }),
     };
-
-
 
 
     return (

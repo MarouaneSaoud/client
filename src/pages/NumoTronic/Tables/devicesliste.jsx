@@ -3,6 +3,7 @@ import { DeviceTable } from "../../../constant/table-data";
 import Card from "../../../components/ui/Card";
 import Icon from "../../../components/ui/Icon";
 import Tooltip from "../../../components/ui/Tooltip";
+import Button from "../../../components/ui/Button";
 import {
     useTable,
     useRowSelect,
@@ -95,22 +96,7 @@ const COLUMNS = [
                             <Icon icon="heroicons:eye" />
                         </button>
                     </Tooltip>
-                    <Tooltip content="Edit" placement="top" arrow animation="shift-away">
-                        <button className="action-btn" type="button">
-                            <Icon icon="heroicons:pencil-square" />
-                        </button>
-                    </Tooltip>
-                    <Tooltip
-                        content="Delete"
-                        placement="top"
-                        arrow
-                        animation="shift-away"
-                        theme="danger"
-                    >
-                        <button className="action-btn" type="button">
-                            <Icon icon="heroicons:trash" />
-                        </button>
-                    </Tooltip>
+
                 </div>
             );
         },
@@ -155,7 +141,7 @@ const DevicesList = ({ title = "Devices" }) => {
     },[])
 
     const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => Device , []);
+    const data = Device ;
 
     const tableInstance = useTable(
         {
@@ -212,12 +198,27 @@ const DevicesList = ({ title = "Devices" }) => {
     return (
         <>
             <Card>
+
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
-                        <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+                        <div class="grid grid-cols-2 gap-2">
+                            <div className="flex items-center">
+                                <Button
+                                    icon="heroicons-outline:plus"
+                                    text="Ajouter"
+                                    className="btn-primary rounded-[999px] h-9 text-sm flex items-center  h-full justify-start"
+                                    iconPosition="right"
+                                />
+                            </div>
+                            <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
+
+                        </div>
+
+
                     </div>
                 </div>
+
                 <div className="overflow-x-auto -mx-6">
                     <div className="inline-block min-w-full align-middle">
                         <div className="overflow-hidden ">
@@ -279,7 +280,7 @@ const DevicesList = ({ title = "Devices" }) => {
                             value={pageSize}
                             onChange={(e) => setPageSize(Number(e.target.value))}
                         >
-                            {[10, 25, 50].map((pageSize) => (
+                            {[100,500,1000,5000].map((pageSize) => (
                                 <option key={pageSize} value={pageSize}>
                                     Show {pageSize}
                                 </option>
