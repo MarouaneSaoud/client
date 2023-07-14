@@ -22,6 +22,7 @@ const LockScreen = lazy(() => import("./pages/auth/lock-screen"));
 const LockScreen2 = lazy(() => import("./pages/auth/lock-screen2"));
 const LockScreen3 = lazy(() => import("./pages/auth/lock-screen3"));
 const Error = lazy(() => import("./pages/404"));
+const NotAuthorized = lazy(() => import("./pages/403"));
 
 import Layout from "./layout/Layout";
 
@@ -60,15 +61,15 @@ const SelectPage = lazy(() => import("./pages/forms/select"));
 const Flatpicker = lazy(() => import("./pages/forms/date-time-picker"));
 
 // form numotronic
-const  CompanyForm = lazy(() => import("./pages/NumoTronic/forms/companyForm"));
-const  ReferenceForm = lazy(() => import("./pages/NumoTronic/forms/referenceForm"));
-const  DevicesForm = lazy(() => import("./pages/NumoTronic/forms/devicesForm"));
-const  UsersForm = lazy(() => import("./pages/NumoTronic/forms/userForm.jsx"));
+const  CompanyForm = lazy(() => import("./pages/admin/forms/companyForm"));
+const  ReferenceForm = lazy(() => import("./pages/admin/forms/referenceForm"));
+const  DevicesForm = lazy(() => import("./pages/admin/forms/devicesForm"));
+const  UsersForm = lazy(() => import("./pages/admin/forms/userForm.jsx"));
 
 //table numotronic
-const  Companyliste = lazy(() => import("./pages/NumoTronic/Tables/companyliste"));
-const  Devicesliste = lazy(() => import("./pages/NumoTronic/Tables/devicesliste"));
-const  Userliste = lazy(() => import("./pages/NumoTronic/Tables/userliste"));
+const  Companyliste = lazy(() => import("./pages/admin/Tables/companyliste"));
+const  Devicesliste = lazy(() => import("./pages/admin/Tables/devicesliste"));
+const  Userliste = lazy(() => import("./pages/admin/Tables/userliste"));
 //page numotronic
 const ManagerDashboard =lazy(()=> import("./pages/dashboard/managerDashboard"))
 
@@ -303,6 +304,7 @@ function App() {
           <Route path="notifications" element={<NotificationPage />} />
           <Route path="changelog" element={<ChangelogPage />} />
           <Route path="*" element={<Navigate to="/404" />} />
+
         </Route>
 
         <Route path="/manager" element={<Layout />}>
@@ -341,6 +343,14 @@ function App() {
           }
         />
         <Route
+            path="/403"
+            element={
+              <Suspense fallback={<Loading />}>
+                <NotAuthorized />
+              </Suspense>
+            }
+        />
+        <Route
           path="/coming-soon"
           element={
             <Suspense fallback={<Loading />}>
@@ -361,4 +371,4 @@ function App() {
   );
 }
 
-export default App;
+  export default App;
