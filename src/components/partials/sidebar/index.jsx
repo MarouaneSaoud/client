@@ -1,12 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import SidebarLogo from "./Logo";
 import Navmenu from "./Navmenu";
-import { menuItems } from "@/constant/data";
+import {AdminMenu, ManagerMenu} from "@/constant/data";
 import SimpleBar from "simplebar-react";
 import useSidebar from "@/hooks/useSidebar";
 import useSemiDark from "@/hooks/useSemiDark";
 import useSkin from "@/hooks/useSkin";
-import svgRabitImage from "@/assets/images/svg/rabit.svg";
+import whoAuth from "@/services/auth/ath.who.js";
 
 const Sidebar = () => {
   const scrollableNodeRef = useRef();
@@ -61,7 +61,12 @@ const Sidebar = () => {
           className="sidebar-menu px-4 h-[calc(100%-80px)]"
           scrollableNodeProps={{ ref: scrollableNodeRef }}
         >
-          <Navmenu menus={menuItems} />
+            {whoAuth.isCurrentUserAdmin() && <Navmenu menus={AdminMenu} />}
+            {whoAuth.isCurrentUserManager() && <Navmenu menus={ManagerMenu} />}
+
+
+
+
         </SimpleBar>
       </div>
     </div>

@@ -1,4 +1,4 @@
-export const menuItems = [
+export const AdminMenu = [
   {
     isHeadr: true,
     title: "menu",
@@ -496,6 +496,22 @@ export const menuItems = [
       },
     ],
   },*/
+];
+export const ManagerMenu = [
+  {
+    isHeadr: true,
+    title: "menu",
+  },
+
+  {
+    title: "Dashboard",
+    icon: "heroicons-outline:home",
+    link: "dashboard",
+    isOpen: true,
+    isHide: true,
+
+  },
+
 ];
 
 export const topMenu = [

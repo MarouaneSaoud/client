@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, NavLink } from "react-router-dom";
-import { menuItems } from "@/constant/data";
+import { AdminMenu , ManagerMenu } from "@/constant/data";
 import Icon from "@/components/ui/Icon";
+import whoAuth from "@/services/auth/ath.who.js";
 
 const Breadcrumbs = () => {
+
+
   const location = useLocation();
   const locationName = location.pathname.replace("/", "");
 
@@ -11,19 +14,37 @@ const Breadcrumbs = () => {
   const [groupTitle, setGroupTitle] = useState("");
 
   useEffect(() => {
-    const currentMenuItem = menuItems.find(
-      (item) => item.link === locationName
-    );
+    if(whoAuth.isCurrentUserAdmin()) {
+      const currentMenuItem = AdminMenu.find(
+          (item) => item.link === locationName
+      );
 
-    const currentChild = menuItems.find((item) =>
-      item.child?.find((child) => child.childlink === locationName)
-    );
+      const currentChild = AdminMenu.find((item) =>
+          item.child?.find((child) => child.childlink === locationName)
+      );
 
-    if (currentMenuItem) {
-      setIsHide(currentMenuItem.isHide);
-    } else if (currentChild) {
-      setIsHide(currentChild?.isHide || false);
-      setGroupTitle(currentChild?.title);
+      if (currentMenuItem) {
+        setIsHide(currentMenuItem.isHide);
+      } else if (currentChild) {
+        setIsHide(currentChild?.isHide || false);
+        setGroupTitle(currentChild?.title);
+      }
+    }
+    if(whoAuth.isCurrentUserManager()) {
+      const currentMenuItem = ManagerMenu.find(
+          (item) => item.link === locationName
+      );
+
+      const currentChild = ManagerMenu.find((item) =>
+          item.child?.find((child) => child.childlink === locationName)
+      );
+
+      if (currentMenuItem) {
+        setIsHide(currentMenuItem.isHide);
+      } else if (currentChild) {
+        setIsHide(currentChild?.isHide || false);
+        setGroupTitle(currentChild?.title);
+      }
     }
   }, [location, locationName]);
 

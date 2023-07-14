@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 
 import Navmenu from "./Navmenu";
-import { menuItems } from "@/constant/data";
+import {AdminMenu, ManagerMenu} from "@/constant/data";
 import SimpleBar from "simplebar-react";
 import useSemiDark from "@/hooks/useSemiDark";
 import useSkin from "@/hooks/useSkin";
@@ -14,6 +14,7 @@ import Icon from "@/components/ui/Icon";
 import MobileLogo from "@/assets/images/logo/logo-c.svg";
 import MobileLogoWhite from "@/assets/images/logo/logo-c-white.svg";
 import svgRabitImage from "@/assets/images/svg/rabit.svg";
+import whoAuth from "@/services/auth/ath.who.js";
 
 const MobileMenu = ({ className = "custom-class" }) => {
   const scrollableNodeRef = useRef();
@@ -73,7 +74,8 @@ const MobileMenu = ({ className = "custom-class" }) => {
         className="sidebar-menu px-4 h-[calc(100%-80px)]"
         scrollableNodeProps={{ ref: scrollableNodeRef }}
       >
-        <Navmenu menus={menuItems} />
+        {whoAuth.isCurrentUserAdmin() && <Navmenu menus={AdminMenu} />}
+        {whoAuth.isCurrentUserManager() && <Navmenu menus={ManagerMenu} />}
 
       </SimpleBar>
     </div>
