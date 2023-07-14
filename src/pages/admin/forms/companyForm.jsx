@@ -6,8 +6,8 @@ import Icon from "@/components/ui/Icon";
 
 import { useForm, useFieldArray } from "react-hook-form";
 
-import Company from "@/pages/NumoTronic/forms/ClientForms/company.jsx";
-import Particular from "@/pages/NumoTronic/forms/ClientForms/particular.jsx";
+import Company from "@/pages/admin/forms/ClientForms/company.jsx";
+import Particular from "@/pages/admin/forms/ClientForms/particular.jsx";
 
 
 const faqmenus = [
