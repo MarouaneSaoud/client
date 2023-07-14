@@ -15,7 +15,7 @@ const Ecommerce = () => {
   const navigate=useNavigate();
   useEffect(()=>{
     if(whoAuth.isCurrentUserAdmin()){
-      navigate("/404");
+      navigate("/403");
     }
   })
   return (

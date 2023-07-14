@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { advancedTable } from "../../../constant/table-data";
+import React, { useState, useMemo,useEffect} from "react";
+import { AdvancedTable } from "../../../constant/table-data";
 import Card from "../../../components/ui/Card";
 import Icon from "../../../components/ui/Icon";
 import Tooltip from "../../../components/ui/Tooltip";
@@ -11,6 +11,8 @@ import {
     usePagination,
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
+import {useNavigate} from "react-router-dom";
+import whoAuth from "../../../services/auth/ath.who";
 
 const COLUMNS = [
     {
@@ -122,7 +124,7 @@ const IndeterminateCheckbox = React.forwardRef(
 
 const ExampleTwo = ({ title = "Users" }) => {
     const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => advancedTable, []);
+    const data = useMemo(() => AdvancedTable, []);
 
     const tableInstance = useTable(
         {
@@ -174,6 +176,12 @@ const ExampleTwo = ({ title = "Users" }) => {
     } = tableInstance;
 
     const { globalFilter, pageIndex, pageSize } = state;
+    const navigate=useNavigate();
+    useEffect(()=>{
+        if(whoAuth.isCurrentUserManager()){
+            navigate("/403");
+        }
+    })
     return (
         <>
             <Card>

@@ -1,9 +1,11 @@
-import React from "react";
+import React , {useEffect} from "react";
 import Card from "@/components/ui/Card";
 import Textinput from "@/components/ui/Textinput";
 import Icon from "@/components/ui/Icon";
 import Button from "@/components/ui/Button";
-import { useForm, useFieldArray } from "react-hook-form";
+import {useForm, useFieldArray} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
+import whoAuth from "../../../services/auth/ath.who";
 const FormRepeater = () => {
     const { register, control, handleSubmit, reset, trigger, setError } = useForm(
         {
@@ -17,6 +19,13 @@ const FormRepeater = () => {
         name: "test",
     });
     const index = 1;
+
+    const navigate=useNavigate();
+    useEffect(()=>{
+        if(whoAuth.isCurrentUserManager()){
+            navigate("/403");
+        }
+    })
     return (
         <div>
             <Card

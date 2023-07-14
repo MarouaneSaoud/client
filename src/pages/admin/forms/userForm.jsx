@@ -1,11 +1,13 @@
-import React from "react";
+import React ,{useEffect}from "react";
 import Textinput from "@/components/ui/Textinput";
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Card from "@/components/ui/Card";
 import Select from "react-select";
 import InputGroup from "@/components/ui/InputGroup";
+import {useNavigate} from "react-router-dom";
+import whoAuth from "../../../services/auth/ath.who";
 const FormValidationSchema = yup
     .object({
         username: yup.string().required("The First name is required"),
@@ -54,6 +56,12 @@ const userForm = () => {
         console.log(data);
     };
 
+    const navigate=useNavigate();
+    useEffect(()=>{
+        if(whoAuth.isCurrentUserManager()){
+            navigate("/403");
+        }
+    })
     return (
         <div className="xl:col-span-2 col-span-1">
             <Card title="Validation Types">

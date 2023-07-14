@@ -559,16 +559,11 @@ export const tableData = [
 ];
 
 
-export const DeviceTable = [
-  {
-    id: 1,
-      imei: "1232121434",
-      time: "07-07-2023-16-23",
-      statusDevice: "INACTIF",
-      firmware: "03.27.13Rev03",
-      configuration: "conf"
+export const AdvancedTable = [
 
-  },
+];
+export const DeviceTable = [
+
 ];
 
 export const homeTable = [

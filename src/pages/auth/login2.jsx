@@ -4,6 +4,7 @@ import LoginForm from "./common/login-form";
 import Social from "./common/social";
 import { ToastContainer } from "react-toastify";
 import useDarkMode from "@/hooks/useDarkMode";
+import loginpic from "../../assets/images/all-img/loginpic.png"
 
 // image import
 import LogoWhite from "@/assets/images/logo/logo-white.svg";
@@ -54,19 +55,19 @@ const login2 = () => {
             <div
                 className="left-column bg-cover bg-no-repeat bg-center "
                 style={{
-                  backgroundImage: `url(${bgImage})`,
+                  backgroundImage: `url(${loginpic})`,
                 }}
             >
-              <div className="flex flex-col h-full justify-center">
-                <div className="flex-1 flex flex-col justify-center items-center">
+              <div className="flex flex-col h-full justify-center ">
+                <div className="flex-1 flex flex-col  justify-center items-center"style={{ marginTop: '-250px' }}>
                   <Link to="/">
                     <img src={LogoWhite} alt="" className="mb-10" />
                   </Link>
                 </div>
                 <div>
-                  <div className="black-500-title max-w-[525px] mx-auto pb-20 text-center">
-                    Unlock your Project
-                    <span className="text-white font-bold">performance</span>
+                  <div className="black-500-title max-w-[525px] mx-auto pb-20 text-center" style={{ marginBottom: '-55px' }}>
+                    Achieve A Greater
+                    <span className="font-bold" >  Performance </span>
                   </div>
                 </div>
               </div>

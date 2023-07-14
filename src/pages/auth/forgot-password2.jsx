@@ -7,6 +7,7 @@ import useDarkMode from "@/hooks/useDarkMode";
 import LogoWhite from "@/assets/images/logo/logo-white.svg";
 import Logo from "@/assets/images/logo/logo.svg";
 import bgImage from "@/assets/images/all-img/login-bg.png";
+import loginpic from "../../assets/images/all-img/loginpic.png";
 const ForgotPass2 = () => {
   const [isDark] = useDarkMode();
   return (
@@ -15,15 +16,6 @@ const ForgotPass2 = () => {
         <div className="right-column relative">
           <div className="inner-content h-full flex flex-col bg-white dark:bg-slate-800">
             <div className="auth-box2 flex flex-col justify-center h-full">
-              <div className="mobile-logo text-center mb-6 lg:hidden block">
-                <Link to="/">
-                  <img
-                    src={isDark ? LogoWhite : Logo}
-                    alt=""
-                    className="mx-auto"
-                  />
-                </Link>
-              </div>
               <div className="text-center 2xl:mb-10 mb-5">
                 <h4 className="font-medium mb-4">Forgot Your Password?</h4>
                 <div className="text-slate-500 dark:text-slate-400 text-base">
@@ -50,26 +42,27 @@ const ForgotPass2 = () => {
           </div>
         </div>
         <div
-          className="left-column bg-cover bg-no-repeat bg-center"
-          style={{
-            backgroundImage: `url(${bgImage})`,
-          }}
+            className="left-column bg-cover bg-no-repeat bg-center "
+            style={{
+              backgroundImage: `url(${loginpic})`,
+            }}
         >
-          <div className="flex flex-col h-full justify-center">
-            <div className="flex-1 flex flex-col justify-center items-center">
+          <div className="flex flex-col h-full justify-center ">
+            <div className="flex-1 flex flex-col  justify-center items-center"style={{ marginTop: '-250px' }}>
               <Link to="/">
                 <img src={LogoWhite} alt="" className="mb-10" />
               </Link>
             </div>
             <div>
-              <div className="black-500-title max-w-[525px] mx-auto pb-20 text-center">
-                Unlock your Project
-                <span className="text-white font-bold">performance</span>
+              <div className="black-500-title max-w-[525px] mx-auto pb-20 text-center" style={{ marginBottom: '-55px' }}>
+                Achieve A Greater
+                <span className="font-bold" >  Performance </span>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        </div>
+
     </div>
   );
 };

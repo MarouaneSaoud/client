@@ -7,13 +7,14 @@ import useDarkMode from "@/hooks/useDarkMode";
 import LogoWhite from "@/assets/images/logo/logo-white.svg";
 import Logo from "@/assets/images/logo/logo.svg";
 import bgImage from "@/assets/images/all-img/login-bg.png";
+import loginpic from "../../assets/images/all-img/loginpic.png";
 const LockScreen2 = () => {
   const [isDark] = useDarkMode();
   return (
     <div
       className="loginwrapper bg-cover bg-no-repeat bg-center"
       style={{
-        backgroundImage: `url(${bgImage})`,
+        backgroundImage: `url(${loginpic})`,
       }}
     >
       <div className="lg-inner-column">
