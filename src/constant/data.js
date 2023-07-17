@@ -74,7 +74,7 @@ export const AdminMenu = [
       },
     ],
   },
-  {
+  /*{
     isHeadr: true,
     title: "References",
     isOpen: true,
@@ -87,7 +87,7 @@ export const AdminMenu = [
         childlink:"add-reference",
       },
     ],
-  },
+  },*/
   {
     isHeadr: true,
     title: "Users",

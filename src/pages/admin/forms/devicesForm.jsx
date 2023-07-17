@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import Textinput from "@/components/ui/Textinput";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Select from "react-select";
 import Card from "../../../components/ui/Card";
+import Button from "@/components/ui/Button.jsx";
+import ReferenceForm from "@/pages/admin/forms/referenceForm.jsx";
 
 const FormValidationSchema = yup
     .object({
@@ -25,7 +27,7 @@ const styles = {
     }),
 };
 
-const ValidationTypes = () => {
+const devicesForm = () => {
     const {
         register,
         formState: { errors },
@@ -38,9 +40,10 @@ const ValidationTypes = () => {
         console.log(data);
     };
 
-
-
+    const [showMyModal,setShowMyModal]=useState(false)
+    const handleOnClose =()=>setShowMyModal(false)
     return (
+        <>
         <Card title="Add Devices">
             <div>
                 <form
@@ -63,22 +66,37 @@ const ValidationTypes = () => {
                         error={errors.imei}
                         register={register}
                     />
-                    <div>
-                        <label htmlFor=" hh2" className="form-label ">
-                            Reference
-                        </label>
-                        <Select
-                            className="react-select"
-                            classNamePrefix="select"
-                            defaultValue={ref[0]}
-                            styles={styles}
-                            name="clear"
-                            options={ref}
-                            isClearable
-                            id="hh2"
-                            register={register}
-                        />
+
+                    <div class="grid grid-cols-5">
+                        <div class="col-span-4">
+                            <label htmlFor=" hh2" className="form-label ">
+                                Reference
+                            </label>
+                            <Select
+                                className="react-select"
+                                classNamePrefix="select"
+                                defaultValue={ref[0]}
+                                styles={styles}
+                                name="clear"
+                                options={ref}
+                                isClearable
+                                id="hh2"
+                                register={register}
+                            />
+                        </div>
+                        <div class="col-span-1">
+                            <div className="top-2.5 m-7 ">
+                            <Button
+                                onClick={()=> setShowMyModal(true)}
+                                icon="heroicons-outline:plus"
+                                className="btn btn-dark  rounded-[999px] bg-black-900"
+                            /></div>
+                        </div>
+
                     </div>
+
+
+
                     <Textinput
                         label="Description"
                         type="text"
@@ -94,9 +112,14 @@ const ValidationTypes = () => {
                         </div>
                     </div>
                 </form>
+
             </div>
         </Card>
+
+            <ReferenceForm onClose={handleOnClose} visible={showMyModal}/>
+
+        </>
     );
 };
 
-export default ValidationTypes;
+export default devicesForm;
