@@ -11,6 +11,7 @@ import { handleLogin } from "./store";
 import { toast } from "react-toastify";
 import AuthService from "../../../services/auth.services";
 import getRole from "@/services/auth/auth.role.js";
+import ReCAPTCHA from "react-google-recaptcha";
 const schema = yup
 
     .object({
@@ -135,13 +136,13 @@ const LoginForm = () => {
                     Forgot Password?{" "}
                 </Link>
             </div>
-            {/*<div className="grid place-items-center">
+            <div className="grid place-items-center">
                 <ReCAPTCHA
                     sitekey="6LeOUfAmAAAAABGafdJd2exB5sjKIqh_cZGMB3Mr"
                     onChange={onChange}
                 />
-            </div>*/}
-            <button className="btn btn-dark block w-full text-center" >Sign in</button>
+            </div>
+            <button className="btn btn-dark block w-full text-center" disabled={!verified}>Sign in</button>
         </form>
     </>
     );
