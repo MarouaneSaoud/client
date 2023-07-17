@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Textinput from "@/components/ui/Textinput";
-import InputGroup from "@/components/ui/InputGroup";
-import Textarea from "@/components/ui/Textarea";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
@@ -38,7 +36,7 @@ let stepSchema = yup.object().shape({
 
 let personalSchema = yup.object().shape({
     iccid: yup.string().required("iccid is required"),
-    imsi: yup.string().required("imsi is required"),
+    imsi: yup.string().required("imi is required"),
 
 });
 let addressSchema = yup.object().shape({
@@ -97,8 +95,6 @@ const FormWizard = () => {
     };
     const ref = [
         { value: "ref", label: "ref" },
-
-
     ];
     const status = [
         { value: "online", label: "online" },
@@ -117,6 +113,12 @@ const FormWizard = () => {
         }),
     };
 
+    const navigate=useNavigate();
+    useEffect(()=>{
+        if(whoAuth.isCurrentUserManager()){
+            navigate("/403");
+        }
+    })
 
     return (
         <div>

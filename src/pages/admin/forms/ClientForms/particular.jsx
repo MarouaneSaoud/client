@@ -1,6 +1,6 @@
-import React , {useState} from "react";
+import React , {useState , useEffect} from "react";
 import Textinput from "@/components/ui/Textinput";
-import {useEffect, useForm} from "react-hook-form";
+import {useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Card from "@/components/ui/Card";
@@ -35,6 +35,13 @@ const particular = () => {
     const onSubmit = (data) => {
         console.log(data);
     };
+
+    const navigate=useNavigate();
+    useEffect(()=>{
+        if(whoAuth.isCurrentUserManager()){
+            navigate("/403");
+        }
+    })
 
     return (
         <div>
