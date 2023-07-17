@@ -204,12 +204,6 @@ const DevicesList = ({ title = "Devices" }) => {
                     <div>
                         <div class="grid grid-cols-2 gap-2">
                             <div className="flex items-center">
-                                <Button
-                                    icon="heroicons-outline:plus"
-                                    text="Ajouter"
-                                    className="btn-primary rounded-[999px] h-9 text-sm flex items-center  h-full justify-start"
-                                    iconPosition="right"
-                                />
                             </div>
                             <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
 
