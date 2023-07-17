@@ -193,8 +193,6 @@ const DevicesList = ({ title = "Devices" }) => {
     } = tableInstance;
 
     const { globalFilter, pageIndex, pageSize } = state;
-
-
     return (
         <>
             <Card>
