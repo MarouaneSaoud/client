@@ -1,15 +1,47 @@
-import React from "react";
+import React , {useState} from "react";
 import Textinput from "@/components/ui/Textinput.jsx";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import ReferenceService from "../../../services/reference.services";
+import {toast} from "react-toastify";
+
 
 export default function ReferenceForm({visible, onClose}){
+       const [name,setName]=useState({});
+       async function submitHandler(e) {
+        e.target.reset();
+        e.preventDefault();
+        const ref={name:name}
+        console.log(ref)
+        await ReferenceService.addReference(ref).then(response=>{
+            if (response.status === 200) {
+                handleClose
+            }
+        })
+            .catch(error=>{
+            if (error.response) {
+                toast.error("error", {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        })
+
+       }
+
     const handleClose=(e)=>{
         if(e.target.id==='container')
         onClose()
     }
     if(!visible)
         return null;
+
     return(
       <div onClick={handleClose}
            id="container"
@@ -18,21 +50,19 @@ export default function ReferenceForm({visible, onClose}){
 
               <Card
                   title="Add Reference">
-                  <form >
+                  <form onSubmit={submitHandler}>
                           <div
                               className="lg:grid-cols-3 md:grid-cols-2 grid-cols-1 grid gap-5 mb-5 last:mb-0"
-
                           >
                               <Textinput
+                                  onChange={(e)=>setName(e.target.value)}
                                   label="Name"
                                   type="text"
                                   placeholder="Name"
                               />
                           </div>
-
-
                       <div className="ltr:text-right rtl:text-left">
-                          <Button text="Submit" className="btn-dark" />
+                          <Button type="submit" text="Submit" className="btn-dark" />
                       </div>
                   </form>
               </Card>

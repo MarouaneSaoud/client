@@ -7,6 +7,7 @@ import Select from "react-select";
 import Card from "../../../components/ui/Card";
 import Button from "@/components/ui/Button.jsx";
 import ReferenceForm from "@/pages/admin/forms/referenceForm.jsx";
+import {ToastContainer} from "react-toastify";
 
 const FormValidationSchema = yup
     .object({
@@ -17,8 +18,6 @@ const FormValidationSchema = yup
     .required();
 const ref = [
     { value: "ref", label: "ref" },
-
-
 ];
 const styles = {
     option: (provided, state) => ({
@@ -44,6 +43,7 @@ const devicesForm = () => {
     const handleOnClose =()=>setShowMyModal(false)
     return (
         <>
+            <ToastContainer />
         <Card title="Add Devices">
             <div>
                 <form
