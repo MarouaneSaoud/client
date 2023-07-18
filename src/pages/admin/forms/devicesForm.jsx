@@ -7,7 +7,9 @@ import Select from "react-select";
 import Card from "../../../components/ui/Card";
 import Button from "@/components/ui/Button.jsx";
 import ReferenceForm from "@/pages/admin/forms/referenceForm.jsx";
-import {ToastContainer} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
+import ReferenceService from "../../../services/reference.services";
+import DeviceService from "../../../services/device.services";
 
 const FormValidationSchema = yup
     .object({
@@ -27,6 +29,8 @@ const styles = {
 };
 
 const devicesForm = () => {
+    const [values, setValues] = useState({ serialnumber: "", imei: "",reference:"", description: ""});
+
     const {
         register,
         formState: { errors },
@@ -34,7 +38,34 @@ const devicesForm = () => {
     } = useForm({
         resolver: yupResolver(FormValidationSchema),
     });
+    async function submitHandler(e) {
+        e.target.reset();
+        e.preventDefault();
+        const ref={name:name}
+        console.log(ref)
+        await DeviceService.addDevice(values).then(response=>{
+            if (response.status === 200) {
+                toast.success('Success', {
+                    position: toast.POSITION.TOP_LEFT
+                });
+            }
+        })
+            .catch(error=>{
+                if (error.response) {
+                    toast.error("error!", {
+                        position: "top-right",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+            })
 
+    }
     const onSubmit = (data) => {
         console.log(data);
     };
@@ -57,6 +88,12 @@ const devicesForm = () => {
                         name="serialnumber"
                         error={errors.serialnumber}
                         register={register}
+                        onChange={(e) =>
+                            setValues({
+                                ...values,
+                                [e.target.name]: e.target.value,
+                            })
+                        }
                     />
                     <Textinput
                         label="Imei"
@@ -65,6 +102,12 @@ const devicesForm = () => {
                         name="imei"
                         error={errors.imei}
                         register={register}
+                        onChange={(e) =>
+                            setValues({
+                                ...values,
+                                [e.target.name]: e.target.value,
+                            })
+                        }
                     />
 
                     <div class="grid grid-cols-5">
@@ -77,11 +120,17 @@ const devicesForm = () => {
                                 classNamePrefix="select"
                                 defaultValue={ref[0]}
                                 styles={styles}
-                                name="clear"
+                                name="reference"
                                 options={ref}
                                 isClearable
                                 id="hh2"
                                 register={register}
+                                onChange={(e) =>
+                                    setValues({
+                                        ...values,
+                                        [e.target.name]: e.target.value,
+                                    })
+                                }
                             />
                         </div>
                         <div class="col-span-1">
@@ -104,6 +153,12 @@ const devicesForm = () => {
                         name="description"
                         error={errors.description}
                         register={register}
+                        onChange={(e) =>
+                            setValues({
+                                ...values,
+                                [e.target.name]: e.target.value,
+                            })
+                        }
                     />
 
                     <div className="lg:col-span-2 col-span-1">
