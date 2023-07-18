@@ -8,6 +8,11 @@ import {toast} from "react-toastify";
 
 export default function ReferenceForm({visible, onClose}){
        const [name,setName]=useState({});
+
+    const handleClose=(e)=>{
+        if(e.target.id==='container')
+            onClose()
+    }
        async function submitHandler(e) {
         e.target.reset();
         e.preventDefault();
@@ -15,7 +20,7 @@ export default function ReferenceForm({visible, onClose}){
         console.log(ref)
         await ReferenceService.addReference(ref).then(response=>{
             if (response.status === 200) {
-                handleClose
+                onClose()
             }
         })
             .catch(error=>{
@@ -35,10 +40,6 @@ export default function ReferenceForm({visible, onClose}){
 
        }
 
-    const handleClose=(e)=>{
-        if(e.target.id==='container')
-        onClose()
-    }
     if(!visible)
         return null;
 
