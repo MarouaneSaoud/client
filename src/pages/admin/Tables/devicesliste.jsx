@@ -107,7 +107,6 @@ const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
         const defaultRef = React.useRef();
         const resolvedRef = ref || defaultRef;
-
         React.useEffect(() => {
             resolvedRef.current.indeterminate = indeterminate;
         }, [resolvedRef, indeterminate]);
@@ -124,16 +123,13 @@ const IndeterminateCheckbox = React.forwardRef(
         );
     }
 );
-
 const DevicesList = ({ title = "Devices" }) => {
     const [Device, setDevice] = useState([]);
     async function getDevices() {
         try {
             let result = await DeviceService.allDevice();
             setDevice(result.data);
-            console.log(Device)
         } catch (error) {
-            console.log(error);
         }
     }
     useEffect(()=>{

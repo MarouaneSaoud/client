@@ -14,7 +14,7 @@ import {testProp} from "leaflet/src/dom/DomUtil";
 
 const FormValidationSchema = yup
     .object({
-        serialnumber: yup.string().required(" User serial number is required"),
+        serialNumber: yup.string().required(" User serial number is required"),
         imei: yup.string().required("Emei is required"),
         description: yup.string().required("Description is required"),
     })
@@ -28,8 +28,7 @@ const styles = {
 };
 const devicesForm = () => {
 
-    const [ref,setref]= useState()
-    const [values, setValues] = useState({ serialnumber: "", imei: "",reference:"", description: ""});
+    const [values, setValues] = useState({ serialNumber: "", imei: "",reference: 0, description: ""});
 
     const {
         register,
@@ -42,9 +41,17 @@ const devicesForm = () => {
         e.target.reset();
         e.preventDefault();
         await DeviceService.addDevice(values).then(response=>{
+            console.log(values)
             if (response.status === 200) {
-                toast.success('Success', {
-                    position: toast.POSITION.TOP_LEFT
+                toast.success('Device Added', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
                 });
             }
         })
@@ -62,26 +69,25 @@ const devicesForm = () => {
                     });
                 }
             })
-
     }
 
     const onSubmit = (data) => {
         console.log(data);
     };
+
+    const [ref , setReference]= useState([])
+
     async function getReferences() {
-        await ReferenceService.allReference().then(response=>{
-            const data =response.data
-            const conv= data.map(item => ({ value: item.id, label: item.name}));
-            setref(conv)
+        await ReferenceService.allReference().then(response => {
+            const data = response.data
+            setReference(data.map(item => ({value: item.id, label: item.name})));
+        }).catch(error => {
 
         })
     }
     useEffect(() => {
         getReferences()
-        if (!showMyModal){
-            console.log("test")
-        }
-    },[])
+    })
 
     const [showMyModal,setShowMyModal]=useState(false)
     const handleOnClose =()=>setShowMyModal(false)
@@ -91,15 +97,15 @@ const devicesForm = () => {
         <Card title="Add Devices">
             <div>
                 <form
-                    onSubmit={handleSubmit(onSubmit)}
+                    onSubmit={submitHandler}
                     className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
                 >
                     <Textinput
                         label="Serial number"
                         type="number"
                         placeholder="Type your serial number "
-                        name="serialnumber"
-                        error={errors.serialnumber}
+                        name="serialNumber"
+                        error={errors.serialNumber}
                         register={register}
                         onChange={(e) =>
                             setValues({
@@ -132,16 +138,17 @@ const devicesForm = () => {
                                 className="react-select"
                                 classNamePrefix="select"
                                 styles={styles}
-                                name="reference"
                                 options={ref}
                                 isClearable
-                                id="hh2"
+                                id="reference"
                                 register={register}
-                                onChange={(e) =>
+                                onChange={(e) => {
                                     setValues({
                                         ...values,
-                                        [e.target.name]: e.target.value,
+                                        reference: e.value,
                                     })
+                                    console.log(values)
+                                }
                                 }
                             />
                         </div>
