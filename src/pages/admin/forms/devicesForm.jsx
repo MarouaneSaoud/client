@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Textinput from "@/components/ui/Textinput";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,6 +10,7 @@ import ReferenceForm from "@/pages/admin/forms/referenceForm.jsx";
 import {toast, ToastContainer} from "react-toastify";
 import ReferenceService from "../../../services/reference.services";
 import DeviceService from "../../../services/device.services";
+import {testProp} from "leaflet/src/dom/DomUtil";
 
 const FormValidationSchema = yup
     .object({
@@ -18,17 +19,16 @@ const FormValidationSchema = yup
         description: yup.string().required("Description is required"),
     })
     .required();
-const ref = [
-    { value: "ref", label: "ref" },
-];
+
 const styles = {
     option: (provided, state) => ({
         ...provided,
         fontSize: "14px",
     }),
 };
-
 const devicesForm = () => {
+
+    const [ref,setref]= useState()
     const [values, setValues] = useState({ serialnumber: "", imei: "",reference:"", description: ""});
 
     const {
@@ -41,8 +41,6 @@ const devicesForm = () => {
     async function submitHandler(e) {
         e.target.reset();
         e.preventDefault();
-        const ref={name:name}
-        console.log(ref)
         await DeviceService.addDevice(values).then(response=>{
             if (response.status === 200) {
                 toast.success('Success', {
@@ -66,9 +64,24 @@ const devicesForm = () => {
             })
 
     }
+
     const onSubmit = (data) => {
         console.log(data);
     };
+    async function getReferences() {
+        await ReferenceService.allReference().then(response=>{
+            const data =response.data
+            const conv= data.map(item => ({ value: item.id, label: item.name}));
+            setref(conv)
+
+        })
+    }
+    useEffect(() => {
+        getReferences()
+        if (!showMyModal){
+            console.log("test")
+        }
+    },[])
 
     const [showMyModal,setShowMyModal]=useState(false)
     const handleOnClose =()=>setShowMyModal(false)
@@ -118,7 +131,6 @@ const devicesForm = () => {
                             <Select
                                 className="react-select"
                                 classNamePrefix="select"
-                                defaultValue={ref[0]}
                                 styles={styles}
                                 name="reference"
                                 options={ref}
