@@ -1,4 +1,4 @@
-import React, { useState, useMemo , useEffect } from "react";
+import React, { useState, useMemo , useEffect  } from "react";
 
 import Card from "../../../components/ui/Card";
 import Icon from "../../../components/ui/Icon";
@@ -124,6 +124,7 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 const DevicesList = ({ title = "Devices" }) => {
+
     const [Device, setDevice] = useState([]);
     async function getDevices() {
         try {
@@ -168,6 +169,7 @@ const DevicesList = ({ title = "Devices" }) => {
                 ...columns,
             ]);
         }
+
     );
     const {
         getTableProps,
@@ -186,7 +188,14 @@ const DevicesList = ({ title = "Devices" }) => {
         setPageSize,
         setGlobalFilter,
         prepareRow,
+        selectedFlatRows,
+
     } = tableInstance;
+    const selectedRows = selectedFlatRows.map((row) => row.original);
+
+    useEffect(() => {
+        console.log("Selected Rows:", selectedRows);
+    }, [selectedFlatRows]);
 
     const { globalFilter, pageIndex, pageSize } = state;
     return (

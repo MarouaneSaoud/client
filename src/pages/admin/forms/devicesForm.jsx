@@ -14,7 +14,7 @@ import {testProp} from "leaflet/src/dom/DomUtil";
 
 const FormValidationSchema = yup
     .object({
-        serialNumber: yup.string().required(" User serial number is required"),
+        serialNum: yup.string().required(" User serial number is required"),
         imei: yup.string().required("Emei is required"),
         description: yup.string().required("Description is required"),
     })
@@ -28,7 +28,7 @@ const styles = {
 };
 const devicesForm = () => {
 
-    const [values, setValues] = useState({ serialNumber: "", imei: "",reference: 0, description: ""});
+    const [values, setValues] = useState({ serialNum: 0, imei: 0,reference: 0, description: ""});
 
     const {
         register,
@@ -70,11 +70,6 @@ const devicesForm = () => {
                 }
             })
     }
-
-    const onSubmit = (data) => {
-        console.log(data);
-    };
-
     const [ref , setReference]= useState([])
 
     async function getReferences() {
@@ -87,7 +82,7 @@ const devicesForm = () => {
     }
     useEffect(() => {
         getReferences()
-    })
+    },[])
 
     const [showMyModal,setShowMyModal]=useState(false)
     const handleOnClose =()=>setShowMyModal(false)
@@ -104,8 +99,8 @@ const devicesForm = () => {
                         label="Serial number"
                         type="number"
                         placeholder="Type your serial number "
-                        name="serialNumber"
-                        error={errors.serialNumber}
+                        name="serialNum"
+                        error={errors.serialNum}
                         register={register}
                         onChange={(e) =>
                             setValues({
