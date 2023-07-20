@@ -1,5 +1,5 @@
 import React, { useState, useMemo , useEffect  } from "react";
-
+import Papa from "papaparse"
 import Card from "../../../components/ui/Card";
 import Icon from "../../../components/ui/Icon";
 import Tooltip from "../../../components/ui/Tooltip";
@@ -193,6 +193,58 @@ const DevicesList = ({ title = "Devices" }) => {
     } = tableInstance;
     const selectedRows = selectedFlatRows.map((row) => row.original);
 
+
+    const handleExport = () => {
+
+        // Convertir les données en une chaîne CSV en utilisant papaparse
+
+        const csvString = Papa.unparse(selectedRows, {
+
+            quotes: true, // Encadrer les valeurs entre guillemets
+
+            delimiter: ',', // Utiliser la virgule comme séparateur
+
+            header: true, // Inclure une ligne d'en-tête avec les noms de colonnes
+
+        });
+
+
+
+        // Créer un fichier blob à partir de la chaîne CSV
+
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+
+
+
+        // Créer un objet URL pour le fichier blob
+
+        const url = URL.createObjectURL(blob);
+
+
+
+        // Créer un lien pour le téléchargement
+
+        const link = document.createElement('a');
+
+        link.setAttribute('href', url);
+
+        link.setAttribute('download', 'devices_selectionnes.csv');
+
+        document.body.appendChild(link);
+
+
+
+        // Déclencher le téléchargement
+
+        link.click();
+
+
+
+        // Nettoyer l'objet URL
+
+        URL.revokeObjectURL(url);
+
+    };
     useEffect(() => {
         console.log("Selected Rows:", selectedRows);
     }, [selectedFlatRows]);
@@ -207,11 +259,17 @@ const DevicesList = ({ title = "Devices" }) => {
                     <div>
                         <div class="grid grid-cols-2 gap-2">
                             <div className="flex items-center">
+                                <Button
+                                    icon="heroicons-outline:newspaper"
+                                    text="Export"
+                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-98"
+                                    onClick={handleExport }
+                                />
                             </div>
+
                             <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
 
                         </div>
-
 
                     </div>
                 </div>

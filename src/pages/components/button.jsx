@@ -135,9 +135,9 @@ const button = () => {
       <Card title="Icon Rounded">
         <div className="space-xy-5">
           <Button
-            icon="heroicons-outline:newspaper"
-            text="Left Icon"
-            className="btn-primary  rounded-[999px]"
+              icon="heroicons-outline:newspaper"
+              text="Left Icon"
+              className="btn-primary  rounded-[999px]"
           />
           <Button
             icon="heroicons-outline:newspaper"
