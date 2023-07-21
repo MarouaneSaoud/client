@@ -33,7 +33,7 @@ const DropZone = () => {
               </p>
             ) : (
               <p className="text-sm text-slate-500 dark:text-slate-300 f">
-                Drop files here or click to upload.
+                Drop files here or click to import devices.
               </p>
             )}
           </div>

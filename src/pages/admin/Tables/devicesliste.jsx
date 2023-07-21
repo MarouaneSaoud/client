@@ -197,9 +197,7 @@ const DevicesList = ({ title = "Devices" }) => {
     const handleExport = () => {
 
         // Convertir les données en une chaîne CSV en utilisant papaparse
-
         const csvString = Papa.unparse(selectedRows, {
-
             quotes: true, // Encadrer les valeurs entre guillemets
 
             delimiter: ',', // Utiliser la virgule comme séparateur
@@ -207,41 +205,25 @@ const DevicesList = ({ title = "Devices" }) => {
             header: true, // Inclure une ligne d'en-tête avec les noms de colonnes
 
         });
-
-
-
         // Créer un fichier blob à partir de la chaîne CSV
 
         const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-
-
-
         // Créer un objet URL pour le fichier blob
 
         const url = URL.createObjectURL(blob);
-
-
-
         // Créer un lien pour le téléchargement
 
         const link = document.createElement('a');
 
         link.setAttribute('href', url);
 
-        link.setAttribute('download', 'devices_selectionnes.csv');
+        link.setAttribute('download', 'devices.csv');
 
         document.body.appendChild(link);
 
-
-
         // Déclencher le téléchargement
-
         link.click();
-
-
-
         // Nettoyer l'objet URL
-
         URL.revokeObjectURL(url);
 
     };

@@ -10,7 +10,9 @@ import ReferenceForm from "@/pages/admin/forms/referenceForm.jsx";
 import {toast, ToastContainer} from "react-toastify";
 import ReferenceService from "../../../services/reference.services";
 import DeviceService from "../../../services/device.services";
-import {testProp} from "leaflet/src/dom/DomUtil";
+import Papa from "papaparse";
+import Fileinput from "@/components/ui/Fileinput.jsx"; // You may need to install this library: npm install papaparse
+
 
 const FormValidationSchema = yup
     .object({
@@ -27,8 +29,139 @@ const styles = {
     }),
 };
 const devicesForm = () => {
-
     const [values, setValues] = useState({ serialNum: 0, imei: 0,reference: 0, description: ""});
+
+    // load reference from database
+    const [ref , setReference]= useState([])
+
+    async function getReferences() {
+        await ReferenceService.allReference().then(response => {
+            const data = response.data
+            setReference(data.map(item => ({value: item.id, label: item.name})));
+        }).catch(error => {
+
+        })
+    }
+    useEffect(() => {
+        getReferences()
+    },[])
+    // Upload Device from csv
+    const [selectedFile, setSelectedFile] = useState(null);
+    const handleFileUpload = (e) => {
+        const file = e.target.files[0];
+
+        // Check if the selected file is a CSV file
+        if (file.name.endsWith(".csv")) {
+
+        setSelectedFile(file);
+        let totalDevices = 0;
+        let successCounter = 0;
+        const failedDevices = [];
+
+        Papa.parse(file, {
+            complete: async (result) => {
+                const devicesFromCSV = result.data; // Skip the header row if present
+                // Assuming the CSV columns are in the order: serialNum, imei, reference, description
+                totalDevices = devicesFromCSV.length;
+
+                for (const device of devicesFromCSV) {
+
+                    // Show error message or toast for invalid file format
+                    const referenceName = device.reference.replace(/^"|"$/g, ''); // Supprimer les guillemets doubles
+                    const reference = ref.find((r) => r.label === referenceName);
+
+                    const formattedDevice = {
+                        serialNum: device.serialNum,
+                        imei: device.imei,
+                        reference:reference.value,
+                        description: device.description,
+                    };
+
+                    await DeviceService.addDevice(formattedDevice).then(response=>{
+                        console.log("Device added successfully!", response.data);
+                        successCounter++;
+
+                    })
+                        .catch(error=>{
+                            console.error("Error adding device:", error);
+                            failedDevices.push(formattedDevice);
+
+                    })
+                }
+                if (successCounter === totalDevices) {
+                    console.log("All data recorded successfully!");
+                    // Show success toast or do any other UI update
+                    toast.success('All devices have been added', {
+                        position: toast.POSITION.TOP_RIGHT,
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                } else {
+                  /*  console.log(
+                        `${successCounter} devices recorded successfully, ${
+                            totalDevices - successCounter
+                        } devices failed to record.`
+                    );
+                    console.log("Failed devices:", failedDevices);*/
+                    toast.warning("Some devices have not been added!", {
+                        position: "top-right",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                    // Show warning or error toast for partial success or do any other UI update
+                    const csvString = Papa.unparse(failedDevices, {
+                        quotes: true, // Encadrer les valeurs entre guillemets
+                        delimiter: ',', // Utiliser la virgule comme séparateur
+                        header: true, // Inclure une ligne d'en-tête avec les noms de colonnes
+                    });
+                    // Créer un fichier blob à partir de la chaîne CSV
+                    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+                    // Créer un objet URL pour le fichier blob
+                    const url = URL.createObjectURL(blob);
+                    // Créer un lien pour le téléchargement
+                    const link = document.createElement('a');
+                    link.setAttribute('href', url);
+                    link.setAttribute('download', 'failed_upload_devices.csv');
+
+                    document.body.appendChild(link);
+                    // Déclencher le téléchargement
+                    link.click();
+                    // Nettoyer l'objet URL
+                    URL.revokeObjectURL(url);
+                }
+            },
+            header: true, // Set to true if the CSV file has a header row
+            skipEmptyLines: true,
+        });
+
+        }else{
+            toast.error("Please choose csv file!", {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+
+        }
+    };
+
+
+
+    // save device from form
 
     const {
         register,
@@ -41,7 +174,6 @@ const devicesForm = () => {
         e.target.reset();
         e.preventDefault();
         await DeviceService.addDevice(values).then(response=>{
-            console.log(values)
             if (response.status === 200) {
                 toast.success('Device Added', {
                     position: toast.POSITION.TOP_RIGHT,
@@ -70,19 +202,7 @@ const devicesForm = () => {
                 }
             })
     }
-    const [ref , setReference]= useState([])
 
-    async function getReferences() {
-        await ReferenceService.allReference().then(response => {
-            const data = response.data
-            setReference(data.map(item => ({value: item.id, label: item.name})));
-        }).catch(error => {
-
-        })
-    }
-    useEffect(() => {
-        getReferences()
-    },[])
 
     const [showMyModal,setShowMyModal]=useState(false)
     const handleOnClose =()=>setShowMyModal(false)
@@ -90,7 +210,16 @@ const devicesForm = () => {
         <>
             <ToastContainer />
         <Card title="Add Devices">
+            <h4>Upload Devices automatically</h4>
+            <div className="my-8">
+                <Fileinput
+                    selectedFile={selectedFile}
+                    name="basic"
+                    onChange={ handleFileUpload}
+                />
+            </div>
             <div>
+                <h4>Upload Devices manually</h4>
                 <form
                     onSubmit={submitHandler}
                     className="lg:grid-cols-2 grid gap-5 grid-cols-1 "

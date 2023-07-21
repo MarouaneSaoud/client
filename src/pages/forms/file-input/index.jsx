@@ -33,6 +33,7 @@ const FileinputPage = () => {
           name="basic"
           selectedFile={selectedFile}
           onChange={handleFileChange}
+
         />
       </Card>
       <Card title="Multiple Files">
