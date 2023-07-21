@@ -96,6 +96,11 @@ const COLUMNS = [
                             <Icon icon="heroicons:eye" />
                         </button>
                     </Tooltip>
+                    <Tooltip content="View" placement="top" arrow animation="shift-away">
+                        <button className="action-btn" type="button">
+                            <Icon icon="heroicons:trash" />
+                        </button>
+                    </Tooltip>
 
                 </div>
             );
