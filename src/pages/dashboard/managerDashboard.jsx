@@ -7,7 +7,7 @@ import SelectMonth from "@/components/partials/SelectMonth";
 import RecentOrderTable from "../../components/partials/Table/recentOrder-table";
 import HomeBredCurbs from "./HomeBredCurbs";
 import RadialsChart from "@/components/partials/widget/chart/radials";
-import whoAuth from "../../services/auth/ath.who";
+import whoAuth from "../../services/auth/auth.who.js";
 import {useNavigate} from "react-router-dom";
 
 const Ecommerce = () => {

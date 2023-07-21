@@ -6,7 +6,7 @@ import * as yup from "yup";
 import Card from "@/components/ui/Card";
 import ReactFlagsSelect from "react-flags-select";
 import {useNavigate} from "react-router-dom";
-import whoAuth from "../../../../services/auth/ath.who";
+import whoAuth from "../../../../services/auth/auth.who.js";
 
 const FormValidationSchema = yup
     .object({

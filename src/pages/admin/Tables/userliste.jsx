@@ -12,7 +12,7 @@ import {
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import {useNavigate} from "react-router-dom";
-import whoAuth from "../../../services/auth/ath.who";
+import whoAuth from "../../../services/auth/auth.who.js";
 
 const COLUMNS = [
     {
