@@ -6,7 +6,7 @@ import SimpleBar from "simplebar-react";
 import useSidebar from "@/hooks/useSidebar";
 import useSemiDark from "@/hooks/useSemiDark";
 import useSkin from "@/hooks/useSkin";
-import whoAuth from "@/services/auth/ath.who.js";
+import whoAuth from "@/services/auth/auth.who.js";
 
 const Sidebar = () => {
   const scrollableNodeRef = useRef();

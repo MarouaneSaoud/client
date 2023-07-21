@@ -7,7 +7,7 @@ import Card from "@/components/ui/Card";
 import Select from "react-select";
 import InputGroup from "@/components/ui/InputGroup";
 import {useNavigate} from "react-router-dom";
-import whoAuth from "../../../services/auth/ath.who";
+import whoAuth from "../../../services/auth/auth.who.js";
 const FormValidationSchema = yup
     .object({
         username: yup.string().required("The First name is required"),

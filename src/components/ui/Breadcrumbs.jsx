@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, NavLink } from "react-router-dom";
 import { AdminMenu , ManagerMenu } from "@/constant/data";
 import Icon from "@/components/ui/Icon";
-import whoAuth from "@/services/auth/ath.who.js";
+import whoAuth from "@/services/auth/auth.who.js";
 
 const Breadcrumbs = () => {
 
