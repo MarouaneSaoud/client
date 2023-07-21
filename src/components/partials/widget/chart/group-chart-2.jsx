@@ -1,8 +1,8 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Chart from "react-apexcharts";
-
+import DeviceService from "../../../../services/device.services";
 const shapeLine1 = {
   series: [
     {
@@ -205,58 +205,74 @@ const shapeLine3 = {
   },
 };
 
-const statistics = [
-  {
-    name: shapeLine1,
-    title: "Devices sold",
-    count: "3,564",
-    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
-    text: "text-info-500",
-    icon: "heroicons:arrow-trending-up-solid",
-  },
-  {
-    name: shapeLine2,
-    title: "Tasks",
-    count: "564",
-    bg: "bg-[#FFEDE6] dark:bg-slate-900	",
-    text: "text-warning-500",
-    icon: "heroicons:arrow-trending-up-solid",
-  },
-  {
-    name: shapeLine3,
-    title: "Group of devices",
-    count: "+5.0%",
-    bg: "bg-[#EAE6FF] dark:bg-slate-900	",
-    text: "text-[#5743BE]",
-    icon: "heroicons:arrow-trending-up-solid",
-  },
-  {
-    name: shapeLine3,
-    title: "Files",
-    count: "+5.0%",
-    bg: "bg-[#EAE6FF] dark:bg-slate-900	",
-    text: "text-[#5743BE]",
-    icon: "heroicons:arrow-trending-up-solid",
-  },
-  {
-    name: shapeLine1,
-    title: "Users",
-    count: "3,564",
-    bg: "bg-[#E5F9FF] dark:bg-slate-900	",
-    text: "text-info-500",
-    icon: "heroicons:arrow-trending-up-solid",
-  },
-  {
-    name: shapeLine2,
-    title: "Child Company",
-    count: "564",
-    bg: "bg-[#FFEDE6] dark:bg-slate-900	",
-    text: "text-warning-500",
-    icon: "heroicons:arrow-trending-up-solid",
-  },
-];
+
 
 const GroupChart2 = () => {
+  const [deviceCount, setDeviceCount] = useState( 0);
+  const statistics = [
+    {
+      name: shapeLine1,
+      title: "Devices",
+      count: deviceCount,
+      bg: "bg-[#E5F9FF] dark:bg-slate-900	",
+      text: "text-info-500",
+      icon: "heroicons:arrow-trending-up-solid",
+    },
+    {
+      name: shapeLine2,
+      title: "Tasks",
+      count: "564",
+      bg: "bg-[#FFEDE6] dark:bg-slate-900	",
+      text: "text-warning-500",
+      icon: "heroicons:arrow-trending-up-solid",
+    },
+    {
+      name: shapeLine3,
+      title: "Group of devices",
+      count: "+5.0%",
+      bg: "bg-[#EAE6FF] dark:bg-slate-900	",
+      text: "text-[#5743BE]",
+      icon: "heroicons:arrow-trending-up-solid",
+    },
+    {
+      name: shapeLine3,
+      title: "Files",
+      count: "+5.0%",
+      bg: "bg-[#EAE6FF] dark:bg-slate-900	",
+      text: "text-[#5743BE]",
+      icon: "heroicons:arrow-trending-up-solid",
+    },
+    {
+      name: shapeLine1,
+      title: "Users",
+      count: "3,564",
+      bg: "bg-[#E5F9FF] dark:bg-slate-900	",
+      text: "text-info-500",
+      icon: "heroicons:arrow-trending-up-solid",
+    },
+    {
+      name: shapeLine2,
+      title: "Child Company",
+      count: "564",
+      bg: "bg-[#FFEDE6] dark:bg-slate-900	",
+      text: "text-warning-500",
+      icon: "heroicons:arrow-trending-up-solid",
+    },
+  ];
+
+  const DeviceCounter = () => {
+
+  }
+  async function getDevicesCount() {
+    try {
+      let result = await DeviceService.countDevices();
+      setDeviceCount(result.data);
+    } catch (error) {
+    }
+  }
+    useEffect(() => {
+      getDevicesCount()
+    }, []);
   return (
     <>
       {" "}

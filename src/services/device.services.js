@@ -7,5 +7,8 @@ async function allDevice() {
 async function addDevice(values) {
     return await http.post("/device/add",values,{headers});
 }
-const DeviceService = {allDevice,addDevice};
+async function countDevices(values) {
+    return await http.get("/device/count",{headers});
+}
+const DeviceService = {allDevice,addDevice,countDevices};
 export default DeviceService;
