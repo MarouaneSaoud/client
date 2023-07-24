@@ -34,9 +34,9 @@ const ImageBlock2 = () => {
       <div>
         <h4 className="text-xl font-medium text-white mb-2">
           <span className="block font-normal">Good evening,</span>
-          <span className="block">Mr. {name}</span>
+          <span className="block">{name}</span>
         </h4>
-        <p className="text-sm text-white font-normal">Welcome to Dashcode</p>
+        <p className="text-sm text-white font-normal">Welcome to Numotronic</p>
       </div>
     </div>
   );
