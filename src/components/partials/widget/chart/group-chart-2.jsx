@@ -268,6 +268,7 @@ const GroupChart2 = () => {
       let result = await DeviceService.countDevices();
       setDeviceCount(result.data);
     } catch (error) {
+      console.log(error)
     }
   }
     useEffect(() => {
