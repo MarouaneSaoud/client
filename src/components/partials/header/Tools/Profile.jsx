@@ -5,17 +5,22 @@ import { Menu, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogout } from "@/pages/auth/common/store";
-
+import isAdmin from "../../../../services/auth/auth.role";
 import UserAvatar from "@/assets/images/all-img/user.png";
 
+
+
+
 const profileLabel = () => {
+  const userRole = isAdmin();
   return (
     <div className="flex items-center">
       <div className="flex-none text-slate-600 dark:text-white text-sm font-normal items-center lg:flex hidden overflow-hidden text-ellipsis whitespace-nowrap">
         <span className="overflow-hidden text-ellipsis whitespace-nowrap w-[85px] block">
-
+          {userRole}
         </span>
         <span className="text-base inline-block ltr:ml-[10px] rtl:mr-[10px]">
+
           <Icon icon="heroicons-outline:chevron-down"></Icon>
         </span>
       </div>
@@ -26,6 +31,7 @@ const profileLabel = () => {
 const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
 
   const ProfileMenu = [
 

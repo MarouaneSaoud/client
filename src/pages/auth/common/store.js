@@ -80,6 +80,8 @@ export const authSlice = createSlice({
       });
     },
     handleLogout: (state, action) => {
+        localStorage.removeItem('accessToken');
+
       state.isAuth = action.payload;
       // remove isAuth from local storage
       window.localStorage.removeItem("isAuth");
