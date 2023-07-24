@@ -11,9 +11,7 @@ import {toast, ToastContainer} from "react-toastify";
 import ReferenceService from "../../../services/reference.services";
 import DeviceService from "../../../services/device.services";
 import Papa from "papaparse";
-import Fileinput from "@/components/ui/Fileinput.jsx"; // You may need to install this library: npm install papaparse
-
-
+import Fileinput from "@/components/ui/Fileinput.jsx"; g
 const FormValidationSchema = yup
     .object({
         serialNum: yup.string().required(" User serial number is required"),
