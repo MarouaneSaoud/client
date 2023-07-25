@@ -7,6 +7,10 @@ import Card from "@/components/ui/Card";
 import ReactFlagsSelect from "react-flags-select";
 import {useNavigate} from "react-router-dom";
 import whoAuth from "../../../../services/auth/auth.who.js";
+import DropZone from "@/pages/forms/file-input/DropZone.jsx";
+
+
+
 
 const FormValidationSchema = yup
     .object({
@@ -87,9 +91,9 @@ const particular = () => {
                         />
                         <Textinput
                             label="Postal code"
-                            type="text"
+                            type="number"
                             placeholder="Postal code"
-                            name="adress"
+                            name="postalCode"
                             register={register}
                             error={errors.postalCode}
                         />
@@ -102,17 +106,6 @@ const particular = () => {
                             register={register}
                             error={errors.email}
                         />
-                        <div >
-                            <label className="block capitalize form-label  ">
-                                Country
-                            </label>
-
-                            <ReactFlagsSelect
-                                selectedSize={14}
-                                selected={selected}
-                                onSelect={(code) => console.log(setSelected(code))}
-                            />
-                        </div>
 
                         <div className="lg:col-span-2 col-span-1">
                             <div className="ltr:text-right rtl:text-left">

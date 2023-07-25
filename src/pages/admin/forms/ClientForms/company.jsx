@@ -97,7 +97,7 @@ const userForm = () => {
                         />
                         <Textinput
                             label="Postal code"
-                            type="text"
+                            type="number"
                             placeholder="Postal code"
                             name="adress"
                             register={register}
@@ -168,23 +168,23 @@ const userForm = () => {
                             placeholder="CNSS"
                             name="cnss"
                             register={register}
+                        />      <div className="xl:col-span-1 col-span-1">
+                        <label className="block capitalize form-label  ">
+                            Country
+                        </label>
+
+                        <ReactFlagsSelect
+                            selectedSize={14}
+                            selected={selected}
+                            onSelect={(code) => console.log(setSelected(code))}
                         />
-                        <div >
 
+                    </div>
+                        <div className="xl:col-span-2 col-span-1">
+                            <Card title="logo">
+                                <DropZone />
+                            </Card>
                         </div>
-                        <div className="xl:col-span-1 col-span-1">
-                            <label className="block capitalize form-label  ">
-                                Country
-                            </label>
-
-                            <ReactFlagsSelect
-                                selectedSize={14}
-                                selected={selected}
-                                onSelect={(code) => console.log(setSelected(code))}
-                            />
-                        </div>
-
-
                         <div className="lg:col-span-2 col-span-1">
                             <div className="ltr:text-right rtl:text-left">
                                 <button className="btn btn-dark  text-center">Submit</button>
