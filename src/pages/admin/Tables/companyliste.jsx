@@ -4,6 +4,7 @@ import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Tooltip from "@/components/ui/Tooltip";
 import CompanyService from "../../../services/company.services";
+import { useNavigate } from "react-router-dom";
 import {
     useTable,
     useRowSelect,
@@ -12,72 +13,6 @@ import {
     usePagination,
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
-
-const COLUMNS = [
-    {
-        Header: "Id",
-        accessor: "id",
-        Cell: (row) => {
-            return <span>#{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "Name",
-        accessor: "name",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "Alternative Name",
-        accessor: "altname",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-
-
-    {
-        Header: "Email",
-        accessor: "email",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "Country",
-        accessor: "country",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "action",
-        accessor: "action",
-        Cell: (row) => {
-            return (
-                <div className="flex space-x-3 rtl:space-x-reverse">
-                    <Tooltip content="View" placement="top" arrow animation="shift-away">
-                        <button className="action-btn" type="button">
-                            <Icon icon="heroicons:eye" />
-                        </button>
-                    </Tooltip>
-                    <Tooltip
-                        content="Delete"
-                        placement="top"
-                        arrow
-                        animation="shift-away"
-                        theme="danger"
-                    >
-                        <button className="action-btn" type="button">
-                            <Icon icon="heroicons:trash" />
-                        </button>
-                    </Tooltip>
-                </div>
-            );
-        },
-    },
-];
 
 
 const IndeterminateCheckbox = React.forwardRef(
@@ -88,6 +23,7 @@ const IndeterminateCheckbox = React.forwardRef(
         React.useEffect(() => {
             resolvedRef.current.indeterminate = indeterminate;
         }, [resolvedRef, indeterminate]);
+
 
         return (
             <>
@@ -103,6 +39,84 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 const ExampleTwo = ({ title = "Companies" }) => {
+
+
+        const navigate = useNavigate();
+
+    const handleViewCompany = (row) => {
+        const companyId = row?.original?.id;
+        navigate(`/view-company/${companyId}`);
+        };
+
+    const COLUMNS = [
+        {
+            Header: "Id",
+            accessor: "id",
+            Cell: (row) => {
+                return <span>#{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "Name",
+            accessor: "name",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "Alternative Name",
+            accessor: "altname",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+
+
+        {
+            Header: "Email",
+            accessor: "email",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "Country",
+            accessor: "country",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "action",
+            accessor: "action",
+            Cell: (row) => {
+                return (
+                    <div className="flex space-x-3 rtl:space-x-reverse">
+                        <Tooltip content="View" placement="top" arrow animation="shift-away">
+                            <button className="action-btn"
+                                    onClick={() =>handleViewCompany(row)} // Passer l'ID de l'entreprise à la fonction handleViewCompany
+                                    type="button" >
+                                <Icon icon="heroicons:eye" />
+                            </button>
+                        </Tooltip>
+                        <Tooltip
+                            content="Delete"
+                            placement="top"
+                            arrow
+                            animation="shift-away"
+                            theme="danger"
+                        >
+                            <button className="action-btn" type="button">
+                                <Icon icon="heroicons:trash" />
+                            </button>
+                        </Tooltip>
+                    </div>
+                );
+            },
+        },
+    ];
+
+
     const [Company, setCompany] = useState([]);
         async function getCompany() {
             try {
