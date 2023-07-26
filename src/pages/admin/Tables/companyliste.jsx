@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from "react";
-import { AdvancedTable } from "../../../constant/table-data";
+import React, {useState, useMemo, useEffect} from "react";
+import { CompanyTable } from "../../../constant/table-data";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Tooltip from "@/components/ui/Tooltip";
+import CompanyService from "../../../services/company.services";
 import {
     useTable,
     useRowSelect,
@@ -17,31 +18,37 @@ const COLUMNS = [
         Header: "Id",
         accessor: "id",
         Cell: (row) => {
+            return <span>#{row?.cell?.value}</span>;
+        },
+    },
+    {
+        Header: "Name",
+        accessor: "name",
+        Cell: (row) => {
+            return <span>{row?.cell?.value}</span>;
+        },
+    },
+    {
+        Header: "Alternative Name",
+        accessor: "altname",
+        Cell: (row) => {
             return <span>{row?.cell?.value}</span>;
         },
     },
 
-    {
-        Header: "name",
-        accessor: "customer",
-        Cell: (row) => {
-            return (
-                <div>
-          <span className="inline-flex items-center">
 
-            <span className="text-sm text-slate-600 dark:text-slate-300 capitalize">
-              {row?.cell?.value.name}
-            </span>
-          </span>
-                </div>
-            );
+    {
+        Header: "Email",
+        accessor: "email",
+        Cell: (row) => {
+            return <span>{row?.cell?.value}</span>;
         },
     },
     {
-        Header: "Email",
-        accessor: "order",
+        Header: "Country",
+        accessor: "country",
         Cell: (row) => {
-            return <span>#{row?.cell?.value}</span>;
+            return <span>{row?.cell?.value}</span>;
         },
     },
     {
@@ -53,11 +60,6 @@ const COLUMNS = [
                     <Tooltip content="View" placement="top" arrow animation="shift-away">
                         <button className="action-btn" type="button">
                             <Icon icon="heroicons:eye" />
-                        </button>
-                    </Tooltip>
-                    <Tooltip content="Edit" placement="top" arrow animation="shift-away">
-                        <button className="action-btn" type="button">
-                            <Icon icon="heroicons:pencil-square" />
                         </button>
                     </Tooltip>
                     <Tooltip
@@ -76,6 +78,7 @@ const COLUMNS = [
         },
     },
 ];
+
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -100,8 +103,21 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 const ExampleTwo = ({ title = "Companies" }) => {
-    const columns = useMemo(() => COLUMNS, []);
-        const data = useMemo(() => AdvancedTable, []);
+    const [Company, setCompany] = useState([]);
+        async function getCompany() {
+            try {
+                let result = await CompanyService.allCompany();
+                setCompany(result.data);
+                console.log(result.data)
+            } catch (error) {
+            }
+        }
+        useEffect(()=>{
+            getCompany();
+        },[])
+
+        const columns = useMemo(() => COLUMNS, []);
+        const data = Company ;
 
     const tableInstance = useTable(
         {

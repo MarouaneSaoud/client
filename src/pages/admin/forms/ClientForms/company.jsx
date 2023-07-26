@@ -7,26 +7,17 @@ import Card from "@/components/ui/Card";
 import Select from "react-select";
 import DropZone from "@/pages/forms/file-input/DropZone.jsx";
 import ReactFlagsSelect from "react-flags-select";
+import CompanyService from "../../../../services/company.services";
+import {toast} from "react-toastify";
+import {countryNames , departement} from "@/constant/data";
 const FormValidationSchema = yup
     .object({
         name: yup.string().required("The name is required"),
-        altName: yup.string().required("Alternative name is required"),
+        altname: yup.string().required("Alternative name is required"),
         address: yup.string().required("Adress is required"),
         email: yup.string().email("Email is not valid").required("Email is required"),
 
     })
-const role = [
-    { value: "Director", label: "Director" },
-    { value: "restricted user", label: "restricted user" },
-
-
-];
-const company = [
-    { value: "numotronic", label: "numotronic" },
-
-
-
-];
 const styles = {
     option: (provided, state) => ({
         ...provided,
@@ -34,9 +25,9 @@ const styles = {
     }),
 };
 
-
-
 const userForm = () => {
+    const [selected, setSelected] = useState('');
+
     const {
         register,
         formState: { errors },
@@ -44,22 +35,57 @@ const userForm = () => {
     } = useForm({
         resolver: yupResolver(FormValidationSchema),
     });
-    const [selected, setSelected] = useState("");
 
-    const onSubmit = (data) => {
-        console.log(data);
+
+    const [values, setValues] = useState({ name: 0, altname: 0,cin: 0, address: "",postalcode:0,departement:"",email:"",website:"",skype:"",idrc:0,idif:0,patent:0,cnss:0,country:"" ,logo:null});
+    const handleCountrySelect = (code) => {
+        setSelected(code);
+        setValues({
+            ...values,
+            country: countryNames[code],
+        });
     };
-    const dep = [
-        { value: "ref", label: "ref" },
+    async function submitHandler(e) {
+        e.target.reset();
+        e.preventDefault();
+        console.log(values)
+        await CompanyService.addCompany(values).then(response=>{
+            if (response.status === 200) {
+                toast.success('Company Added', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        })
+            .catch(error=>{
+                if (error.response) {
+                    toast.error("error!", {
+                        position: "top-right",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+            })
+    }
 
-    ];
 
     return (
         <div className="xl:col-span-2 col-span-1">
             <Card title="Validation Types">
                 <div>
                     <form
-                        onSubmit={handleSubmit(onSubmit)}
+                        onSubmit={submitHandler}
                         className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
                     >
                         <Textinput
@@ -69,14 +95,26 @@ const userForm = () => {
                             name="name"
                             register={register}
                             error={errors.name}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <Textinput
                             label="Alternative name"
                             type="text"
                             placeholder="Alternative name"
-                            name="altName"
+                            name="altname"
                             register={register}
-                            error={errors.altName}
+                            error={errors.altname}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <Textinput
                             label="National Identity Card"
@@ -85,23 +123,40 @@ const userForm = () => {
                             name="cin"
                             register={register}
                             error={errors.cin}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
 
                         <Textinput
                             label="Address"
                             type="text"
                             placeholder="Address"
-                            name="adress"
+                            name="address"
                             register={register}
                             error={errors.address}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <Textinput
                             label="Postal code"
                             type="number"
                             placeholder="Postal code"
-                            name="adress"
+                            name="postalcode"
                             register={register}
-                            error={errors.postalCode}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <div>
                             <label htmlFor=" hh2" className="form-label ">
@@ -110,13 +165,19 @@ const userForm = () => {
                             <Select
                                 className="react-select"
                                 classNamePrefix="select"
-                                defaultValue={dep[0]}
+                                defaultValue={departement[0]}
                                 styles={styles}
                                 name="clear"
-                                options={dep}
+                                options={departement}
                                 isClearable
-                                id="hh2"
+                                id="departement"
                                 register={register}
+                                onChange={(e) => {
+                                    setValues({
+                                        ...values,
+                                        departement: e.value,
+                                    })
+                                }}
                             />
                         </div>
                         <Textinput
@@ -126,6 +187,12 @@ const userForm = () => {
                             name="email"
                             register={register}
                             error={errors.email}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <Textinput
                             label="Website"
@@ -133,6 +200,12 @@ const userForm = () => {
                             placeholder="Website"
                             name="website"
                             register={register}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <Textinput
                             label="Skype"
@@ -140,20 +213,38 @@ const userForm = () => {
                             placeholder="Skype"
                             name="skype"
                             register={register}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <Textinput
                             label="Id prof (R.C)"
                             type="number"
                             placeholder="Id prof (R.C)"
-                            name="rc"
+                            name="idrc"
                             register={register}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <Textinput
                             label="Id prof (I.F)"
                             type="number"
                             placeholder="Id prof (I.F)"
-                            name="if"
+                            name="idif"
                             register={register}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <Textinput
                             label="Id prof (patent)"
@@ -161,6 +252,12 @@ const userForm = () => {
                             placeholder="Id prof (patent)"
                             name="patent"
                             register={register}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
                         />
                         <Textinput
                             label="CNSS"
@@ -168,23 +265,27 @@ const userForm = () => {
                             placeholder="CNSS"
                             name="cnss"
                             register={register}
-                        />      <div className="xl:col-span-1 col-span-1">
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
+                        />
+                        <div className="xl:col-span-1 col-span-1">
                         <label className="block capitalize form-label  ">
                             Country
                         </label>
+                            <ReactFlagsSelect
+                                countries={Object.keys(countryNames)}
+                                customLabels={countryNames}
+                                selectedSize={14}
+                                selected={selected}
+                                onSelect={handleCountrySelect}
 
-                        <ReactFlagsSelect
-                            selectedSize={14}
-                            selected={selected}
-                            onSelect={(code) => console.log(setSelected(code))}
-                        />
+                            />
 
                     </div>
-                        <div className="xl:col-span-2 col-span-1">
-                            <Card title="logo">
-                                <DropZone />
-                            </Card>
-                        </div>
                         <div className="lg:col-span-2 col-span-1">
                             <div className="ltr:text-right rtl:text-left">
                                 <button className="btn btn-dark  text-center">Submit</button>
