@@ -96,7 +96,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
                             <button className="action-btn"
                                     onClick={() =>handleViewCompany(row)} // Passer l'ID de l'entreprise à la fonction handleViewCompany
                                     type="button" >
-                                <Icon icon="heroicons:eye" />
+                                <Icon icon="heroicons:eye"/>
                             </button>
                         </Tooltip>
                         <Tooltip
