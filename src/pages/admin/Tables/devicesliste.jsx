@@ -218,9 +218,6 @@ const DevicesList = ({ title = "Devices" }) => {
         // Nettoyer l'objet URL
         URL.revokeObjectURL(url);
     };
-    useEffect(() => {
-        console.log("Selected Rows:", selectedRows);
-    }, [selectedFlatRows]);
     const { globalFilter, pageIndex, pageSize } = state;
     return (
         <>

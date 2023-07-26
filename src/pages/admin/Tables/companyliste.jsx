@@ -39,20 +39,19 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 const ExampleTwo = ({ title = "Companies" }) => {
-
-
-        const navigate = useNavigate();
-
+    const navigate = useNavigate();
     const handleViewCompany = (row) => {
-        const companyId = row?.original?.id;
+        const companyId = row.cell.row.original.id; // Assuming the ID field in the company object is named "id"
+        // Navigate to the details page with the company ID
         navigate(`/view-company/${companyId}`);
-        };
+    };
 
     const COLUMNS = [
         {
             Header: "Id",
             accessor: "id",
             Cell: (row) => {
+
                 return <span>#{row?.cell?.value}</span>;
             },
         },
@@ -94,7 +93,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
                     <div className="flex space-x-3 rtl:space-x-reverse">
                         <Tooltip content="View" placement="top" arrow animation="shift-away">
                             <button className="action-btn"
-                                    onClick={() =>handleViewCompany(row)} // Passer l'ID de l'entreprise à la fonction handleViewCompany
+                                    onClick={() => handleViewCompany(row)}
                                     type="button" >
                                 <Icon icon="heroicons:eye" />
                             </button>
@@ -122,7 +121,6 @@ const ExampleTwo = ({ title = "Companies" }) => {
             try {
                 let result = await CompanyService.allCompany();
                 setCompany(result.data);
-                console.log(result.data)
             } catch (error) {
             }
         }
