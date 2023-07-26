@@ -28,6 +28,7 @@
     "axios": "^1.4.0",
     "chart.js": "^4.2.0",
     "cleave.js": "^1.6.0",
+    "countries-list": "^2.6.1",
     "d3-array": "^3.2.2",
     "dayjs": "^1.11.7",
     "framer-motion": "^10.12.12",

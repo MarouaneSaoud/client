@@ -8,11 +8,17 @@ const isAdmin = () => {
         const decodedToken = jwt_decode(token);
         const { roles } = decodedToken;
 
+        if (roles && Array.isArray(roles) && roles.includes('SUPER_ADMIN')) {
+            return 'SUPER_ADMIN';
+        }
         if (roles && Array.isArray(roles) && roles.includes('ADMIN')) {
             return 'ADMIN';
         }
-        if (roles && Array.isArray(roles) && roles.includes('USER')) {
-            return 'USER';
+        if (roles && Array.isArray(roles) && roles.includes('MANAGER')) {
+            return 'MANAGER';
+        }
+        if (roles && Array.isArray(roles) && roles.includes('CLIENT_FINAL')) {
+            return 'CLIENT_FINAL';
         }
         else {
             return false;

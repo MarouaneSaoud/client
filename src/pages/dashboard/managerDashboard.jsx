@@ -14,8 +14,8 @@ const Ecommerce = () => {
   const [filterMap, setFilterMap] = useState("usa");
   const navigate=useNavigate();
   useEffect(()=>{
-    if(whoAuth.isCurrentUserAdmin()){
-      navigate("/403");
+    if(whoAuth.isCurrentUserManager()){
+      console.log("test")
     }
   })
   return (

@@ -558,8 +558,8 @@ export const tableData = [
   },
 ];
 
+export const CompanyTable = [
 
-export const AdvancedTable = [
 
 ];
 export const DeviceTable = [

@@ -47,10 +47,10 @@ const LoginForm = () => {
                 const token = response.headers.get('access-Token');
                 localStorage.setItem('accessToken', token);
                 const role=getRole();
-                if (role==='ADMIN') {
+                if (role==='ADMIN'|| 'SUPER_ADMIN') {
                     navigate("/dashboard")
                     dispatch(handleLogin(true));
-                } else if (role==='USER')
+                } else if (role==='MANAGER')
                 {
                     navigate("/manager/dashboard")
                     dispatch(handleLogin(true));

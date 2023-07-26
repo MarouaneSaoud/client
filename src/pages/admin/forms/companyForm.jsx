@@ -9,7 +9,6 @@ import { useForm, useFieldArray } from "react-hook-form";
 import Company from "@/pages/admin/forms/ClientForms/company.jsx";
 import Particular from "@/pages/admin/forms/ClientForms/particular.jsx";
 
-
 const faqmenus = [
     {
         title: "Company",
