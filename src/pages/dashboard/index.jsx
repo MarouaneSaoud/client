@@ -9,15 +9,29 @@ import HomeBredCurbs from "./HomeBredCurbs";
 import RadialsChart from "@/components/partials/widget/chart/radials";
 import whoAuth from "../../services/auth/auth.who.js";
 import {useNavigate} from "react-router-dom";
+import authTokenExpired from "@/services/auth/auth.token.expired.js";
 
 const Ecommerce = () => {
   const [filterMap, setFilterMap] = useState("usa");
   const navigate=useNavigate();
-  useEffect(()=>{
+
+  useEffect(() => {
     if(whoAuth.isCurrentUserManager()){
       navigate("/403");
     }
-  })
+    const storedToken = localStorage.getItem('accessToken');
+
+    if (storedToken) {
+      const isExpired = authTokenExpired;
+
+      if (isExpired) {
+        localStorage.removeItem('accessToken');
+        navigate("/login")
+      }
+    }else {
+      navigate("/login")
+    }
+  }, []);
   return (
       <div>
         <HomeBredCurbs title="Dashboard" />
