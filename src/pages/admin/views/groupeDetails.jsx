@@ -1,0 +1,58 @@
+import React from "react";
+import Card from "@/components/ui/Card";
+import { tableData } from "@/constant/table-data";
+
+const columns = [
+    {
+        label: "Age",
+        field: "age",
+    },
+    {
+        label: "First Name",
+        field: "first_name",
+    },
+
+    {
+        label: "Email",
+        field: "email",
+    },
+];
+// slice(0, 10) is used to limit the number of rows to 10
+const rows = tableData.slice(0, 7);
+const BasicTablePage = () => {
+    return (
+        <div className="grid xl:grid-cols-2 grid-cols-1 gap-5">
+            <Card title="basic table" noborder>
+                <div className="overflow-x-auto -mx-6">
+                    <div className="inline-block min-w-full align-middle">
+                        <div className="overflow-hidden ">
+                            <table className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
+                                <thead className=" border-t border-slate-100 dark:border-slate-800">
+                                <tr>
+                                    {columns.map((column, i) => (
+                                        <th key={i} scope="col" className=" table-th ">
+                                            {column.label}
+                                        </th>
+                                    ))}
+                                </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
+                                {rows.map((row, i) => (
+                                    <tr key={i}>
+                                        <td className="table-td">{row.age}</td>
+                                        <td className="table-td">{row.first_name}</td>
+                                        <td className="table-td ">{row.email}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+
+        </div>
+    );
+};
+
+export default BasicTablePage;

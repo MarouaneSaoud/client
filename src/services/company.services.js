@@ -5,8 +5,15 @@ const headers = getAuthHeaders();
 async function allCompany() {
     return await http.get("/company/",{headers});
 }
+async function companyById(id) {
+    return await http.get("/company/"+id,{headers});
+}
+async function companyClientById(id) {
+    return await http.get("/company/client"+id,{headers});
+}
+
 async function addCompany(values) {
     return await http.post("/company/save",values,{headers});
 }
-const CompanyService = {allCompany,addCompany};
+const CompanyService = {allCompany,addCompany,companyById,companyClientById};
 export default CompanyService;

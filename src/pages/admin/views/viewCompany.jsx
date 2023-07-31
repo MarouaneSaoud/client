@@ -3,6 +3,9 @@ import Accordion from "@/components/ui/Accordion";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import { Tab } from "@headlessui/react";
+import GroupeDetails from "./groupeDetails";
+import  CompanyDetails from "./companyDetails";
+import ClientDetails from "./clientDetails"
 
 const faqmenus = [
     {
@@ -16,31 +19,7 @@ const faqmenus = [
     },
 ];
 const items = [
-    {
-        title: "How does Dashcode work?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
-    {
-        title: "Where i can learn more about using Dashcode?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
-    {
-        title: "Why Dashcode is so important?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
-    {
-        title: "Where can i find Dashcode?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
-    {
-        title: "Why Dashcode is so important?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
+
 ];
 const items2 = [
     {
@@ -115,13 +94,15 @@ const FaqPage = () => {
                     <div className="xl:col-span-9 lg:col-span-8 col-span-12">
                         <Tab.Panels>
                             <Tab.Panel>
-                                <Accordion items={items} />
+                                <Card title="Details">
+                                    <CompanyDetails />
+                                </Card>
                             </Tab.Panel>
                             <Tab.Panel>
-                                <Accordion items={items2} />
+                                <GroupeDetails/>
                             </Tab.Panel>
                             <Tab.Panel>
-                                <Accordion items={items3} />
+                                <ClientDetails/>
                             </Tab.Panel>
                         </Tab.Panels>
                     </div>

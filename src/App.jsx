@@ -70,7 +70,7 @@ const  UsersForm = lazy(() => import("./pages/admin/forms/userForm.jsx"));
 const  Companyliste = lazy(() => import("./pages/admin/Tables/companyliste"));
 const  Devicesliste = lazy(() => import("./pages/admin/Tables/devicesliste"));
 const  Userliste = lazy(() => import("./pages/admin/Tables/userliste"));
-const ViewCompany=lazy(() =>import ("./pages/admin/viewCompany"));
+const ViewCompany=lazy(() =>import ("./pages/admin/views/viewCompany"));
 //page numotronic
 const ManagerDashboard =lazy(()=> import("./pages/dashboard/managerDashboard"))
 

@@ -41,14 +41,13 @@ const IndeterminateCheckbox = React.forwardRef(
 const ExampleTwo = ({ title = "Companies" }) => {
     const navigate = useNavigate();
     const handleViewCompany = (row) => {
-        const companyId = row.cell.row.original.id; // Assuming the ID field in the company object is named "id"
-        // Navigate to the details page with the company ID
+        const companyId = row.cell.row.original.id;
         navigate(`/view-company/${companyId}`);
     };
 
     const COLUMNS = [
         {
-            Header: "Id",
+            Header: "Serial number",
             accessor: "id",
             Cell: (row) => {
 
@@ -78,13 +77,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
                 return <span>{row?.cell?.value}</span>;
             },
         },
-        {
-            Header: "Country",
-            accessor: "country",
-            Cell: (row) => {
-                return <span>{row?.cell?.value}</span>;
-            },
-        },
+
         {
             Header: "action",
             accessor: "action",
