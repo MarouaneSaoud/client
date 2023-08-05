@@ -1,0 +1,99 @@
+import React, { useEffect, useState } from "react";
+import Textinput from "@/components/ui/Textinput.jsx";
+import Card from "@/components/ui/Card";
+import Button from "@/components/ui/Button";
+import Select from "react-select";
+import CompanyServices from "@/services/company.services.js";
+import { department } from "@/constant/data.js";
+import DeviceService from "@/services/device.services.js";
+import { toast } from "react-toastify";
+
+export default function ReferenceForm({ visible, onClose, imei }) {
+    const [values, setValues] = useState({ imei: imei, company: "" });
+
+    const handleClose = (e) => {
+        if (e.target.id === "container") onClose();
+    };
+    const styles = {
+        option: (provided, state) => ({
+            ...provided,
+            fontSize: "14px",
+        }),
+    };
+    async function submitHandler(e) {
+        e.preventDefault();
+        await DeviceService.allocateDevice(values)
+            .then((response) => {
+                if (response.data) {
+                    onClose();
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    toast.error("error", {
+                        position: "top-right",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+            });
+    }
+    const [Company, setCompany] = useState([]);
+
+    async function getCompany() {
+        await CompanyServices.allCompany()
+            .then((response) => {
+                const data = response.data;
+                setCompany(data.map((item) => ({ value: item.id, label: item.name })));
+            })
+            .catch((error) => {});
+    }
+    useEffect(() => {
+        getCompany();
+    }, []);
+
+    useEffect(() => {
+        // Mettre à jour la valeur de 'imei' dans 'values' lorsque 'imei' change
+        setValues((prevValues) => ({ ...prevValues, imei: imei }));
+    }, [imei]);
+
+    if (!visible) return null;
+
+    return (
+        <div
+            onClick={handleClose}
+            id="container"
+            className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center items-center drop-shadow-2xl"
+        >
+            <Card title="Allocate">
+                <form onSubmit={submitHandler}>
+                    <div className="lg:grid-cols-3 md:grid-cols-2 grid-cols-1 grid gap-5 mb-5 last:mb-0">
+                        <Select
+                            className="react-select"
+                            classNamePrefix="select"
+                            styles={styles}
+                            options={Company}
+                            defaultValue={Company[0]}
+                            isClearable
+                            onChange={(e) => {
+                                setValues({
+                                    ...values,
+                                    company: e.value,
+                                });
+                                console.log(values);
+                            }}
+                        />
+                    </div>
+                    <div className="ltr:text-right rtl:text-left">
+                        <Button type="submit" text="Submit" className="btn-dark" />
+                    </div>
+                </form>
+            </Card>
+        </div>
+    );
+}

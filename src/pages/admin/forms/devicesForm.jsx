@@ -201,7 +201,11 @@ const devicesForm = () => {
 
 
     const [showMyModal,setShowMyModal]=useState(false)
-    const handleOnClose =()=>setShowMyModal(false)
+    const handleOnClose =()=>{setShowMyModal(false)
+        getReferences()
+
+    }
+
     return (
         <>
             <ToastContainer />

@@ -10,5 +10,11 @@ async function addDevice(values) {
 async function countDevices(values) {
     return await http.get("/device/count",{headers});
 }
-const DeviceService = {allDevice,addDevice,countDevices};
+async function decommission(imei) {
+    return await http.get("/device/decommissionDevice/"+imei,{headers});
+}
+async function allocateDevice(values) {
+    return await http.post("/device/allocateDevice",values,{headers});
+}
+const DeviceService = {allDevice,addDevice,countDevices,decommission,allocateDevice};
 export default DeviceService;

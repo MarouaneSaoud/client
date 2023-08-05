@@ -13,125 +13,11 @@ import {
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import DeviceService from "../../../services/device.services";
+import ReferenceForm from "@/pages/admin/forms/referenceForm.jsx";
+import CompanyAllocate from "./companyAllocate.jsx"
 
 
-const COLUMNS = [
-    {
-        Header: "Id",
-        accessor: "id",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "IMEI",
-        accessor: "imei",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "status",
-        accessor: "statusDevice",
-        Cell: (row) => {
-            return (
-                <span className="block w-full">
-          <span
-              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-                  row?.cell?.value === "ONLINE"
-                      ? "text-success-500 bg-success-500"
-                      : ""
-              } 
-            ${
-                  row?.cell?.value === "OFFLINE"
-                      ? "text-warning-500 bg-warning-500"
-                      : ""
-              }
-            ${
-                  row?.cell?.value === "INACTIF"
-                      ? "text-danger-500 bg-danger-500"
-                      : ""
-              }
-            
-             `}
-          >
-            {row?.cell?.value}
-          </span>
-        </span>
-            );
-        },
-    },
 
-    {
-        Header: "Firmware",
-        accessor: "firmware",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "Configuration",
-        accessor: "configuration",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "Company",
-        accessor: "company",
-        Cell: (row) => {
-            return (
-                <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
-            {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated"}
-          </span>
-            );
-        },
-    },
-
-    {
-        Header: "Last Seen",
-        accessor: "time",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-
-    {
-        Header: "action",
-        accessor: "action",
-        Cell: (row) => {
-            const companyValue = row?.cell?.row?.original?.company;
-
-
-            return (
-                <div className="flex space-x-3 rtl:space-x-reverse">
-                    <Tooltip content="View" placement="top" arrow animation="shift-away">
-                        <button className="action-btn text-orange-600" type="button">
-                            <Icon icon="heroicons:eye" />
-                        </button>
-                    </Tooltip>
-                    {companyValue!==null && (
-                        <Tooltip content="Decommission" placement="top" arrow animation="shift-away">
-                            <button className="action-btn text-red-600" type="button">
-                                <Icon icon="heroicons:no-symbol" />
-                            </button>
-                        </Tooltip>
-
-                    )}
-                   {companyValue===null && (
-
-                        <Tooltip content="allocate" placement="top" arrow animation="shift-away">
-                            <button className="action-btn text-green-600" type="button">
-                                <Icon icon="heroicons:arrow-left-on-rectangle" />
-                            </button>
-                        </Tooltip>
-                    )}
-                </div>
-            );
-        },
-    },
-
-];
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -154,6 +40,139 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 const DevicesList = ({ title = "Devices" }) => {
+    const [showMyModal,setShowMyModal]=useState(false)
+    const handleOnClose =()=>{
+                                    setShowMyModal(false)
+                                    getDevices()
+    }
+    const [selectedImei, setSelectedImei] = useState(null);
+
+    const handleOpenReferenceForm = (imei) => {
+        setSelectedImei(imei);
+        setShowMyModal(true )
+    };
+
+
+
+    const COLUMNS = [
+        {
+            Header: "Id",
+            accessor: "id",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "IMEI",
+            accessor: "imei",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "status",
+            accessor: "statusDevice",
+            Cell: (row) => {
+                return (
+                    <span className="block w-full">
+          <span
+              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
+                  row?.cell?.value === "ONLINE"
+                      ? "text-success-500 bg-success-500"
+                      : ""
+              } 
+            ${
+                  row?.cell?.value === "OFFLINE"
+                      ? "text-warning-500 bg-warning-500"
+                      : ""
+              }
+            ${
+                  row?.cell?.value === "INACTIF"
+                      ? "text-danger-500 bg-danger-500"
+                      : ""
+              }
+            
+             `}
+          >
+            {row?.cell?.value}
+          </span>
+        </span>
+                );
+            },
+        },
+
+        {
+            Header: "Firmware",
+            accessor: "firmware",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "Configuration",
+            accessor: "configuration",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "Company",
+            accessor: "company",
+            Cell: (row) => {
+                return (
+                    <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
+            {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated"}
+          </span>
+                );
+            },
+        },
+
+        {
+            Header: "Last Seen",
+            accessor: "time",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+
+        {
+            Header: "action",
+            accessor: "action",
+            Cell: (row) => {
+                const companyValue = row?.cell?.row?.original?.company;
+                const imeiValue = row?.cell?.row?.original?.imei;
+
+
+
+                return (
+                    <div className="flex space-x-3 rtl:space-x-reverse">
+                        {companyValue!==null && (
+                            <Tooltip content="Decommission" placement="top" arrow animation="shift-away">
+                                <button className="action-btn text-red-600" type="button" onClick={()=> {
+                                    decommission(
+                                        imeiValue
+                                    )
+                                }}>
+                                    <Icon icon="heroicons:no-symbol" />
+                                </button>
+                            </Tooltip>
+
+                        )}
+                        {companyValue===null && (
+
+                            <Tooltip content="allocate" placement="top" arrow animation="shift-away">
+                                <button className="action-btn text-green-600" type="button"
+                                        onClick={()=>handleOpenReferenceForm(imeiValue)}>
+                                    <Icon icon="heroicons:arrow-left-on-rectangle" />
+                                </button>
+                            </Tooltip>
+                        )}
+                    </div>
+                );
+            },
+        },
+
+    ];
 
     const [Device, setDevice] = useState([]);
     async function getDevices() {
@@ -163,12 +182,20 @@ const DevicesList = ({ title = "Devices" }) => {
         } catch (error) {
         }
     }
+    async function decommission(imei) {
+        try {
+            await DeviceService.decommission(imei);
+            getDevices()
+        } catch (error) {
+        }
+    }
     useEffect(()=>{
         getDevices();
     },[])
 
     const columns = useMemo(() => COLUMNS, []);
     const data = Device ;
+
 
     const tableInstance = useTable(
         {
@@ -407,6 +434,7 @@ const DevicesList = ({ title = "Devices" }) => {
                 </div>
                 {/*end*/}
             </Card>
+            <CompanyAllocate onClose={handleOnClose} visible={showMyModal} imei={selectedImei}  />
         </>
     );
 };
