@@ -18,38 +18,8 @@ const faqmenus = [
         title: "Clients",
     },
 ];
-const items = [
 
-];
-const items2 = [
-    {
-        title: "How does Dashcode work?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
-    {
-        title: "Where i can learn more about using Dashcode?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
-];
-const items3 = [
-    {
-        title: "How does Dashcode work?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
-    {
-        title: "Where i can learn more about using Dashcode?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
-    {
-        title: "Where can i find Dashcode?",
-        content:
-            "Jornalists call this critical, introductory section the  and when bridge properly executed, it's the that carries your reader from anheadine try at attention-grabbing to the body of your blog post.",
-    },
-];
+
 
 const FaqPage = () => {
     return (
@@ -99,10 +69,14 @@ const FaqPage = () => {
                                 </Card>
                             </Tab.Panel>
                             <Tab.Panel>
-                                <GroupeDetails/>
+                                <Card title="Details">
+                                    <GroupeDetails/>
+                                </Card>
                             </Tab.Panel>
                             <Tab.Panel>
-                                <ClientDetails/>
+                                <Card title="Details">
+                                    <ClientDetails/>
+                                </Card>
                             </Tab.Panel>
                         </Tab.Panels>
                     </div>

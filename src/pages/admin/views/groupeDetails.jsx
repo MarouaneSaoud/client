@@ -1,57 +1,94 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Card from "@/components/ui/Card";
 import { tableData } from "@/constant/table-data";
+import {useParams} from "react-router-dom";
+import CompanyService from "../../../services/company.services";
 
 const columns = [
     {
-        label: "Age",
-        field: "age",
+        label: "id",
     },
     {
-        label: "First Name",
-        field: "first_name",
+        label: "name",
+    },
+    {
+        label: "Created",
     },
 
-    {
-        label: "Email",
-        field: "email",
-    },
 ];
-// slice(0, 10) is used to limit the number of rows to 10
-const rows = tableData.slice(0, 7);
-const BasicTablePage = () => {
-    return (
-        <div className="grid xl:grid-cols-2 grid-cols-1 gap-5">
-            <Card title="basic table" noborder>
-                <div className="overflow-x-auto -mx-6">
-                    <div className="inline-block min-w-full align-middle">
-                        <div className="overflow-hidden ">
-                            <table className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
-                                <thead className=" border-t border-slate-100 dark:border-slate-800">
-                                <tr>
-                                    {columns.map((column, i) => (
-                                        <th key={i} scope="col" className=" table-th ">
-                                            {column.label}
-                                        </th>
-                                    ))}
-                                </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-                                {rows.map((row, i) => (
-                                    <tr key={i}>
-                                        <td className="table-td">{row.age}</td>
-                                        <td className="table-td">{row.first_name}</td>
-                                        <td className="table-td ">{row.email}</td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </Card>
 
+const BasicTablePage = () => {
+    const { id } = useParams();
+    const [group, setGroup] = useState([]);
+    const [loading, setLoading] = useState(true);
+    // Date Format
+    function formatNumberWithTwoDigits(number) {
+        return number.toString().padStart(2, '0');
+    }
+    function formatDate(dateString) {
+        const dateObject = new Date(dateString);
+        const year = dateObject.getFullYear();
+        const month = formatNumberWithTwoDigits(dateObject.getMonth() + 1);
+        const day = formatNumberWithTwoDigits(dateObject.getDate());
+        const hours = formatNumberWithTwoDigits(dateObject.getHours());
+        const minutes = formatNumberWithTwoDigits(dateObject.getMinutes());
+        const seconds = formatNumberWithTwoDigits(dateObject.getSeconds());
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
+    //Get Company Data
+    async function getCompanyDeviceGroupById() {
+        try {
+            const result = await CompanyService.companyDeviceGroupById(id);
+            setGroup(result.data);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
+    }
+    useEffect(() => {
+        getCompanyDeviceGroupById();
+    }, [id]);
+
+
+    return (
+        <div className="overflow-x-auto -mx-6">
+            <div className="inline-block min-w-full align-middle">
+                <div className="overflow-hidden ">
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : group ? (
+                        <table className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
+                            <thead className=" border-t border-slate-100 dark:border-slate-800">
+                            <tr>
+                                {columns.map((column, i) => (
+                                    <th key={i} scope="col" className=" table-th ">
+                                        {column.label}
+                                    </th>
+                                ))}
+                            </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
+                            {group.map((row, i) => (
+                                <tr key={i}>
+                                    <td className="table-td">{row.id}</td>
+                                    <td className="table-td">{row.name}</td>
+
+                                    <td className="table-td "> {formatDate(row.createdAt)}</td>
+
+                                </tr>
+                            ))}
+
+                            </tbody>
+                        </table>
+                    ) : (
+                        <div className="ml-6">The Company has no Customers</div>
+                    )}
+                </div>
+            </div>
         </div>
+
+
     );
 };
 

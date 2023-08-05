@@ -17,8 +17,8 @@ const isAdmin = () => {
         if (roles && Array.isArray(roles) && roles.includes('MANAGER')) {
             return 'MANAGER';
         }
-        if (roles && Array.isArray(roles) && roles.includes('CLIENT_FINAL')) {
-            return 'CLIENT_FINAL';
+        if (roles && Array.isArray(roles) && roles.includes('CLIENT')) {
+            return 'CLIENT';
         }
         else {
             return false;

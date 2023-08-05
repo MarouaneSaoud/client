@@ -28,6 +28,20 @@ const isCurrentUserManager = () => {
 
     return false;
 };
+const isCurrentUserClient = () => {
+    const token = localStorage.getItem('accessToken');
+
+    if (token) {
+        const decodedToken = jwt_decode(token);
+        const { sub, roles } = decodedToken;
+
+        if (roles && Array.isArray(roles) && roles.includes('CLIENT') ){
+            return true;
+        }
+    }
+
+    return false;
+};
 
 const whoAuth = {isCurrentUserAdmin,isCurrentUserManager};
 export default whoAuth;

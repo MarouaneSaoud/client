@@ -6,49 +6,71 @@ import CompanyService from "../../../services/company.services";
 
 const columns = [
     {
-        label: "Age",
-        field: "age",
+        label: "id",
     },
     {
-        label: "First Name",
-        field: "first_name",
+        label: "name",
     },
 
     {
-        label: "Email",
-        field: "email",
+        label: "cin",
+    },
+    {
+        label: "address",
+    },
+    {
+        label: "postalCode",
+    },
+    {
+        label: "created",
+    },
+    {
+        label: "email",
     },
 ];
-// slice(0, 10) is used to limit the number of rows to 10
-const rows = tableData.slice(0, 7);
+
 const BasicTablePage = () => {
     const { id } = useParams();
-    const [company, setCompany] = useState(null);
+    const [client, setClient] = useState([]);
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        async function getCompanyClientById() {
-            try {
-                const result = await CompanyService.companyClientById(id);
-                setCompany(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching company details:", error);
-                setLoading(false);
-            }
+    // Date Format
+    function formatNumberWithTwoDigits(number) {
+        return number.toString().padStart(2, '0');
+    }
+    function formatDate(dateString) {
+        const dateObject = new Date(dateString);
+        const year = dateObject.getFullYear();
+        const month = formatNumberWithTwoDigits(dateObject.getMonth() + 1);
+        const day = formatNumberWithTwoDigits(dateObject.getDate());
+        const hours = formatNumberWithTwoDigits(dateObject.getHours());
+        const minutes = formatNumberWithTwoDigits(dateObject.getMinutes());
+        const seconds = formatNumberWithTwoDigits(dateObject.getSeconds());
+
+        return `${year}-${month}-${day}`;
+    }
+    //Get Company Data
+    async function getCompanyClientById() {
+        try {
+            const result = await CompanyService.companyClientById(id);
+            setClient(result.data);
+            console.log(client)
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
         }
+    }
+    useEffect(() => {
         getCompanyClientById();
     }, [id]);
 
 
     return (
-        <div className="grid xl:grid-cols-2 grid-cols-1 gap-5">
-            <Card title="basic table" noborder>
                 <div className="overflow-x-auto -mx-6">
                     <div className="inline-block min-w-full align-middle">
                         <div className="overflow-hidden ">
                             {loading ? (
                                 <div>Loading...</div>
-                            ) : company ? (
+                            ) : client ? (
                             <table className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700">
                                 <thead className=" border-t border-slate-100 dark:border-slate-800">
                                 <tr>
@@ -60,12 +82,15 @@ const BasicTablePage = () => {
                                 </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-                                {company.map((row, i) => (
+                                {client.map((row, i) => (
                                     <tr key={i}>
-                                        <td className="table-td">{company.id}</td>
-                                        <td className="table-td">{company.name}</td>
-                                        <td className="table-td">{company.email}</td>
-                                        <td className="table-td ">{company.cin}</td>
+                                        <td className="table-td">{row.id}</td>
+                                        <td className="table-td">{row.name}</td>
+                                        <td className="table-td">{row.email}</td>
+                                        <td className="table-td ">{row.cin}</td>
+                                        <td className="table-td ">{row.postalCode}</td>
+                                        <td className="table-td "> {formatDate(row.createdAt)}</td>
+                                        <td className="table-td ">{row.cin}</td>
                                     </tr>
                                 ))}
 
@@ -77,9 +102,8 @@ const BasicTablePage = () => {
                                 </div>
                     </div>
                 </div>
-            </Card>
 
-        </div>
+
     );
 };
 

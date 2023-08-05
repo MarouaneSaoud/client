@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from "react";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
-import Chart from "react-apexcharts";
 import DeviceService from "../../../../services/device.services";
+import CompanyService from "@/services/company.services.js";
 const shapeLine1 = {
   series: [
     {
@@ -209,6 +209,7 @@ const shapeLine3 = {
 
 const GroupChart2 = () => {
   const [deviceCount, setDeviceCount] = useState( 0);
+  const [companyCount, setCompanyCount] = useState( 0);
   const statistics = [
     {
       name: shapeLine1,
@@ -253,7 +254,7 @@ const GroupChart2 = () => {
     {
       name: shapeLine2,
       title: "Child Company",
-      count: "564",
+      count: companyCount,
       bg: "bg-[#FFEDE6] dark:bg-slate-900	",
       text: "text-warning-500",
       icon: "heroicons:arrow-trending-up-solid",
@@ -271,8 +272,17 @@ const GroupChart2 = () => {
       console.log(error)
     }
   }
+  async function getCompaniesCount() {
+    try {
+      let result = await CompanyService.countCompany();
+      setCompanyCount(result.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
     useEffect(() => {
-      getDevicesCount()
+      getDevicesCount();
+      getCompaniesCount()
     }, []);
   return (
     <>

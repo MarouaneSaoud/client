@@ -64,10 +64,8 @@ const devicesForm = () => {
 
                 for (const device of devicesFromCSV) {
 
-                    // Show error message or toast for invalid file format
-                    const referenceName = device.reference.replace(/^"|"$/g, ''); // Supprimer les guillemets doubles
+                    const referenceName = device.reference.replace(/^"|"$/g, '');
                     const reference = ref.find((r) => r.label === referenceName);
-
                     const formattedDevice = {
                         serialNum: device.serialNum,
                         imei: device.imei,

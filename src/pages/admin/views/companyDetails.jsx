@@ -63,36 +63,44 @@ const companyDetails = () => {
                     <div>Loading...</div>
                 ) : company ? (
                     <ul className="relative ltr:pl-2 rtl:pr-2">
-                        <li>
-                        <div className="p-[10px] relative top-[-20px]" >
-                            <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                Departement
-                            </h2>
-                            <p className="text-xs capitalize dark:text-slate-400">
-                                {company.departement}
-                            </p>
-                        </div>
-                        </li>
-                        <li>
-                            <div className="p-[10px] relative top-[-20px]" >
-                                <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                    Address
-                                </h2>
-                                <p className="text-xs capitalize dark:text-slate-400">
-                                    {company.address}
-                                </p>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="p-[10px] relative top-[-20px]" >
-                                <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                    National Identity Card
-                                </h2>
-                                <p className="text-xs capitalize dark:text-slate-400">
-                                    {company.cin}
-                                </p>
-                            </div>
-                        </li>     <li>
+                        {company.departement ? (
+                            <li>
+                                <div className="p-[10px] relative top-[-20px]" >
+                                    <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
+                                        Departement
+                                    </h2>
+                                    <p className="text-xs capitalize dark:text-slate-400">
+                                        {}
+                                    </p>
+                                </div>
+                            </li>
+                        ) : null}
+                        {company.address ? (
+                            <li>
+                                <div className="p-[10px] relative top-[-20px]" >
+                                    <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
+                                        Address
+                                    </h2>
+                                    <p className="text-xs capitalize dark:text-slate-400">
+                                        {company.address}
+                                    </p>
+                                </div>
+                            </li>
+                        ) : null}
+                        {company.cin ? (
+                            <li>
+                                <div className="p-[10px] relative top-[-20px]" >
+                                    <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
+                                        National Identity Card
+                                    </h2>
+                                    <p className="text-xs capitalize dark:text-slate-400">
+                                        {company.cin}
+                                    </p>
+                                </div>
+                            </li>
+                        ) : null}
+                        {company.email ? (
+                           <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
                                     Email
@@ -101,7 +109,10 @@ const companyDetails = () => {
                                     {company.email}
                                 </p>
                             </div>
-                        </li>     <li>
+                        </li>
+                        ) : null}
+                        {company.website ? (
+                        <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
                                     website
@@ -111,6 +122,8 @@ const companyDetails = () => {
                                 </p>
                             </div>
                         </li>
+                        ) : null}
+                        {company.skype ? (
                         <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
@@ -121,6 +134,8 @@ const companyDetails = () => {
                                 </p>
                             </div>
                         </li>
+                        ) : null}
+                        {company.idrc ? (
                         <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
@@ -131,6 +146,8 @@ const companyDetails = () => {
                                 </p>
                             </div>
                         </li>
+                        ) : null}
+                        {company.idif ? (
                         <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
@@ -141,6 +158,8 @@ const companyDetails = () => {
                                 </p>
                             </div>
                         </li>
+                        ) : null}
+                        {company.patent ? (
                         <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
@@ -151,6 +170,8 @@ const companyDetails = () => {
                                 </p>
                             </div>
                         </li>
+                        ) : null}
+                        {company.cnss ? (
                         <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
@@ -161,6 +182,8 @@ const companyDetails = () => {
                                 </p>
                             </div>
                         </li>
+                        ) : null}
+                        {company.country ? (
                         <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
@@ -171,6 +194,7 @@ const companyDetails = () => {
                                 </p>
                             </div>
                         </li>
+                        ) : null}
 
                     </ul>
                 ) : (

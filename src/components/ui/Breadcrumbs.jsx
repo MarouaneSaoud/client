@@ -54,9 +54,16 @@ const Breadcrumbs = () => {
         <div className="md:mb-6 mb-4 flex space-x-3 rtl:space-x-reverse">
           <ul className="breadcrumbs">
             <li className="text-primary-500">
-              <NavLink to="/dashboard" className="text-lg">
-                <Icon icon="heroicons-outline:home" />
-              </NavLink>
+              {whoAuth.isCurrentUserAdmin() ? (
+                  <NavLink to="/dashboard" className="text-lg">
+                    <Icon icon="heroicons-outline:home" />
+                  </NavLink>
+              ) : null}
+              {whoAuth.isCurrentUserManager() ? (
+                  <NavLink to="/manager/dashboard" className="text-lg">
+                    <Icon icon="heroicons-outline:home" />
+                  </NavLink>
+              ) : null}
               <span className="breadcrumbs-icon rtl:transform rtl:rotate-180">
                 <Icon icon="heroicons:chevron-right" />
               </span>

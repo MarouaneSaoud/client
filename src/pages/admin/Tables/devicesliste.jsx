@@ -76,6 +76,17 @@ const COLUMNS = [
             return <span>{row?.cell?.value}</span>;
         },
     },
+    {
+        Header: "Company",
+        accessor: "company",
+        Cell: (row) => {
+            return (
+                <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
+            {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated"}
+          </span>
+            );
+        },
+    },
 
     {
         Header: "Last Seen",
@@ -89,23 +100,37 @@ const COLUMNS = [
         Header: "action",
         accessor: "action",
         Cell: (row) => {
+            const companyValue = row?.cell?.row?.original?.company;
+
+
             return (
                 <div className="flex space-x-3 rtl:space-x-reverse">
                     <Tooltip content="View" placement="top" arrow animation="shift-away">
-                        <button className="action-btn" type="button">
+                        <button className="action-btn text-orange-600" type="button">
                             <Icon icon="heroicons:eye" />
                         </button>
                     </Tooltip>
-                    <Tooltip content="Delete" placement="top" arrow animation="shift-away">
-                        <button className="action-btn" type="button">
-                            <Icon icon="heroicons:trash" />
-                        </button>
-                    </Tooltip>
+                    {companyValue!==null && (
+                        <Tooltip content="Decommission" placement="top" arrow animation="shift-away">
+                            <button className="action-btn text-red-600" type="button">
+                                <Icon icon="heroicons:no-symbol" />
+                            </button>
+                        </Tooltip>
 
+                    )}
+                   {companyValue===null && (
+
+                        <Tooltip content="allocate" placement="top" arrow animation="shift-away">
+                            <button className="action-btn text-green-600" type="button">
+                                <Icon icon="heroicons:arrow-left-on-rectangle" />
+                            </button>
+                        </Tooltip>
+                    )}
                 </div>
             );
         },
     },
+
 ];
 
 const IndeterminateCheckbox = React.forwardRef(

@@ -1,5 +1,4 @@
 import React, {useState, useMemo, useEffect} from "react";
-import { CompanyTable } from "../../../constant/table-data";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Tooltip from "@/components/ui/Tooltip";
@@ -51,7 +50,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
             accessor: "id",
             Cell: (row) => {
 
-                return <span>#{row?.cell?.value}</span>;
+                return <span>{row?.cell?.value}</span>;
             },
         },
         {
@@ -63,7 +62,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
         },
         {
             Header: "Alternative Name",
-            accessor: "altname",
+            accessor: "altName",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
             },
@@ -85,7 +84,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
                         <Tooltip content="View" placement="top" arrow animation="shift-away">
-                            <button className="action-btn"
+                            <button className="action-btn text-orange-600"
                                     onClick={() => handleViewCompany(row)}
                                     type="button" >
                                 <Icon icon="heroicons:eye"/>
