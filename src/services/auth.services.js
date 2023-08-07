@@ -19,6 +19,8 @@ async function addUserByRole(values) {
 async function allUsers() {
     return await http.get("/users/",{headers});
 }
+
+
 async function allUsersByrole() {
     return await http.get("/users/findAdminUsers",{headers});
 }
