@@ -1,4 +1,4 @@
-import React ,{useEffect}from "react";
+import React, {useEffect, useState} from "react";
 import Textinput from "@/components/ui/Textinput";
 import {useForm} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,41 +8,32 @@ import Select from "react-select";
 import InputGroup from "@/components/ui/InputGroup";
 import {useNavigate} from "react-router-dom";
 import whoAuth from "../../../services/auth/auth.who.js";
+import authTokenExpired from "@/services/auth/auth.token.expired.js";
+import DeviceService from "../../../services/device.services";
+import {toast} from "react-toastify";
+import AuthService from "../../../services/auth.services";
+
 const FormValidationSchema = yup
     .object({
-        username: yup.string().required("The First name is required"),
-        lastname: yup.string().required("The Last name is required"),
-        phone: yup
+        password: yup.string().required("Password is Required"),
+        email: yup.string().email("Invalid email").required("Email is Required"),
+        username: yup.string().required("Username is Required"),
+        confirmpassword: yup
             .string()
-            .required("Phone number is required")
-            .matches(/^[0-9]{9}$/, "Phone number is not valid"),
-        email: yup.string().email("Email is not valid").required("Email is required"),
-        password: yup
-            .string()
-            .required("Password is required")
-            .min(8, "Password must be at least 8 characters"),
+            .required()
+            .oneOf([yup.ref("password")]),
     })
-const role = [
-    { value: "SUPER_ADMIN", label: "SUPER_ADMIN" },
-    { value: "ADMIN", label: "ADMIN" },
+    .required();
 
-
-];
-const company = [
-    { value: "numotronic", label: "numotronic" },
-
-
-
-];
-const styles = {
-    option: (provided, state) => ({
-        ...provided,
-        fontSize: "14px",
-    }),
-};
-
-
-
+const MultiValidation = () => {
+    const {
+        register,
+        formState: {errors},
+        handleSubmit,
+    } = useForm({
+        resolver: yupResolver(FormValidationSchema),
+    });
+}
 const userForm = () => {
     const {
         register,
@@ -52,93 +43,162 @@ const userForm = () => {
         resolver: yupResolver(FormValidationSchema),
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
-    };
 
-    const navigate=useNavigate();
-    useEffect(()=>{
-        if(whoAuth.isCurrentUserManager()){
-            navigate("/403");
-        }
-    })
     useEffect(() => {
-        if(whoAuth.isCurrentUserManager()){
-            navigate("/403");
-        }
-        const storedToken = localStorage.getItem('accessToken');
+        const checkUserAndToken = () => {
 
-        if (storedToken) {
-            const isExpired = authTokenExpired;
-
-            if (isExpired) {
-                localStorage.removeItem('accessToken');
-                navigate("/login")
+            if (whoAuth.isCurrentUserManager()) {
+                navigate('/403');
             }
-        }else {
-            navigate("/login")
+
+            const storedToken = localStorage.getItem('accessToken');
+
+            if (storedToken) {
+
+                const isExpired = authTokenExpired;
+
+                if (isExpired) {
+                    localStorage.removeItem('accessToken');
+                    navigate('/login');
+                }
+            } else {
+                navigate('/login');
+            }
+        };
+
+        checkUserAndToken();
+
+        const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
+
+
+
+    const [values, setValues] = useState({ username: "", name: "",password: "", confirmedPassword: ""});
+    const [RoleUserForm ,setRoleUserForm] =useState({username:"",roleName:"ADMIN"})
+    async function submitHandler(e) {
+        e.target.reset();
+
+        try {
+            const response = await AuthService.addUser(values);
+
+            if (response.status === 200) {
+                setRoleUserForm(RoleUserForm, values.username); // Appel correct de la fonction
+                const roleUserResponse = await AuthService.addUserByRole(RoleUserForm);
+                if (roleUserResponse.status === 200) {
+                    console.log(RoleUserForm)
+                    toast.success('User Added', {
+                        position: toast.POSITION.TOP_RIGHT,
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                } else {
+                    toast.error("Error adding user!", {
+                        position: "top-right",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+            }
+        } catch (error) {
+            if (error.response) {
+                toast.error("An error occurred!", {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
         }
-    });
+
+    }
+
     return (
-        <div className="xl:col-span-2 col-span-1">
-            <Card title="Users Form">
-                <div>
-                    <form
-                        onSubmit={handleSubmit(onSubmit)}
-                        className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
-                    >
-                        <Textinput
-                            label="Name"
-                            type="text"
-                            placeholder="Type your Name"
-                            name="username"
-                            register={register}
-                            error={errors.username}
-                        />
-                        <Textinput
-                            label="Email"
-                            type="email"
-                            placeholder="Enter your email"
-                            name="email"
-                            register={register}
-                            error={errors.email}
-                        />
+        <Card title={"Users Form"}>
 
-                        <Textinput
-                            label="Password"
-                            type="password"
-                            placeholder="8+ characters, 1 Capital letter "
-                            name="password"
-                            register={register}
-                            error={errors.password}
-                        />
+        <div>
+            <form onSubmit={submitHandler}
+                className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
+            >
+                <Textinput
+                    name="name"
+                    label="username"
+                    type="text"
+                    register={register}
+                    error={errors.username}
+                    onChange={(e) =>
+                        setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                        })
+                    }
+                />
+                <Textinput
+                    name="username"
+                    label="email"
+                    type="email"
+                    register={register}
+                    error={errors.email}
+                    onChange={(e) =>
+                        setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                        })
+                    }
+                />
 
-                        <div>
-                            <label htmlFor=" hh2" className="form-label ">
-                                Role
-                            </label>
-                            <Select
-                                className="react-select"
-                                classNamePrefix="select"
-                                defaultValue={role[1]}
-                                styles={styles}
-                                name="clear"
-                                options={role}
-                                isClearable
-                                id="hh2"
-                                register={register}
-                            />
-                        </div>
+                <Textinput
+                    name="password"
+                    label="password"
+                    type="password"
+                    register={register}
+                    error={errors.password}
+                    onChange={(e) =>
+                        setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                        })
+                    }
+                />
+                <Textinput
+                    name="confirmedPassword"
+                    label="confirm password"
+                    type="password"
+                    register={register}
+                    error={errors.confirmpassword}
+                    onChange={(e) =>
+                        setValues({
+                            ...values,
+                            [e.target.name]: e.target.value,
+                        })
+                    }
+                />
 
-                        <div className="lg:col-span-2 col-span-1">
-                            <div className="ltr:text-right rtl:text-left">
-                                <button className="btn btn-dark  text-center">Submit</button>
-                            </div>
-                        </div>
-                    </form>
+                <div className="lg:col-span-2 col-span-1">
+                    <div className="ltr:text-right rtl:text-left">
+                        <button className="btn btn-dark  text-center">Submit</button>
+                    </div>
                 </div>
-            </Card>
+            </form>
         </div>
+       </Card>
     );
 };
 

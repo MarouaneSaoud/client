@@ -10,6 +10,11 @@ async function login(values) {
 async function loadUserByUsername(values) {
     return await http.post("/users/loadUsername", values , {headers} );
 }
-
-const AuthService = {login , loadUserByUsername};
+async function addUser(values) {
+    return await http.post("/users/register",values,{headers});
+}
+async function addUserByRole(values) {
+    return await http.post("/users/addRoleToUser",values,{headers});
+}
+const AuthService = {login , loadUserByUsername,addUser,addUserByRole};
 export default AuthService;

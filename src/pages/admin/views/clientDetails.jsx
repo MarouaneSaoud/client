@@ -3,6 +3,8 @@ import Card from "@/components/ui/Card";
 import { tableData } from "@/constant/table-data";
 import {useParams} from "react-router-dom";
 import CompanyService from "../../../services/company.services";
+import authTokenExpired from "@/services/auth/auth.token.expired.js";
+import whoAuth from "@/services/auth/auth.who.js";
 
 const columns = [
     {
@@ -29,7 +31,35 @@ const columns = [
     },
 ];
 
-const BasicTablePage = () => {
+const ClientDetails = () => {
+    useEffect(() => {
+        const checkUserAndToken = () => {
+
+            if (whoAuth.isCurrentUserManager()) {
+                navigate('/403');
+            }
+
+            const storedToken = localStorage.getItem('accessToken');
+
+            if (storedToken) {
+
+                const isExpired = authTokenExpired;
+
+                if (isExpired) {
+                    localStorage.removeItem('accessToken');
+                    navigate('/login');
+                }
+            } else {
+                navigate('/login');
+            }
+        };
+
+        checkUserAndToken();
+        const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
     const { id } = useParams();
     const [client, setClient] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -107,4 +137,4 @@ const BasicTablePage = () => {
     );
 };
 
-export default BasicTablePage;
+export default ClientDetails;

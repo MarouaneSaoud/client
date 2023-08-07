@@ -13,6 +13,7 @@ import {
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import {useNavigate} from "react-router-dom";
 import whoAuth from "../../../services/auth/auth.who.js";
+import authTokenExpired from "@/services/auth/auth.token.expired.js";
 
 const COLUMNS = [
     {
@@ -103,9 +104,39 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-const ExampleTwo = ({ title = "Users" }) => {
+const UserListe = ({ title = "Users" }) => {
     const columns = useMemo(() => COLUMNS, []);
     const data = useMemo(() => AdvancedTable, []);
+
+    useEffect(() => {
+        const checkUserAndToken = () => {
+
+            if (whoAuth.isCurrentUserManager()) {
+                navigate('/403');
+            }
+
+            const storedToken = localStorage.getItem('accessToken');
+
+            if (storedToken) {
+
+                const isExpired = authTokenExpired;
+
+                if (isExpired) {
+                    localStorage.removeItem('accessToken');
+                    navigate('/login');
+                }
+            } else {
+                navigate('/login');
+            }
+        };
+
+        checkUserAndToken();
+        const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
+
 
     const tableInstance = useTable(
         {
@@ -316,4 +347,4 @@ const ExampleTwo = ({ title = "Users" }) => {
     );
 };
 
-export default ExampleTwo;
+export default UserListe;
