@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Textinput from "@/components/ui/Textinput.jsx";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,6 +9,8 @@ import ReactFlagsSelect from "react-flags-select";
 import CompanyService from "../../../services/company.services.js";
 import {toast} from "react-toastify";
 import {countryNames , department} from "@/constant/data.js";
+import whoAuth from "@/services/auth/auth.who.js";
+import authTokenExpired from "@/services/auth/auth.token.expired.js";
 const FormValidationSchema = yup
     .object({
         name: yup.string().required("The name is required"),
@@ -77,6 +79,23 @@ const userForm = () => {
                 }
             })
     }
+    useEffect(() => {
+        if(whoAuth.isCurrentUserManager()){
+            navigate("/403");
+        }
+        const storedToken = localStorage.getItem('accessToken');
+
+        if (storedToken) {
+            const isExpired = authTokenExpired;
+
+            if (isExpired) {
+                localStorage.removeItem('accessToken');
+                navigate("/login")
+            }
+        }else {
+            navigate("/login")
+        }
+    }, []);
     return (
         <div className="xl:col-span-2 col-span-1">
             <Card title="Validation Types">
