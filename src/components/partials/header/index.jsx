@@ -93,7 +93,7 @@ const Header = ({ className = "custom-class" }) => {
                   <Icon icon="heroicons-outline:menu-alt-3" />
                 </div>
               )}
-              <SearchModal />
+
             </div>
           )}
           {/* For Horizontal  */}

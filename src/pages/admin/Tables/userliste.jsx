@@ -14,6 +14,8 @@ import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import {useNavigate} from "react-router-dom";
 import whoAuth from "../../../services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
+import CompanyService from "../../../services/company.services";
+import AuthService from "../../../services/auth.services";
 
 const COLUMNS = [
     {
@@ -25,9 +27,9 @@ const COLUMNS = [
     },
     {
         Header: "Name",
-        accessor: "nom",
+        accessor: "name",
         Cell: (row) => {
-            return <span>nom{row?.cell?.value}</span>;
+            return <span>{row?.cell?.value}</span>;
         },
     },
 
@@ -35,19 +37,29 @@ const COLUMNS = [
 
     {
         Header: "Email",
-        accessor: "email",
+        accessor: "username",
         Cell: (row) => {
-            return <span>email@gmail.com{row?.cell?.value}</span>;
+            return <span>{row?.cell?.value}</span>;
         },
     },
     {
         Header: "Role",
-        accessor: "role",
+        accessor: "roles",
         Cell: (row) => {
-            return <span>role{row?.cell?.value}</span>;
+            const roles = row?.cell?.value;
+            if (roles && roles.length > 0) {
+                return (
+                    <ul>
+                        {roles.map((role) => (
+                            <li key={role.id}>{role.roleName}</li>
+                        ))}
+                    </ul>
+                );
+            } else {
+                return <span>No Roles</span>;
+            }
         },
     },
-
 
     {
         Header: "action",
@@ -55,16 +67,7 @@ const COLUMNS = [
         Cell: (row) => {
             return (
                 <div className="flex space-x-3 rtl:space-x-reverse">
-                    <Tooltip content="View" placement="top" arrow animation="shift-away">
-                        <button className="action-btn" type="button">
-                            <Icon icon="heroicons:eye" />
-                        </button>
-                    </Tooltip>
-                    <Tooltip content="Edit" placement="top" arrow animation="shift-away">
-                        <button className="action-btn" type="button">
-                            <Icon icon="heroicons:pencil-square" />
-                        </button>
-                    </Tooltip>
+
                     <Tooltip
                         content="Delete"
                         placement="top"
@@ -105,8 +108,6 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 const UserListe = ({ title = "Users" }) => {
-    const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => AdvancedTable, []);
 
     useEffect(() => {
         const checkUserAndToken = () => {
@@ -136,6 +137,22 @@ const UserListe = ({ title = "Users" }) => {
             clearInterval(intervalId);
         };
     }, []);
+
+    const [user, setuser] = useState([]);
+    async function getUsers() {
+        try {
+            let result = await AuthService.allUsersByrole()
+            setuser(result.data);
+            console.log(user)
+        } catch (error) {
+        }
+    }
+    useEffect(()=>{
+        getUsers();
+    },[])
+
+    const columns = useMemo(() => COLUMNS, []);
+    const data = user ;
 
 
     const tableInstance = useTable(

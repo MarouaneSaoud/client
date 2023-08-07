@@ -16,5 +16,12 @@ async function addUser(values) {
 async function addUserByRole(values) {
     return await http.post("/users/addRoleToUser",values,{headers});
 }
-const AuthService = {login , loadUserByUsername,addUser,addUserByRole};
+async function allUsers() {
+    return await http.get("/users/",{headers});
+}
+async function allUsersByrole() {
+    return await http.get("/users/findAdminUsers",{headers});
+}
+
+const AuthService = {login , loadUserByUsername,addUser,addUserByRole,allUsers,allUsersByrole};
 export default AuthService;

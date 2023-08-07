@@ -11,6 +11,7 @@ import {toast} from "react-toastify";
 import {countryNames , department} from "@/constant/data.js";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
+import {useNavigate} from "react-router-dom";
 const FormValidationSchema = yup
     .object({
         name: yup.string().required("The name is required"),
@@ -79,6 +80,8 @@ const userForm = () => {
                 }
             })
     }
+    const navigate=useNavigate();
+
     useEffect(() => {
         const checkUserAndToken = () => {
             if (whoAuth.isCurrentUserManager()) {
