@@ -23,28 +23,15 @@ const COLUMNS = [
         },
     },
     {
-        Header: "First name",
+        Header: "Name",
         accessor: "nom",
         Cell: (row) => {
             return <span>nom{row?.cell?.value}</span>;
         },
     },
-    {
-        Header: "Last name",
-        accessor: "prenom",
-        Cell: (row) => {
-            return <span>prenom{row?.cell?.value}</span>;
-        },
-    },
 
 
-    {
-        Header: "Phone number",
-        accessor: "phone",
-        Cell: (row) => {
-            return <span>0657839245{row?.cell?.value}</span>;
-        },
-    },
+
     {
         Header: "Email",
         accessor: "email",
@@ -59,13 +46,7 @@ const COLUMNS = [
             return <span>role{row?.cell?.value}</span>;
         },
     },
-    {
-        Header: "Company",
-        accessor: "Company",
-        Cell: (row) => {
-            return <span>numotronic{row?.cell?.value}</span>;
-        },
-    },
+
 
     {
         Header: "action",

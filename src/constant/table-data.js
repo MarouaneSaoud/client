@@ -6,7 +6,7 @@ import user5 from "@/assets/images/users/user-5.jpg";
 import user6 from "@/assets/images/users/user-6.jpg";
 
 
-export const advancedTable=[]
+export const AdvancedTable=[]
 export const tableData = [
   {
     id: 1,

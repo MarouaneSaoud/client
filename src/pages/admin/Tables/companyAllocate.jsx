@@ -58,7 +58,7 @@ export default function ReferenceForm({ visible, onClose, imei }) {
     }, []);
 
     useEffect(() => {
-        // Mettre à jour la valeur de 'imei' dans 'values' lorsque 'imei' change
+     
         setValues((prevValues) => ({ ...prevValues, imei: imei }));
     }, [imei]);
 
