@@ -182,6 +182,7 @@ const ExampleTwo = ({ title = "Users" }) => {
             navigate("/403");
         }
     })
+
     return (
         <>
             <Card>

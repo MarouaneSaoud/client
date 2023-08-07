@@ -173,6 +173,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
     } = tableInstance;
 
     const { globalFilter, pageIndex, pageSize } = state;
+
     return (
         <>
             <Card>

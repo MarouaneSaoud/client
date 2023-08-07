@@ -270,6 +270,7 @@ const DevicesList = ({ title = "Devices" }) => {
         // Nettoyer l'objet URL
         URL.revokeObjectURL(url);
     };
+
     const { globalFilter, pageIndex, pageSize } = state;
     return (
         <>

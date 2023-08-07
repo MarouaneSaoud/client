@@ -23,8 +23,8 @@ const FormValidationSchema = yup
             .min(8, "Password must be at least 8 characters"),
     })
 const role = [
-    { value: "Director", label: "Director" },
-    { value: "restricted user", label: "restricted user" },
+    { value: "SUPER_ADMIN", label: "SUPER_ADMIN" },
+    { value: "ADMIN", label: "ADMIN" },
 
 
 ];
@@ -62,40 +62,39 @@ const userForm = () => {
             navigate("/403");
         }
     })
+    useEffect(() => {
+        if(whoAuth.isCurrentUserManager()){
+            navigate("/403");
+        }
+        const storedToken = localStorage.getItem('accessToken');
+
+        if (storedToken) {
+            const isExpired = authTokenExpired;
+
+            if (isExpired) {
+                localStorage.removeItem('accessToken');
+                navigate("/login")
+            }
+        }else {
+            navigate("/login")
+        }
+    });
     return (
         <div className="xl:col-span-2 col-span-1">
-            <Card title="Validation Types">
+            <Card title="Users Form">
                 <div>
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
                     >
                         <Textinput
-                            label="First name"
+                            label="Name"
                             type="text"
-                            placeholder="Type your First Name"
+                            placeholder="Type your Name"
                             name="username"
                             register={register}
                             error={errors.username}
                         />
-                        <Textinput
-                            label="Last name"
-                            type="text"
-                            placeholder="Type your Last Name"
-                            name="lastname"
-                            register={register}
-                            error={errors.lastname}
-                        />
-                        <InputGroup
-                            label="Phone Number"
-                            type="text"
-                            prepend="MY (+212)"
-                            placeholder="Phone Number"
-                            name="phone"
-                            error={errors.phone}
-                            register={register}
-                        />
-
                         <Textinput
                             label="Email"
                             type="email"
@@ -114,22 +113,6 @@ const userForm = () => {
                             error={errors.password}
                         />
 
-                        <div>
-                            <label htmlFor=" hh2" className="form-label ">
-                                company
-                            </label>
-                            <Select
-                                className="react-select"
-                                classNamePrefix="select"
-                                defaultValue={company[0]}
-                                styles={styles}
-                                name="clear"
-                                options={company}
-                                isClearable
-                                id="hh2"
-                                register={register}
-                            />
-                        </div>
                         <div>
                             <label htmlFor=" hh2" className="form-label ">
                                 Role
