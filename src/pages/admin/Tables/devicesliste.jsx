@@ -15,6 +15,8 @@ import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import DeviceService from "../../../services/device.services";
 import ReferenceForm from "@/pages/admin/forms/referenceForm.jsx";
 import CompanyAllocate from "./companyAllocate.jsx"
+import whoAuth from "@/services/auth/auth.who.js";
+import authTokenExpired from "@/services/auth/auth.token.expired.js";
 
 
 
@@ -41,6 +43,35 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 const DevicesList = ({ title = "Devices" }) => {
     const [showMyModal,setShowMyModal]=useState(false)
+
+    useEffect(() => {
+        const checkUserAndToken = () => {
+
+            if (whoAuth.isCurrentUserManager()) {
+                navigate('/403');
+            }
+
+            const storedToken = localStorage.getItem('accessToken');
+
+            if (storedToken) {
+
+                const isExpired = authTokenExpired;
+
+                if (isExpired) {
+                    localStorage.removeItem('accessToken');
+                    navigate('/login');
+                }
+            } else {
+                navigate('/login');
+            }
+        };
+
+        checkUserAndToken();
+        const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
     const handleOnClose =()=>{
                                     setShowMyModal(false)
                                     getDevices()

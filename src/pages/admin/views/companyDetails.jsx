@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { useParams } from 'react-router-dom';
 import CompanyService from "../../../services/company.services";
+import whoAuth from "@/services/auth/auth.who.js";
+import authTokenExpired from "@/services/auth/auth.token.expired.js";
 
 export const lists = [
     {
@@ -42,6 +44,7 @@ const companyDetails = () => {
     const { id } = useParams();
     const [company, setCompany] = useState(null);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         async function getCompanyById() {
             try {
@@ -55,6 +58,35 @@ const companyDetails = () => {
         }
         getCompanyById();
     }, [id]);
+
+    useEffect(() => {
+        const checkUserAndToken = () => {
+
+            if (whoAuth.isCurrentUserManager()) {
+                navigate('/403');
+            }
+
+            const storedToken = localStorage.getItem('accessToken');
+
+            if (storedToken) {
+
+                const isExpired = authTokenExpired;
+
+                if (isExpired) {
+                    localStorage.removeItem('accessToken');
+                    navigate('/login');
+                }
+            } else {
+                navigate('/login');
+            }
+        };
+
+        checkUserAndToken();
+        const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
 
 
         return (

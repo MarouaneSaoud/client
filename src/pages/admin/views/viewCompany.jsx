@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, {Fragment, useEffect} from "react";
 import Accordion from "@/components/ui/Accordion";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
@@ -6,6 +6,8 @@ import { Tab } from "@headlessui/react";
 import GroupeDetails from "./groupeDetails";
 import  CompanyDetails from "./companyDetails";
 import ClientDetails from "./clientDetails"
+import whoAuth from "@/services/auth/auth.who.js";
+import authTokenExpired from "@/services/auth/auth.token.expired.js";
 
 const faqmenus = [
     {
@@ -22,6 +24,34 @@ const faqmenus = [
 
 
 const FaqPage = () => {
+    useEffect(() => {
+        const checkUserAndToken = () => {
+
+            if (whoAuth.isCurrentUserManager()) {
+                navigate('/403');
+            }
+
+            const storedToken = localStorage.getItem('accessToken');
+
+            if (storedToken) {
+
+                const isExpired = authTokenExpired;
+
+                if (isExpired) {
+                    localStorage.removeItem('accessToken');
+                    navigate('/login');
+                }
+            } else {
+                navigate('/login');
+            }
+        };
+
+        checkUserAndToken();
+        const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
     return (
         <div>
             <Tab.Group>

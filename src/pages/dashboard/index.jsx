@@ -16,22 +16,35 @@ const Ecommerce = () => {
   const navigate=useNavigate();
 
   useEffect(() => {
-    if(whoAuth.isCurrentUserManager()){
-      navigate("/403");
-    }
-    const storedToken = localStorage.getItem('accessToken');
+    // Fonction qui contient le code de l'effet
+    const checkUserAndToken = () => {
 
-    if (storedToken) {
-      const isExpired = authTokenExpired;
-
-      if (isExpired) {
-        localStorage.removeItem('accessToken');
-        navigate("/login")
+      if (whoAuth.isCurrentUserManager()) {
+        navigate('/403'); // Redirigez vers une page d'erreur 403 si l'utilisateur est un gestionnaire
       }
-    }else {
-      navigate("/login")
-    }
+
+      const storedToken = localStorage.getItem('accessToken');
+
+      if (storedToken) {
+
+        const isExpired = authTokenExpired;
+
+        if (isExpired) {
+          localStorage.removeItem('accessToken');
+          navigate('/login');
+        }
+      } else {
+        navigate('/login');
+      }
+    };
+
+    checkUserAndToken();
+    const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
+
   return (
       <div>
         <HomeBredCurbs title="Dashboard" />

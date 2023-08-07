@@ -42,23 +42,7 @@ export default function ReferenceForm({visible, onClose}){
     
     if(!visible)
         return null;
-    useEffect(() => {
-        if(whoAuth.isCurrentUserManager()){
-            navigate("/403");
-        }
-        const storedToken = localStorage.getItem('accessToken');
 
-        if (storedToken) {
-            const isExpired = authTokenExpired;
-
-            if (isExpired) {
-                localStorage.removeItem('accessToken');
-                navigate("/login")
-            }
-        }else {
-            navigate("/login")
-        }
-    });
     return(
       <div onClick={handleClose}
            id="container"

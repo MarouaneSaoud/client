@@ -8,6 +8,7 @@ import Select from "react-select";
 import InputGroup from "@/components/ui/InputGroup";
 import {useNavigate} from "react-router-dom";
 import whoAuth from "../../../services/auth/auth.who.js";
+import authTokenExpired from "@/services/auth/auth.token.expired.js";
 const FormValidationSchema = yup
     .object({
         username: yup.string().required("The First name is required"),
@@ -63,22 +64,35 @@ const userForm = () => {
         }
     })
     useEffect(() => {
-        if(whoAuth.isCurrentUserManager()){
-            navigate("/403");
-        }
-        const storedToken = localStorage.getItem('accessToken');
+        const checkUserAndToken = () => {
 
-        if (storedToken) {
-            const isExpired = authTokenExpired;
-
-            if (isExpired) {
-                localStorage.removeItem('accessToken');
-                navigate("/login")
+            if (whoAuth.isCurrentUserManager()) {
+                navigate('/403');
             }
-        }else {
-            navigate("/login")
-        }
-    });
+
+            const storedToken = localStorage.getItem('accessToken');
+
+            if (storedToken) {
+
+                const isExpired = authTokenExpired;
+
+                if (isExpired) {
+                    localStorage.removeItem('accessToken');
+                    navigate('/login');
+                }
+            } else {
+                navigate('/login');
+            }
+        };
+
+        checkUserAndToken();
+
+        const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
     return (
         <div className="xl:col-span-2 col-span-1">
             <Card title="Users Form">
