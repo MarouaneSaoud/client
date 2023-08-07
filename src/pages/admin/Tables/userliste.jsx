@@ -43,6 +43,34 @@ const COLUMNS = [
         },
     },
     {
+        Header: "status",
+        accessor: "actived",
+        Cell: (row) => {
+            const statusText = row?.cell?.value ? "active" : "inactive";
+            return (
+                <span className="block w-full">
+          <span
+              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
+                  row?.cell?.value === true
+                      ? "text-success-500 bg-success-500"
+                      : "Active"
+              } 
+            ${
+                  row?.cell?.value === false
+                      ? "text-warning-500 bg-warning-500"
+                      : "Inactive"
+              }
+            
+             `}
+          >
+             {statusText}
+          </span>
+        </span>
+            );
+        },
+    },
+
+    {
         Header: "Role",
         accessor: "roles",
         Cell: (row) => {
@@ -69,14 +97,10 @@ const COLUMNS = [
                 <div className="flex space-x-3 rtl:space-x-reverse">
 
                     <Tooltip
-                        content="Delete"
-                        placement="top"
-                        arrow
-                        animation="shift-away"
-                        theme="danger"
+                        Tooltip content="Disable" placement="top" arrow animation="shift-away"
                     >
-                        <button className="action-btn" type="button">
-                            <Icon icon="heroicons:trash" />
+                        <button className="action-btn text-red-600" type="button">
+                            <Icon icon="heroicons:no-symbol" />
                         </button>
                     </Tooltip>
                 </div>
