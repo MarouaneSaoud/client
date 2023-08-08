@@ -70,6 +70,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
             clearInterval(intervalId);
         };
     }, []);
+
     const handleViewCompany = (row) => {
         const companyId = row.cell.row.original.id;
         navigate(`/view-company/${companyId}`);

@@ -17,97 +17,7 @@ import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import AuthService from "../../../services/auth.services";
 import AuthRole from "@/services/auth/auth.role.js";
 
-const COLUMNS = [
-    {
-        Header: "Id",
-        accessor: "id",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "Name",
-        accessor: "name",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
 
-
-
-    {
-        Header: "Email",
-        accessor: "username",
-        Cell: (row) => {
-            return <span>{row?.cell?.value}</span>;
-        },
-    },
-    {
-        Header: "status",
-        accessor: "actived",
-        Cell: (row) => {
-            const statusText = row?.cell?.value ? "active" : "inactive";
-            return (
-                <span className="block w-full">
-          <span
-              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-                  row?.cell?.value === true
-                      ? "text-success-500 bg-success-500"
-                      : "Active"
-              } 
-            ${
-                  row?.cell?.value === false
-                      ? "text-warning-500 bg-warning-500"
-                      : "Inactive"
-              }
-            
-             `}
-          >
-             {statusText}
-          </span>
-        </span>
-            );
-        },
-    },
-
-    {
-        Header: "Role",
-        accessor: "roles",
-        Cell: (row) => {
-            const roles = row?.cell?.value;
-            if (roles && roles.length > 0) {
-                return (
-                    <ul>
-                        {roles.map((role) => (
-                            <li key={role.id}>{role.roleName}</li>
-                        ))}
-                    </ul>
-                );
-            } else {
-                return <span>No Roles</span>;
-            }
-        },
-    },
-
-    {
-        Header: "action",
-        accessor: "action",
-        Cell: (row) => {
-            return (
-                <div className="flex space-x-3 rtl:space-x-reverse">
-
-                    <Tooltip
-                        Tooltip content="Disable" placement="top" arrow animation="shift-away"
-                    >
-                        <button className="action-btn text-red-600" type="button">
-                            <Icon icon="heroicons:no-symbol" />
-                        </button>
-                    </Tooltip>
-                </div>
-            );
-        },
-    },
-];
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -132,6 +42,116 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 const UserListe = ({ title = "Users" }) => {
+
+    const COLUMNS = [
+        {
+            Header: "Id",
+            accessor: "id",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "Name",
+            accessor: "name",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+
+
+
+        {
+            Header: "Email",
+            accessor: "username",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "status",
+            accessor: "actived",
+            Cell: (row) => {
+                const statusText = row?.cell?.value ? "active" : "inactive";
+                return (
+                    <span className="block w-full">
+          <span
+              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
+                  row?.cell?.value === true
+                      ? "text-success-500 bg-success-500"
+                      : "Active"
+              } 
+            ${
+                  row?.cell?.value === false
+                      ? "text-warning-500 bg-warning-500"
+                      : "Inactive"
+              }
+            
+             `}
+          >
+             {statusText}
+          </span>
+        </span>
+                );
+            },
+        },
+
+        {
+            Header: "Role",
+            accessor: "roles",
+            Cell: (row) => {
+                const roles = row?.cell?.value;
+                if (roles && roles.length > 0) {
+                    return (
+                        <ul>
+                            {roles.map((role) => (
+                                <li key={role.id}>{role.roleName}</li>
+                            ))}
+                        </ul>
+                    );
+                } else {
+                    return <span>No Roles</span>;
+                }
+            },
+        },
+
+        {
+            Header: "action",
+            accessor: "action",
+            Cell: (row) => {
+                const status= row.cell.row.original.actived;
+                const id =row.cell.row.original.id;
+                return (
+
+                    <div className="flex space-x-3 rtl:space-x-reverse">
+
+                        {status== true && (
+                            <Tooltip content="disable" placement="top" arrow animation="shift-away">
+                                <button className="action-btn text-red-600" type="button" onClick={()=> {
+                                    handelDisabled (
+                                        id
+                                    )
+                                }}>
+                                    <Icon icon="heroicons:x-mark" />
+                                </button>
+                            </Tooltip>
+
+                        )}
+                        { status==false && (
+
+                            <Tooltip content="unable" placement="top" arrow animation="shift-away">
+                                <button className="action-btn text-green-600" type="button"
+                                        onClick={()=>handelUnable(id)}>
+                                    <Icon icon="heroicons:check-circle" />
+                                </button>
+                            </Tooltip>
+                        )}
+                    </div>
+                );
+            },
+        },
+    ];
+
     const role = AuthRole()
 
     useEffect(() => {
@@ -168,7 +188,24 @@ const UserListe = ({ title = "Users" }) => {
         try {
             let result = await AuthService.allUsersAdmin()
             setuser(result.data);
-            console.log(user)
+        } catch (error) {
+        }
+    }
+    async function handelDisabled(id) {
+        try {
+            let result = await AuthService.disableUser(id);
+            if (result.data){
+                getUsers()
+            }
+        } catch (error) {
+        }
+    }
+    async function handelUnable(id) {
+        try {
+            let result = await AuthService.unableUser(id);
+            if (result.data){
+                getUsers()
+            }
         } catch (error) {
         }
     }
@@ -236,6 +273,11 @@ const UserListe = ({ title = "Users" }) => {
             navigate("/403");
         }
     })
+
+
+
+
+
 
     return (
         <>

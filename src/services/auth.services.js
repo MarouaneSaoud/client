@@ -20,12 +20,19 @@ async function addUserByRole(values) {
 async function allUsers() {
     return await http.get("/users/",{headers});
 }
+async function disableUser(id) {
+    return await http.get("/users/disableUser/"+id,{headers});
+}
+
+async function unableUser(id) {
+    return await http.get("/users/unableUser/"+id,{headers});
+}
 
 
 async function allUsersAdmin() {
     return await http.get("/users/findAdminUsers",{headers});
 }
 
-const AuthService = {login , loadUserByUsername,addUserAdmin,allUsersAdmin};
+const AuthService = {login , loadUserByUsername,addUserAdmin,allUsersAdmin,disableUser,unableUser};
 
 export default AuthService;
