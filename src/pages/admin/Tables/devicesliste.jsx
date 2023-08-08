@@ -136,14 +136,14 @@ const DevicesList = ({ title = "Devices" }) => {
             Header: "Firmware",
             accessor: "firmware",
             Cell: (row) => {
-                return <span>{row?.cell?.value}</span>;
+                return <span><span> {row?.cell?.value !== null ? row?.cell?.value : "--"}</span></span>;
             },
         },
         {
             Header: "Configuration",
             accessor: "configuration",
             Cell: (row) => {
-                return <span>{row?.cell?.value}</span>;
+                return <span> {row?.cell?.value !== null ? row?.cell?.value : "--"}</span>;
             },
         },
         {
@@ -152,7 +152,7 @@ const DevicesList = ({ title = "Devices" }) => {
             Cell: (row) => {
                 return (
                     <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
-            {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated"}
+                     {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated"}
           </span>
                 );
             },
@@ -162,7 +162,7 @@ const DevicesList = ({ title = "Devices" }) => {
             Header: "Last Seen",
             accessor: "time",
             Cell: (row) => {
-                return <span>{row?.cell?.value}</span>;
+                return <span> {row?.cell?.value !== null ? row?.cell?.value : "00-00-0000-00-00"}</span>;
             },
         },
 
@@ -172,12 +172,13 @@ const DevicesList = ({ title = "Devices" }) => {
             Cell: (row) => {
                 const companyValue = row?.cell?.row?.original?.company;
                 const imeiValue = row?.cell?.row?.original?.imei;
+                const statusDeviceValue = row?.cell?.row?.original?.statusDevice;
 
 
 
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                        {companyValue!==null && (
+                        {companyValue!==null && statusDeviceValue!=="INACTIF" && (
                             <Tooltip content="Decommission" placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-red-600" type="button" onClick={()=> {
                                     decommission(
@@ -189,7 +190,7 @@ const DevicesList = ({ title = "Devices" }) => {
                             </Tooltip>
 
                         )}
-                        {companyValue===null && (
+                        {companyValue===null && statusDeviceValue!=="INACTIF" && (
 
                             <Tooltip content="allocate" placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-green-600" type="button"

@@ -43,5 +43,5 @@ const isCurrentUserClient = () => {
     return false;
 };
 
-const whoAuth = {isCurrentUserAdmin,isCurrentUserManager};
+const whoAuth = {isCurrentUserAdmin,isCurrentUserManager , isCurrentUserClient};
 export default whoAuth;

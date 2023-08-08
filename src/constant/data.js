@@ -215,8 +215,101 @@ export const countryNames = {
   ZM: 'Zambia',
   ZW: 'Zimbabwe',
 };
-
 export const AdminMenu = [
+  {
+    isHeadr: true,
+    title: "menu",
+  },
+
+  {
+    title: "Dashboard",
+    icon: "heroicons-outline:home",
+    link: "dashboard",
+    isOpen: true,
+    isHide: true,
+
+  },
+
+  /*child: [
+    {
+      childtitle: "Analytics Dashboard",
+      childlink: "dashboard",
+    },
+    {
+      childtitle: "Ecommerce Dashboard",
+      childlink: "ecommerce",
+    },
+    {
+      childtitle: "Project  Dashbaord",
+      childlink: "project",
+    },
+    {
+      childtitle: " CRM Dashbaord",
+      childlink: "crm",
+    },
+    {
+      childtitle: "Banking Dashboard",
+      childlink: "banking",
+    },*/
+
+
+  {
+    isHeadr: true,
+    title: "Companies",
+    isOpen: true,
+    isHide: true,
+    icon: "heroicons-outline:home-modern",
+    child: [
+
+      {
+        childtitle: "New company",
+        childlink: "add-company",
+      },
+
+      {
+        childtitle: "Companies",
+        childlink:  "list-company",
+      },
+    ],
+  },
+
+  {
+    isHeadr: true,
+    title: "Devices",
+    isOpen: true,
+    isHide: true,
+    icon: "heroicons-outline:cpu-chip",
+    child: [
+
+      {
+        childtitle:"New device",
+        childlink:"add-devices",
+      },
+
+      {
+        childtitle: "Devices",
+        childlink:  "list-devices",
+      },
+    ],
+  },
+  /*{
+    isHeadr: true,
+    title: "References",
+    isOpen: true,
+    isHide: true,
+    icon: "heroicons-outline:link",
+    child: [
+
+      {
+        childtitle:"New reference",
+        childlink:"add-reference",
+      },
+    ],
+  },*/
+
+]
+
+export const SuperAdminMenu = [
   {
     isHeadr: true,
     title: "menu",

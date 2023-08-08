@@ -12,6 +12,7 @@ import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import DeviceService from "../../../services/device.services";
 import {toast} from "react-toastify";
 import AuthService from "../../../services/auth.services";
+import AuthRole from "@/services/auth/auth.role.js";
 
 const FormValidationSchema = yup
     .object({
@@ -26,6 +27,7 @@ const FormValidationSchema = yup
     .required();
 
 const MultiValidation = () => {
+
     const {
         register,
         formState: {errors},
@@ -35,6 +37,7 @@ const MultiValidation = () => {
     });
 }
 const userForm = () => {
+    const role =AuthRole();
     const {
         register,
         formState: { errors },
@@ -43,14 +46,13 @@ const userForm = () => {
         resolver: yupResolver(FormValidationSchema),
     });
 
-
+    const navigate = useNavigate()
     useEffect(() => {
         const checkUserAndToken = () => {
 
-            if (whoAuth.isCurrentUserManager()) {
+            if (whoAuth.isCurrentUserManager() || whoAuth.isCurrentUserClient() || role==='ADMIN') {
                 navigate('/403');
             }
-
             const storedToken = localStorage.getItem('accessToken');
 
             if (storedToken) {
@@ -78,18 +80,15 @@ const userForm = () => {
 
 
     const [values, setValues] = useState({ username: "", name: "",password: "", confirmedPassword: ""});
-    const [RoleUserForm ,setRoleUserForm] =useState({username:"",roleName:"ADMIN"})
     async function submitHandler(e) {
         e.target.reset();
+        e.preventDefault();
 
         try {
-            const response = await AuthService.addUser(values);
+            const response = await AuthService.addUserAdmin(values);
 
             if (response.status === 200) {
-                setRoleUserForm(RoleUserForm, values.username); // Appel correct de la fonction
-                const roleUserResponse = await AuthService.addUserByRole(RoleUserForm);
-                if (roleUserResponse.status === 200) {
-                    console.log(RoleUserForm)
+
                     toast.success('User Added', {
                         position: toast.POSITION.TOP_RIGHT,
                         autoClose: 1500,
@@ -100,18 +99,7 @@ const userForm = () => {
                         progress: undefined,
                         theme: "light",
                     });
-                } else {
-                    toast.error("Error adding user!", {
-                        position: "top-right",
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
-                }
+
             }
         } catch (error) {
             if (error.response) {

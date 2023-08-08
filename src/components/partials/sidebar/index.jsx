@@ -1,18 +1,20 @@
 import React, { useRef, useEffect, useState } from "react";
 import SidebarLogo from "./Logo";
 import Navmenu from "./Navmenu";
-import {AdminMenu, ManagerMenu} from "@/constant/data";
+import {AdminMenu, ManagerMenu , SuperAdminMenu} from "@/constant/data";
 import SimpleBar from "simplebar-react";
 import useSidebar from "@/hooks/useSidebar";
 import useSemiDark from "@/hooks/useSemiDark";
 import useSkin from "@/hooks/useSkin";
 import whoAuth from "@/services/auth/auth.who.js";
+import authRole from "@/services/auth/auth.role.js";
 
 const Sidebar = () => {
   const scrollableNodeRef = useRef();
   const [scroll, setScroll] = useState(false);
-
+    const role = authRole();
   useEffect(() => {
+
     const handleScroll = () => {
       if (scrollableNodeRef.current.scrollTop > 0) {
         setScroll(true);
@@ -61,11 +63,9 @@ const Sidebar = () => {
           className="sidebar-menu px-4 h-[calc(100%-80px)]"
           scrollableNodeProps={{ ref: scrollableNodeRef }}
         >
-            {whoAuth.isCurrentUserAdmin() && <Navmenu menus={AdminMenu} />}
+            {whoAuth.isCurrentUserAdmin() && role === "SUPER_ADMIN" && <Navmenu menus={SuperAdminMenu} />}
+            {whoAuth.isCurrentUserAdmin() && role === "ADMIN" && <Navmenu menus={AdminMenu} />}
             {whoAuth.isCurrentUserManager() && <Navmenu menus={ManagerMenu} />}
-
-
-
 
         </SimpleBar>
       </div>

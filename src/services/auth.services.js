@@ -10,9 +10,10 @@ async function login(values) {
 async function loadUserByUsername(values) {
     return await http.post("/users/loadUsername", values , {headers} );
 }
-async function addUser(values) {
-    return await http.post("/users/register",values,{headers});
+async function addUserAdmin(values) {
+    return await http.post("/users/register/admin",values,{headers});
 }
+
 async function addUserByRole(values) {
     return await http.post("/users/addRoleToUser",values,{headers});
 }
@@ -21,9 +22,10 @@ async function allUsers() {
 }
 
 
-async function allUsersByrole() {
+async function allUsersAdmin() {
     return await http.get("/users/findAdminUsers",{headers});
 }
 
-const AuthService = {login , loadUserByUsername,addUser,addUserByRole,allUsers,allUsersByrole};
+const AuthService = {login , loadUserByUsername,addUserAdmin,allUsersAdmin};
+
 export default AuthService;

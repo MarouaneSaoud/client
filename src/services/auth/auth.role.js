@@ -1,7 +1,7 @@
 import jwt_decode from 'jwt-decode';
 
 
-const isAdmin = () => {
+const Role = () => {
     const token = localStorage.getItem('accessToken');
 
     if (token) {
@@ -28,4 +28,4 @@ const isAdmin = () => {
     return false;
 };
 
-export default isAdmin;
+export default Role;

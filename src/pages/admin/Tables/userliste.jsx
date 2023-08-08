@@ -14,8 +14,8 @@ import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import {useNavigate} from "react-router-dom";
 import whoAuth from "../../../services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
-import CompanyService from "../../../services/company.services";
 import AuthService from "../../../services/auth.services";
+import AuthRole from "@/services/auth/auth.role.js";
 
 const COLUMNS = [
     {
@@ -132,11 +132,12 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 
 const UserListe = ({ title = "Users" }) => {
+    const role = AuthRole()
 
     useEffect(() => {
         const checkUserAndToken = () => {
 
-            if (whoAuth.isCurrentUserManager()) {
+            if (whoAuth.isCurrentUserManager() || whoAuth.isCurrentUserClient() || role==='ADMIN') {
                 navigate('/403');
             }
 
@@ -165,7 +166,7 @@ const UserListe = ({ title = "Users" }) => {
     const [user, setuser] = useState([]);
     async function getUsers() {
         try {
-            let result = await AuthService.allUsersByrole()
+            let result = await AuthService.allUsersAdmin()
             setuser(result.data);
             console.log(user)
         } catch (error) {

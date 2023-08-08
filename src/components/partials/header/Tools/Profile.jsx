@@ -5,14 +5,13 @@ import { Menu, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLogout } from "@/pages/auth/common/store";
-import isAdmin from "../../../../services/auth/auth.role";
-import UserAvatar from "@/assets/images/all-img/user.png";
+import getRole from "../../../../services/auth/auth.role";
 
 
 
 
 const profileLabel = () => {
-  const userRole = isAdmin();
+  const userRole = getRole();
   return (
     <div className="flex items-center">
       <div className="flex-none text-slate-600 dark:text-white text-sm font-normal items-center lg:flex hidden overflow-hidden text-ellipsis whitespace-nowrap">
