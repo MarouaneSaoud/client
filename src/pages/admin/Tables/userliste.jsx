@@ -19,27 +19,7 @@ import AuthRole from "@/services/auth/auth.role.js";
 
 
 
-const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
-        const defaultRef = React.useRef();
-        const resolvedRef = ref || defaultRef;
 
-        React.useEffect(() => {
-            resolvedRef.current.indeterminate = indeterminate;
-        }, [resolvedRef, indeterminate]);
-
-        return (
-            <>
-                <input
-                    type="checkbox"
-                    ref={resolvedRef}
-                    {...rest}
-                    className="table-checkbox"
-                />
-            </>
-        );
-    }
-);
 
 const UserListe = ({ title = "Users" }) => {
 
@@ -230,19 +210,7 @@ const UserListe = ({ title = "Users" }) => {
 
         (hooks) => {
             hooks.visibleColumns.push((columns) => [
-                {
-                    id: "selection",
-                    Header: ({ getToggleAllRowsSelectedProps }) => (
-                        <div>
-                            <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-                        </div>
-                    ),
-                    Cell: ({ row }) => (
-                        <div>
-                            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-                        </div>
-                    ),
-                },
+
                 ...columns,
             ]);
         }

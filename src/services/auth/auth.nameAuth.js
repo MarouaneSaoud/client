@@ -9,11 +9,10 @@ const getEmail = () => {
         if (email) {
             return email;
         } else {
-            return null; // L'email n'est pas présent dans le token ou est vide
+            return null;
         }
     }
-
-    return null; // Le token n'est pas présent dans le local storage
+    return null;
 };
 
 export default getEmail;

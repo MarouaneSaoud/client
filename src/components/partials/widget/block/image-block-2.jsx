@@ -5,11 +5,10 @@ import AuthServices from "@/services/auth.services.js";
 
 const ImageBlock2 = () => {
 
-  const userEmail = {userName:authNameAuth()}
   const [name, setName]=useState();
 
-  const sendUsernameToServer = (username) => {
-      AuthServices.loadUserByUsername(username)
+  const sendUsernameToServer = () => {
+      AuthServices.loadUserByUsername(authNameAuth())
           .then(response => {
             setName(response.data.name)
       })
@@ -20,9 +19,7 @@ const ImageBlock2 = () => {
 
 
   useEffect(()=>{
-    if(userEmail){
-      sendUsernameToServer(userEmail)
-    }
+      sendUsernameToServer()
   },[])
   return (
     <div

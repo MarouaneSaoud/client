@@ -25,11 +25,8 @@ const LoginForm = () => {
 
     const [values, setValues] = useState({ username: "", password: "" });
 
-
     const [verified,setVerified] =useState(false)
-    function onChange(value) {
-        setVerified(true);
-    }
+
     const {
         register,
         formState: { errors },
@@ -39,30 +36,57 @@ const LoginForm = () => {
         mode: "all",
     });
     const navigate = useNavigate();
-    const onSubmit  = async (event) =>  {
+    async function fetchData() {
+        try {
+            const result = await AuthService.loadUserByUsername(values.username);
+            return result;
+        } catch (error) {
+            console.error("Une erreur s'est produite :", error);
+        }
+    }
+    const onSubmit = async (event) => {
         event.preventDefault();
-    await AuthService.login(values)
-        .then(response=>{
+
+        try {
+            const response = await AuthService.login(values);
+            const result = await fetchData();
             if (response.status === 200) {
-                const token = response.headers.get('access-Token');
-                localStorage.setItem('accessToken', token);
-                const role=getRole();
-                if (role==='ADMIN' || 'SUPER_ADMIN') {
-                    navigate("/dashboard")
-                    dispatch(handleLogin(true));
-                }
-                if (role==='MANAGER')
-                {
-                    navigate("/manager/dashboard")
-                    dispatch(handleLogin(true));
-                }
 
+                if(result.data.actived===true){
+
+                    const token = response.headers.get('access-Token');
+                    localStorage.setItem('accessToken', token);
+                    const role = getRole();
+                    if (role === 'ADMIN' || role === 'SUPER_ADMIN') {
+                        navigate("/dashboard");
+                        dispatch(handleLogin(true));
+                    } else if (role === 'MANAGER') {
+                        navigate("/manager/dashboard");
+                        dispatch(handleLogin(true));
+                    }
+                }else{
+                    toast.info(`Your account is deactivated`, {
+                        position: "top-right",
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    })
+                    toast.info("Please contact the super administrator.", {
+                        position: "top-right",
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
             }
-
-        })
-        .catch(error=>{
+        } catch (error) {
             if (error.response && error.response.status === 403) {
-
                 toast.error("Invalid credentials", {
                     position: "top-right",
                     autoClose: 1500,
@@ -85,8 +109,9 @@ const LoginForm = () => {
                     theme: "light",
                 });
             }
-        })
+        }
     };
+
 
     const [checked, setChecked] = useState(false);
 

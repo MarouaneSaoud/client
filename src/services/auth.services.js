@@ -7,8 +7,9 @@ const headers = getAuthHeaders();
 async function login(values) {
     return await axios.post("http://localhost:8080/login", values , { withCredentials: true   , headers:{ "Content-Type": "multipart/form-data"}} );
 }
-async function loadUserByUsername(values) {
-    return await http.post("/users/loadUsername", values , {headers} );
+async function loadUserByUsername(username , token) {
+
+    return await http.get("/users/loadUsername/"+username);
 }
 async function addUserAdmin(values) {
     return await http.post("/users/register/admin",values,{headers});

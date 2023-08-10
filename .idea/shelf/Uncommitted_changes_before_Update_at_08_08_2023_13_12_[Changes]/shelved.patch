@@ -1,0 +1,147 @@
+Index: src/services/auth.services.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import http from \"./http.common.js\";\r\nimport axios from \"axios\";\r\nimport getAuthHeaders from \"@/services/auth/auth.header.js\";\r\nconst headers = getAuthHeaders();\r\n\r\n\r\nasync function login(values) {\r\n    return await axios.post(\"http://localhost:8080/login\", values , { withCredentials: true   , headers:{ \"Content-Type\": \"multipart/form-data\"}} );\r\n}\r\nasync function loadUserByUsername(values) {\r\n    return await http.post(\"/users/loadUsername\", values , {headers} );\r\n}\r\nasync function addUserAdmin(values) {\r\n    return await http.post(\"/users/register/admin\",values,{headers});\r\n}\r\n\r\nasync function addUserByRole(values) {\r\n    return await http.post(\"/users/addRoleToUser\",values,{headers});\r\n}\r\nasync function allUsers() {\r\n    return await http.get(\"/users/\",{headers});\r\n}\r\n\r\n\r\nasync function allUsersAdmin() {\r\n    return await http.get(\"/users/findAdminUsers\",{headers});\r\n}\r\n\r\nconst AuthService = {login , loadUserByUsername,addUserAdmin,allUsersAdmin};\r\n\r\nexport default AuthService;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/services/auth.services.js b/src/services/auth.services.js
+--- a/src/services/auth.services.js	(revision ca19dae7a2fc3861537395b76e7e9dcf47c79a53)
++++ b/src/services/auth.services.js	(date 1691491963116)
+@@ -7,8 +7,8 @@
+ async function login(values) {
+     return await axios.post("http://localhost:8080/login", values , { withCredentials: true   , headers:{ "Content-Type": "multipart/form-data"}} );
+ }
+-async function loadUserByUsername(values) {
+-    return await http.post("/users/loadUsername", values , {headers} );
++async function loadUserByUsername(username) {
++    return await http.get("/users/loadUsername/"+username , {headers} );
+ }
+ async function addUserAdmin(values) {
+     return await http.post("/users/register/admin",values,{headers});
+Index: src/pages/auth/common/login-form.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState } from \"react\";\r\nimport Textinput from \"@/components/ui/Textinput\";\r\nimport { useForm } from \"react-hook-form\";\r\nimport { yupResolver } from \"@hookform/resolvers/yup\";\r\nimport * as yup from \"yup\";\r\nimport { useNavigate } from \"react-router-dom\";\r\nimport Checkbox from \"@/components/ui/Checkbox\";\r\nimport { Link } from \"react-router-dom\";\r\nimport { useSelector, useDispatch } from \"react-redux\";\r\nimport { handleLogin } from \"./store\";\r\nimport { toast } from \"react-toastify\";\r\nimport AuthService from \"../../../services/auth.services\";\r\nimport getRole from \"@/services/auth/auth.role.js\";\r\nimport ReCAPTCHA from \"react-google-recaptcha\";\r\nconst schema = yup\r\n\r\n    .object({\r\n        username: yup.string().email(\"Invalid email\").required(\"Email is Required\"),\r\n        password: yup.string().required(\"Password is Required\"),\r\n    })\r\n    .required();\r\nconst LoginForm = () => {\r\n\r\n    const dispatch = useDispatch();\r\n\r\n    const [values, setValues] = useState({ username: \"\", password: \"\" });\r\n\r\n\r\n    const [verified,setVerified] =useState(false)\r\n    function onChange(value) {\r\n        setVerified(true);\r\n    }\r\n    const {\r\n        register,\r\n        formState: { errors },\r\n        handleSubmit,\r\n    } = useForm({\r\n        resolver: yupResolver(schema),\r\n        mode: \"all\",\r\n    });\r\n    const navigate = useNavigate();\r\n    const onSubmit  = async (event) =>  {\r\n        event.preventDefault();\r\n    await AuthService.login(values)\r\n        .then(response=>{\r\n            if (response.status === 200) {\r\n                const token = response.headers.get('access-Token');\r\n                localStorage.setItem('accessToken', token);\r\n                const role=getRole();\r\n                if (role==='ADMIN' || 'SUPER_ADMIN') {\r\n                    navigate(\"/dashboard\")\r\n                    dispatch(handleLogin(true));\r\n                }\r\n                if (role==='MANAGER')\r\n                {\r\n                    navigate(\"/manager/dashboard\")\r\n                    dispatch(handleLogin(true));\r\n                }\r\n\r\n            }\r\n\r\n        })\r\n        .catch(error=>{\r\n            if (error.response && error.response.status === 403) {\r\n\r\n                toast.error(\"Invalid credentials\", {\r\n                    position: \"top-right\",\r\n                    autoClose: 1500,\r\n                    hideProgressBar: false,\r\n                    closeOnClick: true,\r\n                    pauseOnHover: true,\r\n                    draggable: true,\r\n                    progress: undefined,\r\n                    theme: \"light\",\r\n                });\r\n            } else {\r\n                toast.error(\"Server error, try again later\", {\r\n                    position: \"top-right\",\r\n                    autoClose: 1500,\r\n                    hideProgressBar: false,\r\n                    closeOnClick: true,\r\n                    pauseOnHover: true,\r\n                    draggable: true,\r\n                    progress: undefined,\r\n                    theme: \"light\",\r\n                });\r\n            }\r\n        })\r\n    };\r\n\r\n    const [checked, setChecked] = useState(false);\r\n\r\n    return (\r\n    <>\r\n        <form onSubmit={(e) => onSubmit(e)} className=\"space-y-4 \">\r\n            <Textinput\r\n                name=\"username\"\r\n                label=\"email\"\r\n                placeholder={\"Enter your email\"}\r\n                type=\"email\"\r\n                register={register}\r\n                error={errors.email}\r\n                className=\"h-[48px]\"\r\n                onChange={(e) =>\r\n                    setValues({\r\n                        ...values,\r\n                        [e.target.name]: e.target.value,\r\n                    })\r\n                }\r\n            />\r\n            <Textinput\r\n                name=\"password\"\r\n                label=\"passwrod\"\r\n                type=\"password\"\r\n                placeholder={\"Enter your password\"}\r\n                //defaultValue={users[0].password}\r\n                register={register}\r\n                error={errors.password}\r\n                className=\"h-[48px]\"\r\n                onChange={(e) =>\r\n                    setValues({\r\n                        ...values,\r\n                        [e.target.name]: e.target.value,\r\n                    })\r\n                }\r\n            />\r\n            <div className=\"flex justify-between\">\r\n                <Checkbox\r\n                    value={checked}\r\n                    onChange={() => setChecked(!checked)}\r\n                    label=\"Keep me signed in\"\r\n                />\r\n                <Link\r\n                    to=\"/forgot-password\"\r\n                    className=\"text-sm text-slate-800 dark:text-slate-400 leading-6 font-medium\"\r\n                >\r\n                    Forgot Password?{\" \"}\r\n                </Link>\r\n            </div>\r\n\r\n            <button className=\"btn btn-dark block w-full text-center\">Sign in</button>\r\n        </form>\r\n    </>\r\n    );\r\n};\r\n\r\nexport default LoginForm;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/pages/auth/common/login-form.jsx b/src/pages/auth/common/login-form.jsx
+--- a/src/pages/auth/common/login-form.jsx	(revision ca19dae7a2fc3861537395b76e7e9dcf47c79a53)
++++ b/src/pages/auth/common/login-form.jsx	(date 1691493035954)
+@@ -25,11 +25,8 @@
+ 
+     const [values, setValues] = useState({ username: "", password: "" });
+ 
+-
+     const [verified,setVerified] =useState(false)
+-    function onChange(value) {
+-        setVerified(true);
+-    }
++
+     const {
+         register,
+         formState: { errors },
+@@ -39,30 +36,38 @@
+         mode: "all",
+     });
+     const navigate = useNavigate();
+-    const onSubmit  = async (event) =>  {
++    async function fetchData() {
++        try {
++            const result = await AuthService.loadUserByUsername(values.username);
++            return result;
++        } catch (error) {
++            console.error("Une erreur s'est produite :", error);
++        }
++    }
++    const onSubmit = async (event) => {
+         event.preventDefault();
+-    await AuthService.login(values)
+-        .then(response=>{
+-            if (response.status === 200) {
++
++        try {
++            const response = await AuthService.login(values);
++            const result = await fetchData();
++            console.log(result.data.actived);
++            if (response.status === 200 && result.data.actived===true) {
+                 const token = response.headers.get('access-Token');
+                 localStorage.setItem('accessToken', token);
+-                const role=getRole();
+-                if (role==='ADMIN' || 'SUPER_ADMIN') {
+-                    navigate("/dashboard")
++
++
++
++                const role = getRole();
++                if (role === 'ADMIN' || role === 'SUPER_ADMIN') {
++                    navigate("/dashboard");
+                     dispatch(handleLogin(true));
+-                }
+-                if (role==='MANAGER')
+-                {
+-                    navigate("/manager/dashboard")
++                } else if (role === 'MANAGER') {
++                    navigate("/manager/dashboard");
+                     dispatch(handleLogin(true));
+                 }
+-
+             }
+-
+-        })
+-        .catch(error=>{
++        } catch (error) {
+             if (error.response && error.response.status === 403) {
+-
+                 toast.error("Invalid credentials", {
+                     position: "top-right",
+                     autoClose: 1500,
+@@ -85,8 +90,9 @@
+                     theme: "light",
+                 });
+             }
+-        })
++        }
+     };
++
+ 
+     const [checked, setChecked] = useState(false);
+ 
+Index: src/components/partials/widget/block/image-block-2.jsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, {useEffect, useState} from \"react\";\r\nimport Image2 from \"@/assets/images/all-img/widget-bg-2.png\";\r\nimport authNameAuth from \"@/services/auth/auth.nameAuth.js\";\r\nimport AuthServices from \"@/services/auth.services.js\";\r\n\r\nconst ImageBlock2 = () => {\r\n\r\n  const userEmail = {userName:authNameAuth()}\r\n  const [name, setName]=useState();\r\n\r\n  const sendUsernameToServer = (username) => {\r\n      AuthServices.loadUserByUsername(username)\r\n          .then(response => {\r\n            setName(response.data.name)\r\n      })\r\n          .catch(error => {\r\n            console.error(error);\r\n          });\r\n  }\r\n\r\n\r\n  useEffect(()=>{\r\n    if(userEmail){\r\n      sendUsernameToServer(userEmail)\r\n    }\r\n  },[])\r\n  return (\r\n    <div\r\n      className=\"bg-no-repeat bg-cover bg-center p-5 rounded-[6px] relative\"\r\n      style={{\r\n        backgroundImage: `url(${Image2})`,\r\n      }}\r\n    >\r\n      <div>\r\n        <h4 className=\"text-xl font-medium text-white mb-2\">\r\n          <span className=\"block font-normal\">Good evening,</span>\r\n          <span className=\"block\">{name}</span>\r\n        </h4>\r\n        <p className=\"text-sm text-white font-normal\">Welcome to Numotronic</p>\r\n      </div>\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default ImageBlock2;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/partials/widget/block/image-block-2.jsx b/src/components/partials/widget/block/image-block-2.jsx
+--- a/src/components/partials/widget/block/image-block-2.jsx	(revision ca19dae7a2fc3861537395b76e7e9dcf47c79a53)
++++ b/src/components/partials/widget/block/image-block-2.jsx	(date 1691492119051)
+@@ -5,11 +5,10 @@
+ 
+ const ImageBlock2 = () => {
+ 
+-  const userEmail = {userName:authNameAuth()}
+   const [name, setName]=useState();
+ 
+-  const sendUsernameToServer = (username) => {
+-      AuthServices.loadUserByUsername(username)
++  const sendUsernameToServer = () => {
++      AuthServices.loadUserByUsername(authNameAuth())
+           .then(response => {
+             setName(response.data.name)
+       })
+@@ -20,9 +19,9 @@
+ 
+ 
+   useEffect(()=>{
+-    if(userEmail){
+-      sendUsernameToServer(userEmail)
+-    }
++
++      sendUsernameToServer()
++
+   },[])
+   return (
+     <div
