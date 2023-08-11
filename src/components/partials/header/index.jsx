@@ -121,12 +121,15 @@ const Header = ({ className = "custom-class" }) => {
             <SwitchDark />
 
             {width >= breakpoints.md && <Profile />}
-            {width <= breakpoints.md && (
+            {width <= breakpoints.md &&(
+
               <div
                 className="cursor-pointer text-slate-900 dark:text-white text-2xl"
                 onClick={handleOpenMobileMenu}
               >
+
                 <Icon icon="heroicons-outline:menu-alt-3" />
+
               </div>
             )}
           </div>
@@ -135,5 +138,4 @@ const Header = ({ className = "custom-class" }) => {
     </header>
   );
 };
-
 export default Header;

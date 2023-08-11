@@ -70,7 +70,6 @@ const Profile = () => {
               </div>
             </div>
           )}
-
         </Menu.Item>
       ))}
     </Dropdown>
