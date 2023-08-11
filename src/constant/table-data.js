@@ -6,7 +6,35 @@ import user5 from "@/assets/images/users/user-5.jpg";
 import user6 from "@/assets/images/users/user-6.jpg";
 
 
-export const AdvancedTable=[]
+import customer1 from "@/assets/images/all-img/customer_1.png";
+export const advancedTable = [
+  {
+    id: 1,
+    order: 951,
+    customer: {
+      name: "Jenny Wilson",
+      image: customer1,
+    },
+    date: "3/26/2022",
+    quantity: 13,
+    amount: "$1779.53",
+    status: "paid",
+    action: null,
+  },]
+export const advancedTable = [
+  {
+    id: 1,
+    order: 951,
+    customer: {
+      name: "Jenny Wilson",
+      image: customer1,
+    },
+    date: "3/26/2022",
+    quantity: 13,
+    amount: "$1779.53",
+    status: "paid",
+    action: null,
+  },]
 export const tableData = [
   {
     id: 1,
