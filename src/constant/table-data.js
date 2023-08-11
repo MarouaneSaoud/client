@@ -7,7 +7,7 @@ import user6 from "@/assets/images/users/user-6.jpg";
 
 
 import customer1 from "@/assets/images/all-img/customer_1.png";
-export const advancedTable = [
+export const AdvancedTable = [
   {
     id: 1,
     order: 951,
