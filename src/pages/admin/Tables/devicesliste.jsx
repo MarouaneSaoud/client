@@ -1,6 +1,7 @@
 import React, { useState, useMemo , useEffect  } from "react";
 import Papa from "papaparse"
 import Card from "../../../components/ui/Card";
+import {useNavigate} from "react-router-dom";
 import Icon from "../../../components/ui/Icon";
 import Tooltip from "../../../components/ui/Tooltip";
 import Button from "../../../components/ui/Button";
@@ -13,7 +14,6 @@ import {
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import DeviceService from "../../../services/device.services";
-import ReferenceForm from "@/pages/admin/forms/referenceForm.jsx";
 import CompanyAllocate from "./companyAllocate.jsx"
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
@@ -43,6 +43,7 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 const DevicesList = ({ title = "Devices" }) => {
     const [showMyModal,setShowMyModal]=useState(false)
+    const navigate=useNavigate();
 
     useEffect(() => {
         const checkUserAndToken = () => {
@@ -303,6 +304,7 @@ const DevicesList = ({ title = "Devices" }) => {
         URL.revokeObjectURL(url);
     };
 
+
     const { globalFilter, pageIndex, pageSize } = state;
     return (
         <>
@@ -316,7 +318,7 @@ const DevicesList = ({ title = "Devices" }) => {
                                 <Button
                                     icon="heroicons-outline:newspaper"
                                     text="Export"
-                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-98"
+                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-16"
                                     onClick={handleExport }
                                 />
                             </div>

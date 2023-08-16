@@ -14,6 +14,8 @@ import Papa from "papaparse";
 import Fileinput from "@/components/ui/Fileinput.jsx";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
+import { useNavigate } from "react-router-dom";
+
 const FormValidationSchema = yup
     .object({
         serialNum: yup.string().required(" User serial number is required"),
@@ -237,6 +239,7 @@ const devicesForm = () => {
         getReferences()
 
     }
+    const navigate= useNavigate()
     useEffect(() => {
         if(whoAuth.isCurrentUserManager()){
             navigate("/403");
@@ -248,119 +251,139 @@ const devicesForm = () => {
 
             if (isExpired) {
                 localStorage.removeItem('accessToken');
+
                 navigate("/login")
             }
         }else {
             navigate("/login")
         }
     });
+    const handleDownload = () => {
+        const csvFilePath = 'src/constant/deviceExample.csv'; // Chemin relatif au composant
+        const link = document.createElement('a');
+        link.href = csvFilePath;
+        link.setAttribute('download', 'deviceExample.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+
     return (
         <>
             <ToastContainer />
-        <Card title="Add Devices">
-            <h4>Upload Devices automatically</h4>
-            <div className="my-8">
-                <Fileinput
-                    selectedFile={selectedFile}
-                    name="basic"
-                    onChange={ handleFileUpload}
-                />
-            </div>
-            <div>
-                <h4>Upload Devices manually</h4>
-                <form
-                    onSubmit={submitHandler}
-                    className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
-                >
-                    <Textinput
-                        label="Serial number"
-                        type="number"
-                        placeholder="Type your serial number "
-                        name="serialNum"
-                        error={errors.serialNum}
-                        register={register}
-                        onChange={(e) =>
-                            setValues({
-                                ...values,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
-                    />
-                    <Textinput
-                        label="Imei"
-                        type="number"
-                        placeholder="Type your Imei"
-                        name="imei"
-                        error={errors.imei}
-                        register={register}
-                        onChange={(e) =>
-                            setValues({
-                                ...values,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+            <Card title="Add Devices">
+                <h4>Upload Devices automatically</h4>
+                <div className="my-8">
+                    <Fileinput
+                        selectedFile={selectedFile}
+                        name="basic"
+                        onChange={ handleFileUpload}
                     />
 
-                    <div class="grid grid-cols-5">
-                        <div class="col-span-4">
-                            <label htmlFor=" hh2" className="form-label ">
-                                Reference
-                            </label>
-                            <Select
-                                className="react-select"
-                                classNamePrefix="select"
-                                styles={styles}
-                                options={ref}
-                                isClearable
-                                id="reference"
-                                register={register}
-                                onChange={(e) => {
-                                    setValues({
-                                        ...values,
-                                        reference: e.value,
-                                    })
-                                    console.log(values)
-                                }
-                                }
-                            />
+
+                    <Button
+                        onClick={handleDownload}
+                        icon="heroicons-outline:newspaper"
+                        className="btn btn-dark  rounded-[999px] bg-black-900 mt-6"
+                        /> Download Example CSV File
+                </div>
+
+                <div>
+                    <h4>Upload Devices manually</h4>
+                    <form
+                        onSubmit={submitHandler}
+                        className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
+                    >
+                        <Textinput
+                            label="Serial number"
+                            type="number"
+                            placeholder="Type your serial number "
+                            name="serialNum"
+                            error={errors.serialNum}
+                            register={register}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
+                        />
+                        <Textinput
+                            label="Imei"
+                            type="number"
+                            placeholder="Type your Imei"
+                            name="imei"
+                            error={errors.imei}
+                            register={register}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
+                        />
+
+                        <div class="grid grid-cols-5">
+                            <div class="col-span-4">
+                                <label htmlFor=" hh2" className="form-label ">
+                                    Reference
+                                </label>
+                                <Select
+                                    className="react-select"
+                                    classNamePrefix="select"
+                                    styles={styles}
+                                    options={ref}
+                                    isClearable
+                                    id="reference"
+                                    register={register}
+                                    onChange={(e) => {
+                                        setValues({
+                                            ...values,
+                                            reference: e.value,
+                                        })
+                                        console.log(values)
+                                    }
+                                    }
+                                />
+                            </div>
+                            <div class="col-span-1">
+                                <div className="top-2.5 m-7 ">
+                                <Button
+                                    onClick={()=> setShowMyModal(true)}
+                                    icon="heroicons-outline:plus"
+                                    className="btn btn-dark  rounded-[999px] bg-black-900"
+                                /></div>
+                            </div>
+
                         </div>
-                        <div class="col-span-1">
-                            <div className="top-2.5 m-7 ">
-                            <Button
-                                onClick={()=> setShowMyModal(true)}
-                                icon="heroicons-outline:plus"
-                                className="btn btn-dark  rounded-[999px] bg-black-900"
-                            /></div>
+
+
+
+                        <Textinput
+                            label="Description"
+                            type="text"
+                            placeholder="Description"
+                            name="description"
+                            error={errors.description}
+                            register={register}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
+                        />
+
+                        <div className="lg:col-span-2 col-span-1">
+                            <div className="ltr:text-right rtl:text-left">
+                                <button className="btn btn-dark  text-center">Submit</button>
+                            </div>
                         </div>
+                    </form>
 
-                    </div>
-
-
-
-                    <Textinput
-                        label="Description"
-                        type="text"
-                        placeholder="Description"
-                        name="description"
-                        error={errors.description}
-                        register={register}
-                        onChange={(e) =>
-                            setValues({
-                                ...values,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
-                    />
-
-                    <div className="lg:col-span-2 col-span-1">
-                        <div className="ltr:text-right rtl:text-left">
-                            <button className="btn btn-dark  text-center">Submit</button>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-        </Card>
+                </div>
+            </Card>
 
             <ReferenceForm onClose={handleOnClose} visible={showMyModal}/>
 

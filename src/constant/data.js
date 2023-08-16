@@ -823,13 +823,7 @@ export const ManagerMenu = [
     isHide: true,
 
   },
-  {
-    title: "Devices",
-    isOpen: true,
-    isHide: true,
-    icon: "heroicons-outline:cpu-chip",
-    link:"list-devices",
-  },
+
 
 ];
 

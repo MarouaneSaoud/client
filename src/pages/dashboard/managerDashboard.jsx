@@ -1,61 +1,89 @@
-import React, { useState,useEffect} from "react";
+import React from "react";
 import Card from "@/components/ui/Card";
-import ImageBlock2 from "@/components/partials/widget/block/image-block-2";
-import GroupChart2 from "@/components/partials/widget/chart/group-chart-2";
-import RevenueBarChart from "@/components/partials/widget/chart/revenue-bar-chart";
+import GroupChart3 from "../../components/partials/widget/chart/group-chart-3";
 import SelectMonth from "@/components/partials/SelectMonth";
-import RecentOrderTable from "../../components/partials/Table/recentOrder-table";
+import StackBarChart from "../../components/partials/widget/chart/stack-bar";
+import Calculation from "../../components/partials/widget/chart/Calculation";
+import ExampleTwo from "../table/react-tables/ExampleTwo";
 import HomeBredCurbs from "./HomeBredCurbs";
-import RadialsChart from "@/components/partials/widget/chart/radials";
-import whoAuth from "../../services/auth/auth.who.js";
-import {useNavigate} from "react-router-dom";
-
-const Ecommerce = () => {
-  const [filterMap, setFilterMap] = useState("usa");
-  const navigate=useNavigate();
-  useEffect(()=>{
-    if(whoAuth.isCurrentUserAdmin()){
-      navigate("/403")
-    }
-  })
+const campaigns = [
+  {
+    name: "Channel",
+    value: "roi",
+  },
+  {
+    name: "Email",
+    value: "40%",
+  },
+  {
+    name: "Website",
+    value: "28%",
+  },
+  {
+    name: "Facebook",
+    value: "34%",
+  },
+  {
+    name: "Offline",
+    value: "17%",
+  },
+];
+const CrmPage = () => {
   return (
-      <div>
-        <HomeBredCurbs title="Dashboard" />
-        <div className="grid grid-cols-12 gap-5 mb-5">
-          <div className="2xl:col-span-3 lg:col-span-4 col-span-12">
-            <ImageBlock2 />
-          </div>
-          <div className="2xl:col-span-9 lg:col-span-8 col-span-12">
-            <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-              <GroupChart2 />
-            </div>
-          </div>
-        </div>
+    <div>
+      <HomeBredCurbs />
+      <div className="space-y-5">
         <div className="grid grid-cols-12 gap-5">
-          <div className="lg:col-span-8 col-span-12">
+          <div className="lg:col-span-8 col-span-12 space-y-5">
             <Card>
+              <div className="grid xl:grid-cols-4 lg:grid-cols-2 col-span-1 gap-3">
+                <GroupChart3 />
+              </div>
+            </Card>
+            <Card>
+              <header className="md:flex md:space-y-0 space-y-4">
+                <h6 className="flex-1 text-slate-900 dark:text-white capitalize">
+                  Deal distribution by stage
+                </h6>
+                <div className="flex-none">
+                  <SelectMonth />
+                </div>
+              </header>
               <div className="legend-ring">
-                <RevenueBarChart />
+                <StackBarChart />
               </div>
             </Card>
           </div>
-          <div className="lg:col-span-4 col-span-12">
-            <Card title="Overview" headerslot={<SelectMonth />}>
-              <RadialsChart />
-            </Card>
+          <div className="lg:col-span-4 col-span-12 space-y-5">
+            <div className="lg:col-span-4 col-span-12 space-y-5">
+              <Card title="Campaigns" headerslot={<SelectMonth />}>
+                <ul className="divide-y divide-slate-100 dark:divide-slate-700">
+                  {campaigns.map((item, i) => (
+                    <li
+                      key={i}
+                      className="first:text-xs text-sm first:text-slate-600 text-slate-600 dark:text-slate-300 py-2 first:uppercase"
+                    >
+                      <div className="flex justify-between">
+                        <span>{item.name}</span>
+                        <span>{item.value}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+              <Card title="trends calcultation" headerslot={<SelectMonth />}>
+                <div className="legend-ring3">
+                  <Calculation />
+                </div>
+              </Card>
+            </div>
           </div>
-
-          <div className="col-span-12">
-            <Card title="Recent Orders" headerslot={<SelectMonth />} noborder>
-              <RecentOrderTable />
-            </Card>
-          </div>
-
-
-
         </div>
+
+        <ExampleTwo title="Latest Transaction" />
       </div>
+    </div>
   );
 };
 
-export default Ecommerce;
+export default CrmPage;

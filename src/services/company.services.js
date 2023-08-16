@@ -17,9 +17,12 @@ async function companyDeviceGroupById(id) {
 async function countCompany() {
     return await http.get("/company/count",{headers});
 }
-
 async function addCompany(values) {
     return await http.post("/company/save",values,{headers});
 }
-const CompanyService = {allCompany,addCompany,companyById,companyClientById,companyDeviceGroupById,countCompany};
+async function deleteCompany(id) {
+    return await http.delete("/company/delete/"+id,{headers});
+}
+
+const CompanyService = {allCompany,addCompany,companyById,companyClientById,companyDeviceGroupById,countCompany,deleteCompany,};
 export default CompanyService;

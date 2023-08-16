@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Textinput from "@/components/ui/Textinput.jsx";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import Select from "react-select";
 import CompanyServices from "@/services/company.services.js";
-import { department } from "@/constant/data.js";
 import DeviceService from "@/services/device.services.js";
 import { toast } from "react-toastify";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
+import {useNavigate} from "react-router-dom";
 
 export default function ReferenceForm({ visible, onClose, imei }) {
     const [values, setValues] = useState({ imei: imei, company: "" });
@@ -62,6 +61,8 @@ export default function ReferenceForm({ visible, onClose, imei }) {
     useEffect(() => {
         setValues((prevValues) => ({ ...prevValues, imei: imei }));
     }, [imei]);
+    const navigate=useNavigate();
+    
     useEffect(() => {
         const checkUserAndToken = () => {
 

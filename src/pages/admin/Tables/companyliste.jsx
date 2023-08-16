@@ -14,6 +14,7 @@ import {
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
+import authRole from "@/services/auth/auth.role.js";
 
 
 const IndeterminateCheckbox = React.forwardRef(
@@ -41,6 +42,8 @@ const IndeterminateCheckbox = React.forwardRef(
 
 const ExampleTwo = ({ title = "Companies" }) => {
     const navigate = useNavigate();
+    const role = authRole();
+
 
     useEffect(() => {
         const checkUserAndToken = () => {
@@ -122,17 +125,21 @@ const ExampleTwo = ({ title = "Companies" }) => {
                                 <Icon icon="heroicons:eye"/>
                             </button>
                         </Tooltip>
-                        <Tooltip
-                            content="Delete"
-                            placement="top"
-                            arrow
-                            animation="shift-away"
-                            theme="danger"
-                        >
-                            <button className="action-btn" type="button">
-                                <Icon icon="heroicons:trash" />
-                            </button>
-                        </Tooltip>
+
+                        {role==="SUPER_ADMIN"  && (
+                            <Tooltip
+                                content="Delete"
+                                placement="top"
+                                arrow
+                                animation="shift-away"
+                                theme="danger"
+                            >
+                                <button className="action-btn" type="button" onClick={() => deleteCompany(row)}>
+                                    <Icon icon="heroicons:trash" />
+                                </button>
+                            </Tooltip>
+                        ) }
+
                     </div>
                 );
             },
@@ -148,6 +155,14 @@ const ExampleTwo = ({ title = "Companies" }) => {
             } catch (error) {
             }
         }
+    async function deleteCompany(row) {
+        try {
+            const companyId = row.cell.row.original.id;
+            await CompanyService.deleteCompany(companyId);
+            getCompany();
+        } catch (error) {
+        }
+    }
         useEffect(()=>{
             getCompany();
         },[])

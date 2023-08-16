@@ -112,7 +112,7 @@ const userForm = () => {
     }, []);
     return (
         <div className="xl:col-span-2 col-span-1">
-            <Card title="Validation Types">
+            <Card title="Companies Form">
                 <div>
                     <form
                         onSubmit={submitHandler}
