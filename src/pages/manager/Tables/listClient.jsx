@@ -2,7 +2,7 @@ import React, {useState, useMemo, useEffect} from "react";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Tooltip from "@/components/ui/Tooltip";
-import CompanyService from "../../../services/company.services";
+import ClientService from "../../../services/client.services";
 import { useNavigate } from "react-router-dom";
 import {
     useTable,
@@ -40,7 +40,7 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-const ExampleTwo = ({ title = "Companies" }) => {
+const ExampleTwo = ({ title = "Clients" }) => {
     const navigate = useNavigate();
     const role = authRole();
 
@@ -48,7 +48,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
     useEffect(() => {
         const checkUserAndToken = () => {
 
-            if (whoAuth.isCurrentUserManager()) {
+            if (whoAuth.isCurrentUserAdmin() || whoAuth.isCurrentUserClient()) {
                 navigate('/403');
             }
 
@@ -81,7 +81,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
 
     const COLUMNS = [
         {
-            Header: "Serial number",
+            Header: "Id",
             accessor: "id",
             Cell: (row) => {
 
@@ -89,15 +89,15 @@ const ExampleTwo = ({ title = "Companies" }) => {
             },
         },
         {
-            Header: "Name",
+            Header: "User name",
             accessor: "name",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
             },
         },
         {
-            Header: "Alternative Name",
-            accessor: "altName",
+            Header: "Email",
+            accessor: "email",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
             },
@@ -105,8 +105,22 @@ const ExampleTwo = ({ title = "Companies" }) => {
 
 
         {
-            Header: "Email",
-            accessor: "email",
+            Header: "National identity card",
+            accessor: "cin",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "Address",
+            accessor: "address",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "Postal Code",
+            accessor: "postalCode",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
             },
@@ -118,7 +132,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
             Cell: (row) => {
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                        <Tooltip content="View" placement="top" arrow animation="shift-away">
+                 {/*       <Tooltip content="View" placement="top" arrow animation="shift-away">
                             <button className="action-btn text-orange-600"
                                     onClick={() => handleViewCompany(row)}
                                     type="button" >
@@ -139,7 +153,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
                                 </button>
                             </Tooltip>
                         ) }
-
+*/}
                     </div>
                 );
             },
@@ -148,27 +162,20 @@ const ExampleTwo = ({ title = "Companies" }) => {
 
 
     const [Company, setCompany] = useState([]);
-        async function getCompany() {
-            try {
-                let result = await CompanyService.allCompany();
-                setCompany(result.data);
-            } catch (error) {
-            }
-        }
-    async function deleteCompany(row) {
+    async function getCompany() {
         try {
-            const companyId = row.cell.row.original.id;
-            await CompanyService.deleteCompany(companyId);
-            getCompany();
+            let result = await ClientService.allClient();
+            setCompany(result.data);
         } catch (error) {
         }
     }
-        useEffect(()=>{
-            getCompany();
-        },[])
 
-        const columns = useMemo(() => COLUMNS, []);
-        const data = Company ;
+    useEffect(()=>{
+        getCompany();
+    },[])
+
+    const columns = useMemo(() => COLUMNS, []);
+    const data = Company ;
 
     const tableInstance = useTable(
         {

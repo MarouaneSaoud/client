@@ -73,6 +73,8 @@ const  Userliste = lazy(() => import("./pages/admin/Tables/userliste"));
 const ViewCompany=lazy(() =>import ("./pages/admin/views/viewCompany"));
 //page numotronic
 const ManagerDashboard =lazy(()=> import("./pages/dashboard/managerDashboard"))
+const ClientForm = lazy(() => import("./pages/manager/Forms/clientForm"));
+const ListClient = lazy(() => import("./pages/manager/Tables/listClient"));
 
 // chart page
 const AppexChartPage = lazy(() => import("./pages/chart/appex-chart"));
@@ -246,6 +248,8 @@ function App() {
           <Route path="add-devices" element={<DevicesForm/>} />
           <Route path="add-users" element={<UsersForm/>} />
 
+
+
           <Route path="list-devices" element={<Devicesliste/>} />
           <Route path="list-company" element={<Companyliste/>} />
           <Route path="list-users" element={<Userliste/>} />
@@ -326,14 +330,8 @@ function App() {
           <Route path="kanban" element={<KanbanPage />} />
           <Route path="calender" element={<CalenderPage />} />
           {/* Numotronique pages */}
-          <Route path="add-company" element={<CompanyForm />} />
-          <Route path="add-reference" element={<ReferenceForm/>} />
-          <Route path="add-devices" element={<DevicesForm/>} />
-          <Route path="add-users" element={<UsersForm/>} />
-
-          <Route path="list-devices" element={<Devicesliste/>} />
-          <Route path="list-company" element={<Companyliste/>} />
-          <Route path="list-users" element={<Userliste/>} />
+          <Route path="add-clients" element={<ClientForm/>}/>
+          <Route path="list-clients" element={<ListClient/>}/>
 
           {/* Components pages */}
         </Route>

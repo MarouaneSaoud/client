@@ -5,6 +5,7 @@ import useDarkMode from "@/hooks/useDarkMode";
 import useSidebar from "@/hooks/useSidebar";
 import useSemiDark from "@/hooks/useSemiDark";
 import useSkin from "@/hooks/useSkin";
+import whoAuth from "../../../services/auth/auth.who";
 
 // import images
 import MobileLogo from "@/assets/images/logo/logo-c.svg";
@@ -29,25 +30,73 @@ const SidebarLogo = ({ menuHover }) => {
       
       `}
     >
-      <Link to="/dashboard">
-        <div className="flex items-center space-x-4">
-          <div className="logo-icon">
-            {!isDark && !isSemiDark ? (
-              <img src={MobileLogo} alt="" />
-            ) : (
-              <img src={MobileLogoWhite} alt="" />
-            )}
-          </div>
+        {whoAuth.isCurrentUserAdmin() &&
+        <Link to="/dashboard">
 
-          {(!collapsed || menuHover) && (
-            <div>
-              <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
-                  Numotronic
-              </h1>
+            <div className="flex items-center space-x-4">
+                <div className="logo-icon">
+                    {!isDark && !isSemiDark ? (
+                        <img src={MobileLogo} alt="" />
+                    ) : (
+                        <img src={MobileLogoWhite} alt="" />
+                    )}
+                </div>
+
+                {(!collapsed || menuHover) && (
+                    <div>
+                        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                            Numotronic
+                        </h1>
+                    </div>
+                )}
             </div>
-          )}
-        </div>
-      </Link>
+        </Link>
+        }
+        {whoAuth.isCurrentUserManager() &&
+        <Link to="/manager/dashboard">
+
+            <div className="flex items-center space-x-4">
+                <div className="logo-icon">
+                    {!isDark && !isSemiDark ? (
+                        <img src={MobileLogo} alt="" />
+                    ) : (
+                        <img src={MobileLogoWhite} alt="" />
+                    )}
+                </div>
+
+                {(!collapsed || menuHover) && (
+                    <div>
+                        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                            Numotronic
+                        </h1>
+                    </div>
+                )}
+            </div>
+        </Link>
+        }
+        {whoAuth.isCurrentUserClient() &&
+        <Link to="/client/dashboard">
+
+            <div className="flex items-center space-x-4">
+                <div className="logo-icon">
+                    {!isDark && !isSemiDark ? (
+                        <img src={MobileLogo} alt="" />
+                    ) : (
+                        <img src={MobileLogoWhite} alt="" />
+                    )}
+                </div>
+
+                {(!collapsed || menuHover) && (
+                    <div>
+                        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                            Numotronic
+                        </h1>
+                    </div>
+                )}
+            </div>
+        </Link>
+        }
+
 
       {(!collapsed || menuHover) && (
         <div

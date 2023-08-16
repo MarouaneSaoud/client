@@ -823,6 +823,26 @@ export const ManagerMenu = [
     isHide: true,
 
   },
+  {
+    isHeadr: true,
+    title: "Client",
+    isOpen: true,
+    isHide: true,
+    icon: "heroicons-outline:user",
+    child: [
+
+      {
+        childtitle:"New Client",
+        childlink:"add-clients",
+      },
+
+      {
+        childtitle: "Clients",
+        childlink:  "list-clients",
+      },
+    ],
+  },
+
 
 
 ];
