@@ -313,7 +313,7 @@ const DevicesList = ({ title = "Devices" }) => {
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
-                        <div class="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-2 gap-2">
                             <div className="flex items-center">
                                 <Button
                                     icon="heroicons-outline:newspaper"

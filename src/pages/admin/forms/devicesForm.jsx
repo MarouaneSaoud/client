@@ -324,8 +324,8 @@ const devicesForm = () => {
                             }
                         />
 
-                        <div class="grid grid-cols-5">
-                            <div class="col-span-4">
+                        <div className="grid grid-cols-5">
+                            <div className="col-span-4">
                                 <label htmlFor=" hh2" className="form-label ">
                                     Reference
                                 </label>
@@ -347,7 +347,7 @@ const devicesForm = () => {
                                     }
                                 />
                             </div>
-                            <div class="col-span-1">
+                            <div className="col-span-1">
                                 <div className="top-2.5 m-7 ">
                                 <Button
                                     onClick={()=> setShowMyModal(true)}

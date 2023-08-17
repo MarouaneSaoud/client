@@ -181,7 +181,7 @@ const DevicesList = ({ title = "Devices" }) => {
 
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                        {companyValue!==null && statusDeviceValue!=="INACTIF" && (
+               {/*         {companyValue!==null && statusDeviceValue!=="INACTIF" && (
                             <Tooltip content="Decommission" placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-red-600" type="button" onClick={()=> {
                                     decommission(
@@ -201,7 +201,7 @@ const DevicesList = ({ title = "Devices" }) => {
                                     <Icon icon="heroicons:arrow-left-on-rectangle" />
                                 </button>
                             </Tooltip>
-                        )}
+                        )}*/}
                     </div>
                 );
             },
