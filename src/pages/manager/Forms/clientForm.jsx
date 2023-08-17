@@ -67,11 +67,11 @@ const userForm = () => {
 
 
 
-    const [values, setValues] = useState({ username: "", name: "",cin: "", address: "",postalCode:"",CompanyEmail:getEmail()});
+    const [values, setValues] = useState({ email: "", name: "",cin: "", address: "",postalCode:"",CompanyEmail:getEmail()});
     async function submitHandler(e) {
         e.target.reset();
         e.preventDefault();
-
+        console.log(values)
         try {
             const response = await ClientService.addClient(values);
             if (response.status === 200) {
@@ -115,7 +115,7 @@ const userForm = () => {
                 >
                     <Textinput
                         name="name"
-                        label="username"
+                        label="Name"
                         type="text"
                         placeholder="Add your username"
                         register={register}
@@ -128,7 +128,7 @@ const userForm = () => {
                         }
                     />
                     <Textinput
-                        name="username"
+                        name="email"
                         label="email"
                         type="email"
                         placeholder="Add your email"
