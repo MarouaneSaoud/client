@@ -824,6 +824,14 @@ export const ManagerMenu = [
 
   },
   {
+    title: "My Devices",
+    icon: "heroicons-outline:cpu-chip",
+    link: "devicesClient",
+    isOpen: true,
+    isHide: true,
+
+  },
+  {
     isHeadr: true,
     title: "Client",
     isOpen: true,

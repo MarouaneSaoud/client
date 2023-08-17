@@ -75,6 +75,7 @@ const ViewCompany=lazy(() =>import ("./pages/admin/views/viewCompany"));
 const ManagerDashboard =lazy(()=> import("./pages/dashboard/managerDashboard"))
 const ClientForm = lazy(() => import("./pages/manager/Forms/clientForm"));
 const ListClient = lazy(() => import("./pages/manager/Tables/listClient"));
+const ClientDevices = lazy(() => import("./pages/manager/Tables/managerDevice"));
 
 // chart page
 const AppexChartPage = lazy(() => import("./pages/chart/appex-chart"));
@@ -332,6 +333,7 @@ function App() {
           {/* Numotronique pages */}
           <Route path="add-clients" element={<ClientForm/>}/>
           <Route path="list-clients" element={<ListClient/>}/>
+          <Route path="devicesClient" element={<ClientDevices/>}/>
 
           {/* Components pages */}
         </Route>

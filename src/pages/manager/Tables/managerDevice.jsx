@@ -1,9 +1,10 @@
-import React, {useState, useMemo, useEffect} from "react";
-import Card from "@/components/ui/Card";
-import Icon from "@/components/ui/Icon";
-import Tooltip from "@/components/ui/Tooltip";
-import CompanyService from "../../../services/company.services";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useMemo , useEffect  } from "react";
+import Papa from "papaparse"
+import Card from "../../../components/ui/Card";
+import {useNavigate} from "react-router-dom";
+import Icon from "../../../components/ui/Icon";
+import Tooltip from "../../../components/ui/Tooltip";
+import Button from "../../../components/ui/Button";
 import {
     useTable,
     useRowSelect,
@@ -12,20 +13,23 @@ import {
     usePagination,
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
+import DeviceService from "../../../services/device.services";
+import ClientAllocate from "./clientAllocate.jsx"
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
+import CompanyService from "../../../services/company.services";
 import getEmail from "../../../services/auth/auth.email";
-import authRole from "@/services/auth/auth.role.js";
+
+
+
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
         const defaultRef = React.useRef();
         const resolvedRef = ref || defaultRef;
-
         React.useEffect(() => {
             resolvedRef.current.indeterminate = indeterminate;
         }, [resolvedRef, indeterminate]);
-
 
         return (
             <>
@@ -39,11 +43,9 @@ const IndeterminateCheckbox = React.forwardRef(
         );
     }
 );
-
-const ExampleTwo = ({ title = "Clients" }) => {
-    const navigate = useNavigate();
-    const role = authRole();
-
+const DevicesList = ({ title = "Devices" }) => {
+    const [showMyModal,setShowMyModal]=useState(false)
+    const navigate=useNavigate();
 
     useEffect(() => {
         const checkUserAndToken = () => {
@@ -73,56 +75,97 @@ const ExampleTwo = ({ title = "Clients" }) => {
             clearInterval(intervalId);
         };
     }, []);
+    const handleOnClose =()=>{
+        setShowMyModal(false)
+        getDevices()
+    }
+    const [selectedImei, setSelectedImei] = useState(null);
 
-    const handleViewCompany = (row) => {
-        const companyId = row.cell.row.original.id;
-        navigate(`/view-company/${companyId}`);
+    const handleOpenReferenceForm = (imei) => {
+        setSelectedImei(imei);
+        setShowMyModal(true )
     };
+
+
 
     const COLUMNS = [
         {
             Header: "Id",
             accessor: "id",
             Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "IMEI",
+            accessor: "imei",
+            Cell: (row) => {
+                return <span>{row?.cell?.value}</span>;
+            },
+        },
+        {
+            Header: "status",
+            accessor: "statusDevice",
+            Cell: (row) => {
+                return (
+                    <span className="block w-full">
+          <span
+              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
+                  row?.cell?.value === "ONLINE"
+                      ? "text-success-500 bg-success-500"
+                      : ""
+              } 
+            ${
+                  row?.cell?.value === "OFFLINE"
+                      ? "text-warning-500 bg-warning-500"
+                      : ""
+              }
+            ${
+                  row?.cell?.value === "INACTIF"
+                      ? "text-danger-500 bg-danger-500"
+                      : ""
+              }
+            
+             `}
+          >
+            {row?.cell?.value}
+          </span>
+        </span>
+                );
+            },
+        },
 
-                return <span>{row?.cell?.value}</span>;
+        {
+            Header: "Firmware",
+            accessor: "firmware",
+            Cell: (row) => {
+                return <span><span> {row?.cell?.value !== null ? row?.cell?.value : "--"}</span></span>;
             },
         },
         {
-            Header: "User name",
-            accessor: "name",
+            Header: "Configuration",
+            accessor: "configuration",
             Cell: (row) => {
-                return <span>{row?.cell?.value}</span>;
+                return <span> {row?.cell?.value !== null ? row?.cell?.value : "--"}</span>;
             },
         },
         {
-            Header: "Email",
-            accessor: "email",
+            Header: "Company",
+            accessor: "company",
             Cell: (row) => {
-                return <span>{row?.cell?.value}</span>;
+                return (
+                    <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
+                     {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated"}
+          </span>
+                );
             },
         },
 
-
         {
-            Header: "National identity card",
-            accessor: "cin",
+            Header: "Last Seen",
+            accessor: "time",
             Cell: (row) => {
-                return <span>{row?.cell?.value}</span>;
-            },
-        },
-        {
-            Header: "Address",
-            accessor: "address",
-            Cell: (row) => {
-                return <span>{row?.cell?.value}</span>;
-            },
-        },
-        {
-            Header: "Postal Code",
-            accessor: "postalCode",
-            Cell: (row) => {
-                return <span>{row?.cell?.value}</span>;
+                return <span> {row?.cell?.value !== null ? row?.cell?.value : "00-00-0000-00-00"}</span>;
             },
         },
 
@@ -130,52 +173,64 @@ const ExampleTwo = ({ title = "Clients" }) => {
             Header: "action",
             accessor: "action",
             Cell: (row) => {
+                const companyValue = row?.cell?.row?.original?.company;
+                const imeiValue = row?.cell?.row?.original?.imei;
+                const statusDeviceValue = row?.cell?.row?.original?.statusDevice;
+
+
+
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                 {/*       <Tooltip content="View" placement="top" arrow animation="shift-away">
-                            <button className="action-btn text-orange-600"
-                                    onClick={() => handleViewCompany(row)}
-                                    type="button" >
-                                <Icon icon="heroicons:eye"/>
-                            </button>
-                        </Tooltip>
-
-                        {role==="SUPER_ADMIN"  && (
-                            <Tooltip
-                                content="Delete"
-                                placement="top"
-                                arrow
-                                animation="shift-away"
-                                theme="danger"
-                            >
-                                <button className="action-btn" type="button" onClick={() => deleteCompany(row)}>
-                                    <Icon icon="heroicons:trash" />
+                        {companyValue!==null && statusDeviceValue!=="INACTIF" && (
+                            <Tooltip content="Decommission" placement="top" arrow animation="shift-away">
+                                <button className="action-btn text-red-600" type="button" onClick={()=> {
+                                    decommission(
+                                        imeiValue
+                                    )
+                                }}>
+                                    <Icon icon="heroicons:no-symbol" />
                                 </button>
                             </Tooltip>
-                        ) }
-*/}
+
+                        )}
+                        {companyValue===null && statusDeviceValue!=="INACTIF" && (
+
+                            <Tooltip content="allocate" placement="top" arrow animation="shift-away">
+                                <button className="action-btn text-green-600" type="button"
+                                        onClick={()=>handleOpenReferenceForm(imeiValue)}>
+                                    <Icon icon="heroicons:arrow-left-on-rectangle" />
+                                </button>
+                            </Tooltip>
+                        )}
                     </div>
                 );
             },
         },
+
     ];
 
-
-    const [Client, setClient] = useState([]);
-    async function getClient() {
+    const [Device, setDevice] = useState([]);
+    async function getDevices() {
         try {
-            let result = await CompanyService.companyClientByEmail(getEmail());
-            setClient(result.data);
+            let result = await CompanyService.companyDeviceByEmail(getEmail());
+            setDevice(result.data);
         } catch (error) {
         }
     }
-
+    async function decommission(imei) {
+        try {
+            await DeviceService.decommission(imei);
+            getDevices()
+        } catch (error) {
+        }
+    }
     useEffect(()=>{
-        getClient();
+        getDevices();
     },[])
 
     const columns = useMemo(() => COLUMNS, []);
-    const data = Client ;
+    const data = Device ;
+
 
     const tableInstance = useTable(
         {
@@ -206,6 +261,7 @@ const ExampleTwo = ({ title = "Clients" }) => {
                 ...columns,
             ]);
         }
+
     );
     const {
         getTableProps,
@@ -224,19 +280,58 @@ const ExampleTwo = ({ title = "Clients" }) => {
         setPageSize,
         setGlobalFilter,
         prepareRow,
+        selectedFlatRows,
+
     } = tableInstance;
+    const selectedRows = selectedFlatRows.map((row) => row.original);
+    const handleExport = () => {
+        // Convertir les données en une chaîne CSV en utilisant papaparse
+        const csvString = Papa.unparse(selectedRows, {
+            quotes: true, // Encadrer les valeurs entre guillemets
+            delimiter: ',', // Utiliser la virgule comme séparateur
+            header: true, // Inclure une ligne d'en-tête avec les noms de colonnes
+        });
+        // Créer un fichier blob à partir de la chaîne CSV
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        // Créer un objet URL pour le fichier blob
+        const url = URL.createObjectURL(blob);
+        // Créer un lien pour le téléchargement
+        const link = document.createElement('a');
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'devices.csv');
+        document.body.appendChild(link);
+        // Déclencher le téléchargement
+        link.click();
+        // Nettoyer l'objet URL
+        URL.revokeObjectURL(url);
+    };
+
 
     const { globalFilter, pageIndex, pageSize } = state;
-
     return (
         <>
             <Card>
+
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
-                        <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+                        <div class="grid grid-cols-2 gap-2">
+                            <div className="flex items-center">
+                                <Button
+                                    icon="heroicons-outline:newspaper"
+                                    text="Export"
+                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-16"
+                                    onClick={handleExport }
+                                />
+                            </div>
+
+                            <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
+
+                        </div>
+
                     </div>
                 </div>
+
                 <div className="overflow-x-auto -mx-6">
                     <div className="inline-block min-w-full align-middle">
                         <div className="overflow-hidden ">
@@ -298,7 +393,7 @@ const ExampleTwo = ({ title = "Clients" }) => {
                             value={pageSize}
                             onChange={(e) => setPageSize(Number(e.target.value))}
                         >
-                            {[100, 500, 1000,5000].map((pageSize) => (
+                            {[100,500,1000,5000].map((pageSize) => (
                                 <option key={pageSize} value={pageSize}>
                                     Show {pageSize}
                                 </option>
@@ -376,8 +471,9 @@ const ExampleTwo = ({ title = "Clients" }) => {
                 </div>
                 {/*end*/}
             </Card>
+            <ClientAllocate onClose={handleOnClose} visible={showMyModal} imei={selectedImei}  />
         </>
     );
 };
 
-export default ExampleTwo;
+export default DevicesList;

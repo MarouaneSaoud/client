@@ -4,15 +4,13 @@ import {useForm} from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Card from "@/components/ui/Card";
-import Select from "react-select";
-import InputGroup from "@/components/ui/InputGroup";
 import {useNavigate} from "react-router-dom";
 import whoAuth from "../../../services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
-import DeviceService from "../../../services/device.services";
-import {toast} from "react-toastify";
-import AuthService from "../../../services/auth.services";
 import AuthRole from "@/services/auth/auth.role.js";
+import ClientService from "../../../services/client.services";
+import getEmail from "../../../services/auth/auth.email";
+import {toast} from "react-toastify";
 
 const FormValidationSchema = yup
     .object({
@@ -25,16 +23,7 @@ const FormValidationSchema = yup
     })
     .required();
 
-const MultiValidation = () => {
 
-    const {
-        register,
-        formState: {errors},
-        handleSubmit,
-    } = useForm({
-        resolver: yupResolver(FormValidationSchema),
-    });
-}
 const userForm = () => {
     const role =AuthRole();
     const {
@@ -78,17 +67,16 @@ const userForm = () => {
 
 
 
-    const [values, setValues] = useState({ username: "", name: "",cin: "", address: "",postalCode:""});
+    const [values, setValues] = useState({ username: "", name: "",cin: "", address: "",postalCode:"",CompanyEmail:getEmail()});
     async function submitHandler(e) {
         e.target.reset();
         e.preventDefault();
 
         try {
-            const response = await AuthService.addUserAdmin(values);
-
+            const response = await ClientService.addClient(values);
             if (response.status === 200) {
 
-                toast.success('User Added', {
+                toast.success('Client Added', {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 1500,
                     hideProgressBar: false,

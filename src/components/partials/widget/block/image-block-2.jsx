@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Image2 from "@/assets/images/all-img/widget-bg-2.png";
-import authNameAuth from "@/services/auth/auth.nameAuth.js";
+import authNameAuth from "@/services/auth/auth.email.js";
 import AuthServices from "@/services/auth.services.js";
 
 const ImageBlock2 = () => {
