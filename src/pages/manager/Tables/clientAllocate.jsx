@@ -11,7 +11,7 @@ import {useNavigate} from "react-router-dom";
 import ClientService from "@/services/client.services.js";
 
 export default function ReferenceForm({ visible, onClose, imei }) {
-    const [values, setValues] = useState({ imei: imei, company: "" });
+    const [values, setValues] = useState({ imei: imei, client: "" });
 
     const handleClose = (e) => {
         if (e.target.id === "container") onClose();
@@ -24,7 +24,8 @@ export default function ReferenceForm({ visible, onClose, imei }) {
     };
     async function submitHandler(e) {
         e.preventDefault();
-        await DeviceService.allocateDevice(values)
+        console.log(values)
+        await DeviceService.allocateDeviceToClient(values)
             .then((response) => {
                 if (response.data) {
                     onClose();
@@ -110,13 +111,13 @@ export default function ReferenceForm({ visible, onClose, imei }) {
                             className="react-select"
                             classNamePrefix="select"
                             styles={styles}
-                            options={Company}
-                            defaultValue={Company[0]}
+                            options={client}
+                            defaultValue={client[0]}
                             isClearable
                             onChange={(e) => {
                                 setValues({
                                     ...values,
-                                    company: e.value,
+                                    client: e.value,
                                 });
                                 console.log(values);
                             }}
