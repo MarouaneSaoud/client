@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import {useNavigate} from "react-router-dom";
+import ClientService from "@/services/client.services.js";
 
 export default function ReferenceForm({ visible, onClose, imei }) {
     const [values, setValues] = useState({ imei: imei, company: "" });
@@ -44,18 +45,18 @@ export default function ReferenceForm({ visible, onClose, imei }) {
                 }
             });
     }
-    const [Company, setCompany] = useState([]);
+    const [client, setClient] = useState([]);
 
-    async function getCompany() {
-        await CompanyServices.allCompany()
+    async function getClient() {
+        await ClientService.allClient()
             .then((response) => {
                 const data = response.data;
-                setCompany(data.map((item) => ({ value: item.id, label: item.name })));
+                setClient(data.map((item) => ({ value: item.id, label: item.name })));
             })
             .catch((error) => {});
     }
     useEffect(() => {
-        getCompany();
+        getClient()
     }, []);
 
     useEffect(() => {

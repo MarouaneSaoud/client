@@ -150,8 +150,8 @@ const DevicesList = ({ title = "Devices" }) => {
             },
         },
         {
-            Header: "Company",
-            accessor: "company",
+            Header: "Client",
+            accessor: "client",
             Cell: (row) => {
                 return (
                     <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
@@ -173,15 +173,14 @@ const DevicesList = ({ title = "Devices" }) => {
             Header: "action",
             accessor: "action",
             Cell: (row) => {
-                const companyValue = row?.cell?.row?.original?.company;
+                const clientValue = row?.cell?.row?.original?.client;
                 const imeiValue = row?.cell?.row?.original?.imei;
-                const statusDeviceValue = row?.cell?.row?.original?.statusDevice;
 
 
 
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                        {companyValue!==null && statusDeviceValue!=="INACTIF" && (
+                        {clientValue!==null && (
                             <Tooltip content="Decommission" placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-red-600" type="button" onClick={()=> {
                                     decommission(
@@ -193,7 +192,7 @@ const DevicesList = ({ title = "Devices" }) => {
                             </Tooltip>
 
                         )}
-                        {companyValue===null && statusDeviceValue!=="INACTIF" && (
+                        {clientValue===null &&  (
 
                             <Tooltip content="allocate" placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-green-600" type="button"
@@ -315,7 +314,7 @@ const DevicesList = ({ title = "Devices" }) => {
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
-                        <div class="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-2 gap-2">
                             <div className="flex items-center">
                                 <Button
                                     icon="heroicons-outline:newspaper"
