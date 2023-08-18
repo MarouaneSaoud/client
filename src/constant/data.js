@@ -832,6 +832,17 @@ export const ManagerMenu = [
 
   },
   {
+    title: "Device Group",
+    isOpen: true,
+    isHide: true,
+    icon: "heroicons-outline:rectangle-stack",
+    link: "list-groupe",
+
+
+  },
+
+
+{
     isHeadr: true,
     title: "Client",
     isOpen: true,

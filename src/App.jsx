@@ -71,12 +71,13 @@ const  Companyliste = lazy(() => import("./pages/admin/Tables/companyliste"));
 const  Devicesliste = lazy(() => import("./pages/admin/Tables/devicesliste"));
 const  Userliste = lazy(() => import("./pages/admin/Tables/userliste"));
 const ViewCompany=lazy(() =>import ("./pages/admin/views/viewCompany"));
+
 //page numotronic
 const ManagerDashboard =lazy(()=> import("./pages/dashboard/managerDashboard"))
 const ClientForm = lazy(() => import("./pages/manager/Forms/clientForm"));
 const ListClient = lazy(() => import("./pages/manager/Tables/listClient"));
 const ClientDevices = lazy(() => import("./pages/manager/Tables/managerDevice"));
-
+const GroupeDevice = lazy(()=> import("./pages/manager/Tables/listGroupe"))
 // chart page
 const AppexChartPage = lazy(() => import("./pages/chart/appex-chart"));
 const ChartJs = lazy(() => import("./pages/chart/chartjs"));
@@ -333,6 +334,7 @@ function App() {
           {/* Numotronique pages */}
           <Route path="add-clients" element={<ClientForm/>}/>
           <Route path="list-clients" element={<ListClient/>}/>
+          <Route path="list-groupe" element={<GroupeDevice/>}/>
           <Route path="devicesClient" element={<ClientDevices/>}/>
 
           {/* Components pages */}
