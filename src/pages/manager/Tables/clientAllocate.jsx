@@ -9,6 +9,7 @@ import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import {useNavigate} from "react-router-dom";
 import ClientService from "@/services/client.services.js";
+import getEmail from "@/services/auth/auth.email.js";
 
 export default function ReferenceForm({ visible, onClose, imei }) {
     const [values, setValues] = useState({ imei: imei, client: "" });
@@ -49,7 +50,7 @@ export default function ReferenceForm({ visible, onClose, imei }) {
     const [client, setClient] = useState([]);
 
     async function getClient() {
-        await ClientService.allClient()
+        await CompanyServices.companyClientByEmail(getEmail())
             .then((response) => {
                 const data = response.data;
                 setClient(data.map((item) => ({ value: item.id, label: item.name })));

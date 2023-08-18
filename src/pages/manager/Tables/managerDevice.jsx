@@ -198,7 +198,7 @@ const DevicesList = ({ title = "Devices" }) => {
                             <Tooltip content="allocate" placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-green-600" type="button"
                                         onClick={()=>handleOpenReferenceForm(imeiValue)}>
-                                    <Icon icon="heroicons:arrow-left-on-rectangle" />
+                                    <Icon icon="heroicons:link" />
                                 </button>
                             </Tooltip>
                         )}
