@@ -17,6 +17,9 @@ async function companyDeviceGroupByEmail(email) {
 async function companyDeviceByEmail(email) {
     return await http.get("/company/device/"+email,{headers});
 }
+async function deviceGroupWithDeviceCount(email) {
+    return await http.get("/company/deviceGroupWithDeviceCount/"+email,{headers});
+}
 
 async function countCompany() {
     return await http.get("/company/count",{headers});
@@ -28,5 +31,6 @@ async function deleteCompany(id) {
     return await http.delete("/company/delete/"+id,{headers});
 }
 
-const CompanyService = {allCompany,addCompany,companyById,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
+
+const CompanyService = {allCompany,addCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
 export default CompanyService;
