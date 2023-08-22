@@ -6,6 +6,10 @@ async function addDeviceGroup(values) {
     return await http.post("/deviceGroup/add",values,{headers});
 }
 
+async function deleteGroup(id) {
+    return await http.delete("/deviceGroup/delete/"+id,{headers});
+}
 
-const GroupeService = {addDeviceGroup};
+
+const GroupeService = {addDeviceGroup,deleteGroup};
 export default GroupeService;

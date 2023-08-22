@@ -134,7 +134,7 @@ const ExampleTwo = ({ title = "Groups" }) => {
                                 animation="shift-away"
                                 theme="danger"
                             >
-                                <button className="action-btn" type="button">
+                                <button className="action-btn" type="button" onClick={() => deleteGroup(row)}>
                                     <Icon icon="heroicons:trash" />
                                 </button>
                             </Tooltip>
@@ -149,7 +149,14 @@ const ExampleTwo = ({ title = "Groups" }) => {
         getGroupDevice()
 
     }
-
+    async function deleteGroup(row) {
+        try {
+            const id = row.cell.row.original.id;
+            await GroupeService.deleteGroup(id);
+            getGroupDevice();
+        } catch (error) {
+        }
+    }
     const [Group, setGroup] = useState([]);
     async function getGroupDevice() {
         try {
