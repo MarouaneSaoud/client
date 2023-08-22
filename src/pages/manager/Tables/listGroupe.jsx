@@ -2,7 +2,6 @@ import React, {useState, useMemo, useEffect} from "react";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Tooltip from "@/components/ui/Tooltip";
-import CompanyService from "../../../services/company.services";
 import { useNavigate } from "react-router-dom";
 import {
     useTable,
