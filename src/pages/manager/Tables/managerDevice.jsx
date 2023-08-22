@@ -325,12 +325,20 @@ const DevicesList = ({ title = "Devices" }) => {
                                 <Button
                                     icon="heroicons-outline:newspaper"
                                     text="Export"
-                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-16"
+                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-3"
                                     onClick={handleExport }
                                 />
+                                 <Button
+                                        icon="heroicons-outline:rectangle-stack"
+                                        text="Allocate to group"
+                                        className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-4 -mr-10"
+
+                                    />
+
                             </div>
 
-                            <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
+                            <div className="ml-16">
+                                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
 
                         </div>
 
