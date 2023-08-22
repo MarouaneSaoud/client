@@ -209,7 +209,6 @@ const listGroupe = ({ title = "Groups" }) => {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        footerGroups,
         page,
         nextPage,
         previousPage,
