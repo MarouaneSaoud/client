@@ -19,7 +19,6 @@ export default function GroupDeviceForm({visible, onClose}){
 
         await GroupeService.addDeviceGroup(values).then(response=>{
             if (response.status === 200) {
-                console.log(values)
                 onClose()
             }
         })

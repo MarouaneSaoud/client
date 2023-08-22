@@ -19,6 +19,7 @@ import authRole from "@/services/auth/auth.role.js";
 import Button from "../../../components/ui/Button";
 import GroupeDeviceForm from "../Forms/GroupeDeviceForm";
 import { format } from 'date-fns';
+import GroupeService from "../../../services/groupeDevice.services";
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -134,7 +135,7 @@ const ExampleTwo = ({ title = "Groups" }) => {
                                 animation="shift-away"
                                 theme="danger"
                             >
-                                <button className="action-btn" type="button" onClick={() => deleteGroup(row)}>
+                                <button className="action-btn" type="button" onClick={()=>deleteGroup(row)}>
                                     <Icon icon="heroicons:trash" />
                                 </button>
                             </Tooltip>
@@ -151,8 +152,8 @@ const ExampleTwo = ({ title = "Groups" }) => {
     }
     async function deleteGroup(row) {
         try {
-            const id = row.cell.row.original.id;
-            await GroupeService.deleteGroup(id);
+            const id = row.cell.row.original.deviceGroup.id;
+            await GroupeService.deleteGroup(id)
             getGroupDevice();
         } catch (error) {
         }
