@@ -78,6 +78,7 @@ const ClientForm = lazy(() => import("./pages/manager/Forms/clientForm"));
 const ListClient = lazy(() => import("./pages/manager/Tables/listClient"));
 const ManagerDevice = lazy(() => import("./pages/manager/Tables/managerDevice"));
 const GroupeDevice = lazy(()=> import("./pages/manager/Tables/listGroupe"))
+const DetailGroup = lazy(()=> import("./pages/manager/Tables/detailsGroup"))
 // chart page
 const AppexChartPage = lazy(() => import("./pages/chart/appex-chart"));
 const ChartJs = lazy(() => import("./pages/chart/chartjs"));
@@ -336,6 +337,7 @@ function App() {
           <Route path="list-clients" element={<ListClient/>}/>
           <Route path="list-groupe" element={<GroupeDevice/>}/>
           <Route path="managerDevice" element={<ManagerDevice/>}/>
+          <Route path="detailGroup" element={<DetailGroup/>}/>
 
           {/* Components pages */}
         </Route>

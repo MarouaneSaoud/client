@@ -208,7 +208,6 @@ const ExampleTwo = ({ title = "Groups" }) => {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        footerGroups,
         page,
         nextPage,
         previousPage,
