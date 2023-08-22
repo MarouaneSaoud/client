@@ -152,7 +152,7 @@ const listGroupe = ({ title = "Groups" }) => {
     }
     async function deleteGroup(row) {
         try {
-            const id = row.cell.row.original.id;
+            const id = row.cell.row.original.deviceGroup.id;
             await GroupeService.deleteGroup(id);
             getGroupDevice();
         } catch (error) {

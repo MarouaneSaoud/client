@@ -7,6 +7,7 @@ async function addDeviceGroup(values) {
 }
 
 async function deleteGroup(id) {
+    console.log("trr")
     return await http.delete("/deviceGroup/delete/"+id,{headers});
 }
 
