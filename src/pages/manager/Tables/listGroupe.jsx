@@ -18,6 +18,8 @@ import authRole from "@/services/auth/auth.role.js";
 import Button from "../../../components/ui/Button";
 import GroupeDeviceForm from "../Forms/GroupeDeviceForm";
 import { format } from 'date-fns';
+import CompanyService from "@/services/company.service.js";
+import GroupeService from "@/services/groupeDevice.services.js";
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -42,7 +44,7 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-const ExampleTwo = ({ title = "Groups" }) => {
+const listGroupe = ({ title = "Groups" }) => {
     const navigate = useNavigate();
     const role = authRole();
 
@@ -387,4 +389,4 @@ const ExampleTwo = ({ title = "Groups" }) => {
     );
 };
 
-export default ExampleTwo;
+export default listGroupe;
