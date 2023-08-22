@@ -120,15 +120,13 @@ const ExampleTwo = ({ title = "Groups" }) => {
             Cell: (row) => {
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                        {/*       <Tooltip content="View" placement="top" arrow animation="shift-away">
+                         <Tooltip content="View" placement="top" arrow animation="shift-away">
                             <button className="action-btn text-orange-600"
                                     onClick={() => handleViewCompany(row)}
                                     type="button" >
                                 <Icon icon="heroicons:eye"/>
                             </button>
                         </Tooltip>
-
-                        {role==="SUPER_ADMIN"  && (
                             <Tooltip
                                 content="Delete"
                                 placement="top"
@@ -136,12 +134,11 @@ const ExampleTwo = ({ title = "Groups" }) => {
                                 animation="shift-away"
                                 theme="danger"
                             >
-                                <button className="action-btn" type="button" onClick={() => deleteCompany(row)}>
+                                <button className="action-btn" type="button">
                                     <Icon icon="heroicons:trash" />
                                 </button>
                             </Tooltip>
-                        ) }
-*/}
+
                     </div>
                 );
             },
@@ -301,7 +298,7 @@ const ExampleTwo = ({ title = "Groups" }) => {
                             value={pageSize}
                             onChange={(e) => setPageSize(Number(e.target.value))}
                         >
-                            {[100, 500, 1000,5000].map((pageSize) => (
+                            {[10,25,50,100, 500, 1000,5000].map((pageSize) => (
                                 <option key={pageSize} value={pageSize}>
                                     Show {pageSize}
                                 </option>

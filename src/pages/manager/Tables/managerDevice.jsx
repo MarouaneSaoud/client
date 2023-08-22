@@ -15,6 +15,7 @@ import {
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import DeviceService from "../../../services/device.services";
 import ClientAllocate from "./clientAllocate.jsx"
+import GroupAllocate from "./groupAllocate.jsx"
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import CompanyService from "../../../services/company.services";
@@ -45,6 +46,7 @@ const IndeterminateCheckbox = React.forwardRef(
 );
 const DevicesList = ({ title = "Devices" }) => {
     const [showMyModal,setShowMyModal]=useState(false)
+    const [showGroupModal,setshowGroupModal]=useState(false)
     const navigate=useNavigate();
 
     useEffect(() => {
@@ -79,11 +81,20 @@ const DevicesList = ({ title = "Devices" }) => {
         setShowMyModal(false)
         getDevices()
     }
+    const handleOnCloseGroup =()=>{
+        setshowGroupModal(false)
+        getDevices()
+    }
     const [selectedImei, setSelectedImei] = useState(null);
 
     const handleOpenReferenceForm = (imei) => {
         setSelectedImei(imei);
         setShowMyModal(true )
+    };
+    const handleOpengroupAllocate = () => {
+        const imeiValues = selectedFlatRows.map(row => row.original.imei);
+        setSelectedImei(imeiValues);
+        setshowGroupModal(true )
     };
 
 
@@ -182,8 +193,6 @@ const DevicesList = ({ title = "Devices" }) => {
                 const imeiValue = row?.cell?.row?.original?.imei;
                 const statusDeviceValue = row?.cell?.row?.original?.statusDevice;
 
-
-
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
                         {clientValue!==null  && (
@@ -231,6 +240,7 @@ const DevicesList = ({ title = "Devices" }) => {
     }
     useEffect(()=>{
         getDevices();
+
     },[])
 
     const columns = useMemo(() => COLUMNS, []);
@@ -332,7 +342,7 @@ const DevicesList = ({ title = "Devices" }) => {
                                         icon="heroicons-outline:rectangle-stack"
                                         text="Allocate to group"
                                         className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-4 -mr-10"
-
+                                        onClick={()=>{handleOpengroupAllocate()}}
                                     />
 
                             </div>
@@ -485,6 +495,7 @@ const DevicesList = ({ title = "Devices" }) => {
                 {/*end*/}
             </Card>
             <ClientAllocate onClose={handleOnClose} visible={showMyModal} imei={selectedImei}  />
+            <GroupAllocate onClose={handleOnCloseGroup} visible={showGroupModal} imei={selectedImei}  />
         </>
     );
 };
