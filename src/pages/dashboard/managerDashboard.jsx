@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Card from "@/components/ui/Card";
 import GroupChart3 from "../../components/partials/widget/chart/group-chart-3";
 import SelectMonth from "@/components/partials/SelectMonth";
@@ -6,29 +6,23 @@ import StackBarChart from "../../components/partials/widget/chart/stack-bar";
 import Calculation from "../../components/partials/widget/chart/Calculation";
 import ExampleTwo from "../table/react-tables/ExampleTwo";
 import HomeBredCurbs from "./HomeBredCurbs";
-const campaigns = [
-  {
-    name: "Channel",
-    value: "roi",
-  },
-  {
-    name: "Email",
-    value: "40%",
-  },
-  {
-    name: "Website",
-    value: "28%",
-  },
-  {
-    name: "Facebook",
-    value: "34%",
-  },
-  {
-    name: "Offline",
-    value: "17%",
-  },
-];
+import CompanyService from "../../services/company.services";
+import getEmail from "../../services/auth/auth.email";
+
+
+
 const CrmPage = () => {
+  const [company, setCompany] = useState([]);
+  async function getCompany() {
+    try {
+      let result = await CompanyService.infosCompany(getEmail());
+      setCompany(result.data);
+    } catch (error) {
+    }
+  }
+  useEffect(()=> {
+    getCompany()
+  },[])
   return (
     <div>
       <HomeBredCurbs />
@@ -56,9 +50,9 @@ const CrmPage = () => {
           </div>
           <div className="lg:col-span-4 col-span-12 space-y-5">
             <div className="lg:col-span-4 col-span-12 space-y-5">
-              <Card title="Campaigns" headerslot={<SelectMonth />}>
+              <Card title="Company" headerslot={<SelectMonth />}>
                 <ul className="divide-y divide-slate-100 dark:divide-slate-700">
-                  {campaigns.map((item, i) => (
+                  {company.map((item, i) => (
                     <li
                       key={i}
                       className="first:text-xs text-sm first:text-slate-600 text-slate-600 dark:text-slate-300 py-2 first:uppercase"

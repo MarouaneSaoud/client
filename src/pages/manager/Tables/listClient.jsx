@@ -15,7 +15,9 @@ import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import getEmail from "../../../services/auth/auth.email";
-import authRole from "@/services/auth/auth.role.js";
+import GroupService from "../../../services/groupDevice.services";
+import ClientService from "../../../services/client.services";
+
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -42,7 +44,7 @@ const IndeterminateCheckbox = React.forwardRef(
 
 const ExampleTwo = ({ title = "Clients" }) => {
     const navigate = useNavigate();
-    const role = authRole();
+
 
 
     useEffect(() => {
@@ -132,15 +134,6 @@ const ExampleTwo = ({ title = "Clients" }) => {
             Cell: (row) => {
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                 {/*       <Tooltip content="View" placement="top" arrow animation="shift-away">
-                            <button className="action-btn text-orange-600"
-                                    onClick={() => handleViewCompany(row)}
-                                    type="button" >
-                                <Icon icon="heroicons:eye"/>
-                            </button>
-                        </Tooltip>
-
-                        {role==="SUPER_ADMIN"  && (
                             <Tooltip
                                 content="Delete"
                                 placement="top"
@@ -148,12 +141,12 @@ const ExampleTwo = ({ title = "Clients" }) => {
                                 animation="shift-away"
                                 theme="danger"
                             >
-                                <button className="action-btn" type="button" onClick={() => deleteCompany(row)}>
+                                <button className="action-btn" type="button" onClick={() => deleteClient(row)}>
                                     <Icon icon="heroicons:trash" />
                                 </button>
                             </Tooltip>
-                        ) }
-*/}
+
+
                     </div>
                 );
             },
@@ -173,7 +166,14 @@ const ExampleTwo = ({ title = "Clients" }) => {
     useEffect(()=>{
         getClient();
     },[])
-
+    async function deleteClient(row) {
+        try {
+            const id = row.cell.row.original.id;
+            await ClientService.deleteClient(id)
+            getClient();
+        } catch (error) {
+        }
+    }
     const columns = useMemo(() => COLUMNS, []);
     const data = Client ;
 

@@ -30,7 +30,9 @@ async function addCompany(values) {
 async function deleteCompany(id) {
     return await http.delete("/company/delete/"+id,{headers});
 }
+async function infosCompany(email) {
+    return await http.get("/company/connected/"+email,{headers});
+}
 
-
-const CompanyServices = {allCompany,addCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
+const CompanyServices = {allCompany,addCompany,infosCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
 export default CompanyServices;
