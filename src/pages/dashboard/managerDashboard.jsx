@@ -4,7 +4,6 @@ import GroupChart3 from "../../components/partials/widget/chart/group-chart-3";
 import SelectMonth from "@/components/partials/SelectMonth";
 import StackBarChart from "../../components/partials/widget/chart/stack-bar";
 import Calculation from "../../components/partials/widget/chart/Calculation";
-import ExampleTwo from "../table/react-tables/ExampleTwo";
 import HomeBredCurbs from "./HomeBredCurbs";
 import CompanyService from "../../services/company.services";
 import getEmail from "../../services/auth/auth.email";
@@ -94,7 +93,6 @@ const CrmPage = () => {
           </div>
         </div>
 
-        <ExampleTwo title="Latest Transaction" />
       </div>
     </div>
   );
