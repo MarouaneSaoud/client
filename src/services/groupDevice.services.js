@@ -5,12 +5,14 @@ const headers = getAuthHeaders();
 async function addDeviceGroup(values) {
     return await http.post("/deviceGroup/add",values,{headers});
 }
+async function deviceFromGroup(id) {
+    return await http.get("/deviceGroup/devicesFromGroup/"+id,{headers});
+}
 
 async function deleteGroup(id) {
-    console.log("trr")
     return await http.delete("/deviceGroup/delete/"+id,{headers});
 }
 
 
-const GroupeService = {addDeviceGroup,deleteGroup};
-export default GroupeService;
+const GroupService = {addDeviceGroup,deleteGroup,deviceFromGroup};
+export default GroupService;

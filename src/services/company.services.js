@@ -32,5 +32,5 @@ async function deleteCompany(id) {
 }
 
 
-const CompanyService = {allCompany,addCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
-export default CompanyService;
+const CompanyServices = {allCompany,addCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
+export default CompanyServices;

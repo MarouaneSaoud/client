@@ -11,7 +11,7 @@ import {useNavigate} from "react-router-dom";
 import ClientService from "@/services/client.services.js";
 import getEmail from "@/services/auth/auth.email.js";
 
-export default function ReferenceForm({ visible, onClose, imei }) {
+export default function ClientAllocate({ visible, onClose, imei }) {
     const [values, setValues] = useState({ imei: imei, client: "" });
 
     const handleClose = (e) => {
@@ -25,7 +25,6 @@ export default function ReferenceForm({ visible, onClose, imei }) {
     };
     async function submitHandler(e) {
         e.preventDefault();
-        console.log(values)
         await DeviceService.allocateDeviceToClient(values)
             .then((response) => {
                 if (response.data) {
@@ -72,7 +71,6 @@ export default function ReferenceForm({ visible, onClose, imei }) {
             if (whoAuth.isCurrentUserClient()||whoAuth.isCurrentUserAdmin()) {
                 navigate('/403');
             }
-
             const storedToken = localStorage.getItem('accessToken');
 
             if (storedToken) {

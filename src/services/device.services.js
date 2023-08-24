@@ -22,6 +22,11 @@ async function decommissionToClient(imei) {
 async function allocateDeviceToClient(values) {
     return await http.post("/device/allocateDeviceToClient",values,{headers});
 }
-
-const DeviceService = {allDevice,addDevice,countDevices,decommission,allocateDevice,decommissionToClient,allocateDeviceToClient};
+async function allocateDeviceToGroup(values) {
+    return await http.post("/device/allocateDeviceToGroup",values,{headers});
+}
+async function removeDeviceFromGroup(imei) {
+    return await http.get("/device/removeDeviceFromGroup/"+imei,{headers});
+}
+const DeviceService = {allDevice,addDevice,countDevices,decommission,allocateDevice,decommissionToClient,allocateDeviceToClient,allocateDeviceToGroup,removeDeviceFromGroup};
 export default DeviceService;

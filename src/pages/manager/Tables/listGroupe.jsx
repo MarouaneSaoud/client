@@ -14,12 +14,12 @@ import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import getEmail from "../../../services/auth/auth.email";
-import authRole from "@/services/auth/auth.role.js";
+
 import Button from "../../../components/ui/Button";
 import GroupeDeviceForm from "../Forms/GroupeDeviceForm";
 import { format } from 'date-fns';
-import CompanyService from "@/services/company.service.js";
-import GroupeService from "@/services/groupeDevice.services.js";
+import CompanyServices from "@/services/company.services.js";
+import GroupService from "@/services/groupDevice.services.js";
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -46,7 +46,6 @@ const IndeterminateCheckbox = React.forwardRef(
 
 const listGroupe = ({ title = "Groups" }) => {
     const navigate = useNavigate();
-    const role = authRole();
 
 
     useEffect(() => {
@@ -78,9 +77,9 @@ const listGroupe = ({ title = "Groups" }) => {
         };
     }, []);
 
-    const handleViewCompany = (row) => {
-        const companyId = row.cell.row.original.id;
-        navigate(`/view-company/${companyId}`);
+    const handleViewDevices = (row) => {
+        const id = row.cell.row.original.deviceGroup.id;
+        navigate(`/manager/detailGroup/${id}`);
     };
 
     const COLUMNS = [
@@ -123,7 +122,7 @@ const listGroupe = ({ title = "Groups" }) => {
                     <div className="flex space-x-3 rtl:space-x-reverse">
                          <Tooltip content="View" placement="top" arrow animation="shift-away">
                             <button className="action-btn text-orange-600"
-                                    onClick={() => handleViewCompany(row)}
+                                    onClick={() => handleViewDevices(row)}
                                     type="button" >
                                 <Icon icon="heroicons:eye"/>
                             </button>
@@ -153,7 +152,7 @@ const listGroupe = ({ title = "Groups" }) => {
     async function deleteGroup(row) {
         try {
             const id = row.cell.row.original.deviceGroup.id;
-            await GroupeService.deleteGroup(id);
+            await GroupService.deleteGroup(id);
             getGroupDevice();
         } catch (error) {
         }
@@ -161,7 +160,7 @@ const listGroupe = ({ title = "Groups" }) => {
     const [Group, setGroup] = useState([]);
     async function getGroupDevice() {
         try {
-            let result = await CompanyService.deviceGroupWithDeviceCount(getEmail());
+            let result = await CompanyServices.deviceGroupWithDeviceCount(getEmail());
             setGroup(result.data);
 
         } catch (error) {

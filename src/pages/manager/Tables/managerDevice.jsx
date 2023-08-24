@@ -18,7 +18,7 @@ import ClientAllocate from "./clientAllocate.jsx"
 import GroupAllocate from "./groupAllocate.jsx"
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
-import CompanyService from "../../../services/company.services";
+import CompanyServices from "@/services/company.services.js";
 import getEmail from "../../../services/auth/auth.email";
 
 
@@ -31,7 +31,6 @@ const IndeterminateCheckbox = React.forwardRef(
         React.useEffect(() => {
             resolvedRef.current.indeterminate = indeterminate;
         }, [resolvedRef, indeterminate]);
-
         return (
             <>
                 <input
@@ -40,6 +39,7 @@ const IndeterminateCheckbox = React.forwardRef(
                     {...rest}
                     className="table-checkbox"
                 />
+
             </>
         );
     }
@@ -91,14 +91,11 @@ const DevicesList = ({ title = "Devices" }) => {
         setSelectedImei(imei);
         setShowMyModal(true )
     };
-    const handleOpengroupAllocate = () => {
+    const handleOpenGroupAllocate = () => {
         const imeiValues = selectedFlatRows.map(row => row.original.imei);
         setSelectedImei(imeiValues);
         setshowGroupModal(true )
     };
-
-
-
     const COLUMNS = [
         {
             Header: "Id",
@@ -166,7 +163,7 @@ const DevicesList = ({ title = "Devices" }) => {
             Cell: (row) => {
                 return (
                     <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
-                     {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated"}
+                     {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated To Any Client"}
                   </span>
                 );
             },
@@ -191,7 +188,6 @@ const DevicesList = ({ title = "Devices" }) => {
             Cell: (row) => {
                 const clientValue = row?.cell?.row?.original?.client;
                 const imeiValue = row?.cell?.row?.original?.imei;
-                const statusDeviceValue = row?.cell?.row?.original?.statusDevice;
 
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
@@ -226,7 +222,7 @@ const DevicesList = ({ title = "Devices" }) => {
     const [Device, setDevice] = useState([]);
     async function getDevices() {
         try {
-            let result = await CompanyService.companyDeviceByEmail(getEmail());
+            let result = await CompanyServices.companyDeviceByEmail(getEmail());
             setDevice(result.data);
         } catch (error) {
         }
@@ -330,7 +326,7 @@ const DevicesList = ({ title = "Devices" }) => {
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
-                        <div class="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-2 gap-2">
                             <div className="flex items-center">
                                 <Button
                                     icon="heroicons-outline:newspaper"
@@ -342,7 +338,7 @@ const DevicesList = ({ title = "Devices" }) => {
                                         icon="heroicons-outline:rectangle-stack"
                                         text="Allocate to group"
                                         className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-4 -mr-10"
-                                        onClick={()=>{handleOpengroupAllocate()}}
+                                        onClick={()=>{handleOpenGroupAllocate()}}
                                     />
 
                             </div>

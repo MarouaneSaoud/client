@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Textinput from "@/components/ui/Textinput.jsx";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
-import GroupeService from "../../../services/groupeDevice.services";
+import GroupService from "../../../services/groupDevice.services";
 import {toast} from "react-toastify";
 import getEmail from "@/services/auth/auth.email.js";
 
@@ -17,7 +17,7 @@ export default function GroupDeviceForm({visible, onClose}){
         e.target.reset();
         e.preventDefault();
 
-        await GroupeService.addDeviceGroup(values).then(response=>{
+        await GroupService.addDeviceGroup(values).then(response=>{
             if (response.status === 200) {
                 onClose()
             }

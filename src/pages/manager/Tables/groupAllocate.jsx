@@ -8,12 +8,10 @@ import { toast } from "react-toastify";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import {useNavigate} from "react-router-dom";
-import ClientService from "@/services/client.services.js";
 import getEmail from "@/services/auth/auth.email.js";
-import GroupeService from "@/services/groupeDevice.services.js";
 
 export default function ReferenceForm({ visible, onClose, imei }) {
-    const [values, setValues] = useState({ imei: imei, client: "" });
+    const [values, setValues] = useState({ imei: null, group: null });
 
     const handleClose = (e) => {
         if (e.target.id === "container") onClose();
@@ -24,30 +22,50 @@ export default function ReferenceForm({ visible, onClose, imei }) {
             fontSize: "14px",
         }),
     };
+    async function allocateDevicesSequentially(index = 0) {
+        if (index >= imei.length) {
+            onClose();
+            return;
+        }
+
+        const myImei = imei[index];
+        const payload = {
+            ...values,
+            imei: myImei
+        };
+
+        try {
+            await DeviceService.allocateDeviceToGroup(payload);
+            console.log(payload)
+        } catch (error) {
+            if (error.response) {
+                toast.error("error", {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            }
+        }
+
+        await allocateDevicesSequentially(index + 1);
+    }
+
     async function submitHandler(e) {
         e.preventDefault();
-        console.log(values)
-        await DeviceService.allocateDeviceToClient(values)
-            .then((response) => {
-                if (response.data) {
-                    onClose();
-                }
-            })
-            .catch((error) => {
-                if (error.response) {
-                    toast.error("error", {
-                        position: "top-right",
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
-                }
-            });
+
+        try {
+            await allocateDevicesSequentially(); // Commencer l'allocation séquentielle
+        } catch (error) {
+            console.error("Erreur lors de l'allocation des IMEI", error);
+        }
     }
+
+
     const [group, setGroup] = useState([]);
 
     async function getGroup() {
@@ -63,7 +81,6 @@ export default function ReferenceForm({ visible, onClose, imei }) {
     }, []);
 
     useEffect(() => {
-        console.log(imei)
         setValues((prevValues) => ({ ...prevValues, imei: imei }));
     }, [imei]);
     const navigate=useNavigate();
@@ -122,6 +139,7 @@ export default function ReferenceForm({ visible, onClose, imei }) {
                                     ...values,
                                     group: e.value,
                                 });
+                                console.log(values)
                             }}
                         />
                     </div>
