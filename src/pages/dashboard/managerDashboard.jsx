@@ -17,12 +17,32 @@ const CrmPage = () => {
     try {
       let result = await CompanyService.infosCompany(getEmail());
       setCompany(result.data);
+
     } catch (error) {
     }
   }
   useEffect(()=> {
     getCompany()
   },[])
+  const campaigns = [
+    {
+      name: "Name",
+      value: company.name,
+    },
+    {
+      name: "Alternative name",
+      value: company.altName,
+    },
+    {
+      name: "Email",
+      value: company.email,
+    },
+    {
+      name: "Address",
+      value: company.address,
+    },
+
+  ];
   return (
     <div>
       <HomeBredCurbs />
@@ -50,9 +70,9 @@ const CrmPage = () => {
           </div>
           <div className="lg:col-span-4 col-span-12 space-y-5">
             <div className="lg:col-span-4 col-span-12 space-y-5">
-              <Card title="Company" headerslot={<SelectMonth />}>
+              <Card title="Company" >
                 <ul className="divide-y divide-slate-100 dark:divide-slate-700">
-                  {company.map((item, i) => (
+                  {campaigns.map((item, i) => (
                     <li
                       key={i}
                       className="first:text-xs text-sm first:text-slate-600 text-slate-600 dark:text-slate-300 py-2 first:uppercase"
