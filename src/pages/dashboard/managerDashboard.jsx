@@ -73,7 +73,6 @@ const CrmPage = () => {
             </div>
           </div>
         </div>
-
         <ExampleTwo title="Latest Transaction" />
       </div>
     </div>
