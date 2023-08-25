@@ -9,24 +9,23 @@ import Radio from "../../../components/ui/Radio";
 
 const FormValidationSchema = yup
     .object({
-        username: yup.string().required(),
-        number: yup.number().required().positive(),
-        betweenNumber: yup
+        filename: yup.string().required(),
+        apn: yup.string().required(),
+        serverip: yup
+            .string()
+            .required()
+            .matches(/^(\d{1,3}\.){3}\d{1,3}$/, "Invalid IP Address format"),
+        port: yup
             .number()
             .required("The Number between field is required")
             .positive()
             .min(1)
-            .max(10),
+            .max(9999),
 
-        alphabetic: yup
-            .string()
-            .required()
-            .matches(/^[a-zA-Z]+$/, "Must only consist of alphabetic characters"),
-        length: yup.string().required("The Min Character field is required").min(3),
-
-        password: yup.string().required().min(8),
-        url: yup.string().required("The URL field is required").url(),
-        message: yup.string().required("The Message field is required"),
+        sms: yup.number().required("The Sms field is required").positive().min(6).max(16),
+        pStop: yup.number().required("The pStop field is required").positive().min(6).max(20),
+        sendingInterval: yup.number().required("The Sending Interval field is required").positive().min(6).max(120),
+        angle: yup.number().required("The Angle field is required").positive().min(6).max(360),
     })
     .required();
 
