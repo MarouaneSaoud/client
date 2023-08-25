@@ -20,33 +20,10 @@ import GroupService from "@/services/groupDevice.services.js";
 import DeviceService from "@/services/device.services.js";
 
 
-
-
-const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
-        const defaultRef = React.useRef();
-        const resolvedRef = ref || defaultRef;
-        React.useEffect(() => {
-            resolvedRef.current.indeterminate = indeterminate;
-        }, [resolvedRef, indeterminate]);
-        return (
-            <>
-                <input
-                    type="checkbox"
-                    ref={resolvedRef}
-                    {...rest}
-                    className="table-checkbox"
-                />
-
-            </>
-        );
-    }
-);
 const DevicesList = ({ title = "Devices" }) => {
 
     const navigate=useNavigate();
     const { id } = useParams();
-
 
     useEffect(() => {
         const checkUserAndToken = () => {

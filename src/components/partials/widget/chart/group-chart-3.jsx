@@ -5,10 +5,12 @@ import shade4 from "@/assets/images/all-img/shade-4.png";
 import DeviceService from "../../../../services/device.services";
 import React,{useState,useEffect} from "react";
 import shade1 from "@/assets/images/all-img/shade-1.png";
+import CompanyServices from "@/services/company.services.js";
+import getEmail from "@/services/auth/auth.email.js";
 
 
 const GroupChart3 = () => {
-  const [deviceCount, setDeviceCount] = useState( 0);
+  const [statistic, setStatistic] = useState( {});
 
   const statistics = [
 
@@ -16,46 +18,32 @@ const GroupChart3 = () => {
       title: "Devices",
       bg: "bg-warning-500",
       text: "text-primary-500",
-      count: deviceCount,
-      icon: "heroicons:arrow-trending-up",
+      count: statistic.device,
       img: shade1,
     },
     {
-      title: "Revenue ",
-      count: "$86,954",
-
+      title: "Groups ",
+      count: statistic.group,
       bg: "bg-info-500",
       text: "text-primary-500",
-      percent: "8.67%",
-      icon: "heroicons:arrow-trending-up",
       img: shade2,
       percentClass: "text-primary-500",
     },
     {
-      title: "Conversion",
-      count: "15%",
+      title: "Clients",
+      count: statistic.client,
       bg: "bg-primary-500",
       text: "text-danger-500",
-      percent: "1.67%  ",
-      icon: "heroicons:arrow-trending-down",
       img: shade3,
       percentClass: "text-danger-500",
     },
-    {
-      title: "Leads",
-      count: "654",
-      bg: "bg-success-500",
-      text: "text-primary-500",
-      percent: "11.67%  ",
-      icon: "heroicons:arrow-trending-up",
-      img: shade4,
-      percentClass: "text-primary-500",
-    },
+
   ];
   async function getDevicesCount() {
     try {
-      let result = await DeviceService.countDevices();
-      setDeviceCount(result.data);
+      let result = await CompanyServices.companyStatistic(getEmail());
+      setStatistic(result.data)
+
     } catch (error) {
       console.log(error)
     }
@@ -84,19 +72,6 @@ const GroupChart3 = () => {
           <span className="block mb- text-2xl text-slate-900 dark:text-white font-medium mb-6">
             {item.count}
           </span>
-          <div className="flex space-x-2 rtl:space-x-reverse">
-            <div className={` flex-none text-xl  ${item.text} `}>
-              <Icon icon={item.icon} />
-            </div>
-            <div className="flex-1 text-sm">
-              <span className={` block mb-[2px] ${item.percentClass} `}>
-                {item.percent}
-              </span>
-              <span className="block mb-1 text-slate-600 dark:text-slate-300">
-                From last week
-              </span>
-            </div>
-          </div>
         </div>
       ))}
     </>

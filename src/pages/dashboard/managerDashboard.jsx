@@ -44,12 +44,12 @@ const CrmPage = () => {
   ];
   return (
     <div>
-      <HomeBredCurbs />
+      <HomeBredCurbs  title="Dashboard" />
       <div className="space-y-5">
         <div className="grid grid-cols-12 gap-5">
           <div className="lg:col-span-8 col-span-12 space-y-5">
             <Card>
-              <div className="grid xl:grid-cols-4 lg:grid-cols-2 col-span-1 gap-3">
+              <div className="grid xl:grid-cols-3 lg:grid-cols-2 col-span-1 gap-3">
                 <GroupChart3 />
               </div>
             </Card>
@@ -84,7 +84,7 @@ const CrmPage = () => {
                   ))}
                 </ul>
               </Card>
-              <Card title="trends calcultation" headerslot={<SelectMonth />}>
+              <Card title="Device statistics" >
                 <div className="legend-ring3">
                   <Calculation />
                 </div>

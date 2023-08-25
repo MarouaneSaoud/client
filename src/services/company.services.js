@@ -20,7 +20,6 @@ async function companyDeviceByEmail(email) {
 async function deviceGroupWithDeviceCount(email) {
     return await http.get("/company/deviceGroupWithDeviceCount/"+email,{headers});
 }
-
 async function countCompany() {
     return await http.get("/company/count",{headers});
 }
@@ -33,6 +32,12 @@ async function deleteCompany(id) {
 async function infosCompany(email) {
     return await http.get("/company/connected/"+email,{headers});
 }
+async function percentageAllocatedDevices(email) {
+    return await http.get("/company/percentageAllocatedDevices/"+email,{headers});
+}
+async function companyStatistic(email) {
+    return await http.get("/company/companyStatistic/"+email,{headers});
+}
 
-const CompanyServices = {allCompany,addCompany,infosCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
+const CompanyServices = {allCompany,companyStatistic,percentageAllocatedDevices,addCompany,infosCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
 export default CompanyServices;

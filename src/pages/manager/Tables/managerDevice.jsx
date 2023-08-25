@@ -192,7 +192,7 @@ const DevicesList = ({ title = "Devices" }) => {
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
                         {clientValue!==null  && (
-                            <Tooltip content="Decommission" placement="top" arrow animation="shift-away">
+                            <Tooltip content="Decommission From Client" placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-red-600" type="button" onClick={()=> {
                                     decommissionToClient(
                                         imeiValue
@@ -205,7 +205,7 @@ const DevicesList = ({ title = "Devices" }) => {
                         )}
                         {clientValue===null && (
 
-                            <Tooltip content="allocate" placement="top" arrow animation="shift-away">
+                            <Tooltip content="Allocate To Client " placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-green-600" type="button"
                                         onClick={()=>handleOpenReferenceForm(imeiValue)}>
                                     <Icon icon="heroicons:link" />

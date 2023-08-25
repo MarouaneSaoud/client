@@ -1,14 +1,27 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { colors } from "@/constant/data";
 import Chart from "react-apexcharts";
 import useDarkMode from "@/hooks/useDarkMode";
+import CompanyServices from "@/services/company.services.js";
+import getEmail from "@/services/auth/auth.email.js";
 
 const Calculation = ({ height = 335 }) => {
+  const [data , setData] = useState({});
+  async function percentageAllocatedDevices() {
+    try {
+      const result =await CompanyServices.percentageAllocatedDevices(getEmail());
+      setData(result.data)
+    } catch (error) {
+    }
+  }
+  useEffect(()=>{
+    percentageAllocatedDevices()
+  },[])
   const [isDark] = useDarkMode();
-  const series = [44, 55, 30];
+  const series = [data.affected,data.notAffected];
 
   const options = {
-    labels: ["70% Sent", "18% Opend", "12% Rejected"],
+    labels: ["Affected", "Not Affected"],
     dataLabels: {
       enabled: true,
     },
