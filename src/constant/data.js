@@ -840,6 +840,15 @@ export const ManagerMenu = [
 
 
   },
+  {
+    title: "Configuration",
+    isOpen: true,
+    isHide: true,
+    icon: "heroicons-outline:adjustments-horizontal",
+    link: "configuration",
+
+
+  },
 
 
 {
