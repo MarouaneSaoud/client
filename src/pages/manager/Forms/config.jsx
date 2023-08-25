@@ -26,6 +26,12 @@ const FormValidationSchema = yup
         pStop: yup.number().required("The pStop field is required").positive().min(6).max(20),
         sendingInterval: yup.number().required("The Sending Interval field is required").positive().min(6).max(120),
         angle: yup.number().required("The Angle field is required").positive().min(6).max(360),
+        wifi: yup.string().required("The Wifi field is required").matches(/^.{9,}$/, "Must be at least 9 characters"),
+
+        password: yup
+            .string()
+            .required()
+            .matches(/^\d{6}$/, "Sms password must be exactly 6 digits"),
     })
     .required();
 
@@ -89,7 +95,11 @@ SMS Response: ${data.sms}
 Operating Mode: ${selectoperatingMode}
 P.Stop: ${data.pStop}
 Sending Interval: ${data.sendingInterval}
-Angle: ${data.angle}S.D.M: ${selectsdm}`;
+Angle: ${data.angle}
+S.D.M: ${selectsdm}
+wifiPassword: ${data.wifi}
+smsPassword: ${data.password}`;
+
         return content;
     };
 
@@ -101,7 +111,7 @@ Angle: ${data.angle}S.D.M: ${selectsdm}`;
 
         const link = document.createElement("a");
         link.href = url;
-        link.download = `${data.filename}.txt`;
+        link.download = `${data.filename}.ini`;
         link.click();
     };
 
@@ -215,7 +225,22 @@ Angle: ${data.angle}S.D.M: ${selectsdm}`;
                         </div>
                     </div>
                 </div>
-
+                <Textinput
+                    label="WIFI Password"
+                    type="text"
+                    placeholder="Enter Your WIFI Password"
+                    name="wifi"
+                    register={register}
+                    error={errors.wifi}
+                />
+                <Textinput
+                    label="SMS Password"
+                    type="text"
+                    placeholder="Enter Your SMS Password "
+                    name="password"
+                    register={register}
+                    error={errors.password}
+                />
 
                 <div className="lg:col-span-2 col-span-1">
                     <div className="ltr:text-right rtl:text-left">
