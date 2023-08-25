@@ -10,7 +10,7 @@ import Radio from "../../../components/ui/Radio";
 const FormValidationSchema = yup
     .object({
         filename: yup.string().required(),
-        apn: yup.string().required(),
+        apn: yup.string().required().url(),
         serverip: yup
             .string()
             .required()
@@ -81,9 +81,30 @@ const Config = () => {
         resolver: yupResolver(FormValidationSchema),
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
+    const generateFileContent = (data) => {
+        const content = `Server IP: ${data.serverip} 
+Port: ${data.port}
+Apn: ${data.apn}
+SMS Response: ${data.sms}
+Operating Mode: ${selectoperatingMode}
+P.Stop: ${data.pStop}
+Sending Interval: ${data.sendingInterval}
+Angle: ${data.angle}S.D.M: ${selectsdm}`;
+        return content;
     };
+
+    const onSubmit = (data) => {
+        const content = generateFileContent(data);
+
+        const blob = new Blob([content], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${data.filename}.txt`;
+        link.click();
+    };
+
 
     return (
         <Card title="Configuration form">
@@ -119,7 +140,7 @@ const Config = () => {
 
                 <Textinput
                     label="Apn"
-                    type="text"
+                    type="url"
                     placeholder="Enter your Apn"
                     name="apn"
                     register={register}
