@@ -79,7 +79,7 @@ const ListClient = lazy(() => import("./pages/manager/Tables/listClient"));
 const ManagerDevice = lazy(() => import("./pages/manager/Tables/managerDevice"));
 const GroupeDevice = lazy(()=> import("./pages/manager/Tables/listGroupe"))
 const DetailGroup = lazy(()=> import("./pages/manager/Tables/detailsGroup"))
-const Configuration = lazy(()=> import("./pages/manager/Forms/config"))
+const Configuration = lazy(()=> import("./pages/manager/Forms/configForm.jsx"))
 
 // chart page
 const AppexChartPage = lazy(() => import("./pages/chart/appex-chart"));

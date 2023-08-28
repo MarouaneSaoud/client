@@ -36,7 +36,6 @@ export default function ReferenceForm({ visible, onClose, imei }) {
 
         try {
             await DeviceService.allocateDeviceToGroup(payload);
-            console.log(payload)
         } catch (error) {
             if (error.response) {
                 toast.error("error", {

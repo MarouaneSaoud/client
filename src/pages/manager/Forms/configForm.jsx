@@ -35,7 +35,7 @@ const FormValidationSchema = yup
     })
     .required();
 
-const Config = () => {
+const ConfigForm = () => {
     const [selectoperatingMode, setSelectoperatingMode] = useState("0");
     const handleoperatingMode = (e) => {
         setSelectoperatingMode(e.target.value);
@@ -117,7 +117,7 @@ smsPassword: ${data.password}`;
 
 
     return (
-        <Card title="Configuration form">
+        <Card title="Configuration">
         <div>
             <form
                 onSubmit={handleSubmit(onSubmit)}
@@ -253,4 +253,4 @@ smsPassword: ${data.password}`;
     );
 };
 
-export default Config;
+export default ConfigForm;

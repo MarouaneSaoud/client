@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 
-// image import
 import uploadSvgImage from "@/assets/images/svg/upload.svg";
 
 const DropZone = () => {
