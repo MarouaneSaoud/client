@@ -1,23 +1,39 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Chart from "react-apexcharts";
 import useDarkMode from "@/hooks/useDarkMode";
 import useRtl from "@/hooks/useRtl";
+import AuthServices from "@/services/auth.services.js";
+import authNameAuth from "@/services/auth/auth.email.js";
+import StatisticsService from "@/services/statistics.service.js";
 
 const RevenueBarChart = ({ height = 400 }) => {
   const [isDark] = useDarkMode();
   const [isRtl] = useRtl();
+  const [statistic , setStatistic] = useState([]);
+  const getStatistics = () => {
+    StatisticsService.getStatistics()
+        .then(response => {
+          setStatistic(response.data)
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }
+  useEffect(()=>{
+    getStatistics()
+  },[])
   const series = [
     {
-      name: "Net Profit",
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+      name: "Clients",
+      data: statistic.map(item => item.clientCount),
     },
     {
-      name: "Revenue",
-      data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+      name: "devices",
+      data: statistic.map(item => item.deviceCount),
     },
     {
-      name: "Free Cash Flow",
-      data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+      name: "Companies",
+      data: statistic.map(item => item.companyCount),
     },
   ];
   const options = {
@@ -87,17 +103,7 @@ const RevenueBarChart = ({ height = 400 }) => {
       },
     },
     xaxis: {
-      categories: [
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-      ],
+      categories: statistic.map(item => item.month),
       labels: {
         style: {
           colors: isDark ? "#CBD5E1" : "#475569",
@@ -118,7 +124,7 @@ const RevenueBarChart = ({ height = 400 }) => {
     tooltip: {
       y: {
         formatter: function (val) {
-          return "$ " + val + " thousands";
+          return " " + val + " ";
         },
       },
     },

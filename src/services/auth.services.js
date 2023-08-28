@@ -33,7 +33,6 @@ async function unableUser(id) {
 async function countUsers(values) {
     return await http.get("/users/count",{headers});
 }
-
 async function allUsersAdmin() {
     return await http.get("/users/findAdminUsers",{headers});
 }
