@@ -30,10 +30,10 @@ const ImageBlock2 = () => {
     >
       <div>
         <h4 className="text-xl font-medium text-white mb-2">
-          <span className="block font-normal">Good evening,</span>
+          <span className="block font-normal">Welcome to Numotronic,</span>
           <span className="block">{name}</span>
         </h4>
-        <p className="text-sm text-white font-normal">Welcome to Numotronic</p>
+        <p className="text-sm text-white font-normal">Have a good day</p>
       </div>
     </div>
   );

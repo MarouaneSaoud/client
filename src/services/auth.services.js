@@ -30,10 +30,14 @@ async function unableUser(id) {
 }
 
 
+async function countUsers(values) {
+    return await http.get("/users/count",{headers});
+}
+
 async function allUsersAdmin() {
     return await http.get("/users/findAdminUsers",{headers});
 }
 
-const AuthService = {login , loadUserByUsername,addUserAdmin,allUsersAdmin,disableUser,unableUser};
+const AuthService = {login , countUsers,loadUserByUsername,addUserAdmin,allUsersAdmin,disableUser,unableUser};
 
 export default AuthService;

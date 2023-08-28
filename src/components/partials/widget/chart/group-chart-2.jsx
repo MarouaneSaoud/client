@@ -3,6 +3,9 @@ import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import DeviceService from "../../../../services/device.services";
 import CompanyService from "@/services/company.services.js";
+import GroupService from "../../../../services/groupDevice.services";
+import ClientService from "../../../../services/client.services";
+import AuthService from "../../../../services/auth.services";
 const shapeLine1 = {
   series: [
     {
@@ -206,10 +209,12 @@ const shapeLine3 = {
 };
 
 
-
 const GroupChart2 = () => {
   const [deviceCount, setDeviceCount] = useState( 0);
   const [companyCount, setCompanyCount] = useState( 0);
+  const [userCount, setUserCount] = useState( 0);
+  const [groupCount, setGroupCount] = useState( 0);
+
   const statistics = [
     {
       name: shapeLine1,
@@ -219,36 +224,22 @@ const GroupChart2 = () => {
       text: "text-info-500",
       icon: "heroicons:arrow-trending-up-solid",
     },
-    {
-      name: shapeLine2,
-      title: "Tasks",
-      count: "564",
-      bg: "bg-[#FFEDE6] dark:bg-slate-900	",
-      text: "text-warning-500",
-      icon: "heroicons:arrow-trending-up-solid",
-    },
+
     {
       name: shapeLine3,
       title: "Group of devices",
-      count: "+5.0%",
+      count: groupCount,
       bg: "bg-[#EAE6FF] dark:bg-slate-900	",
       text: "text-[#5743BE]",
       icon: "heroicons:arrow-trending-up-solid",
     },
+
     {
       name: shapeLine3,
-      title: "Files",
-      count: "+5.0%",
-      bg: "bg-[#EAE6FF] dark:bg-slate-900	",
-      text: "text-[#5743BE]",
-      icon: "heroicons:arrow-trending-up-solid",
-    },
-    {
-      name: shapeLine1,
       title: "Users",
-      count: "3,564",
-      bg: "bg-[#E5F9FF] dark:bg-slate-900	",
-      text: "text-info-500",
+      count: userCount,
+      bg: "bg-[#e6ffe7] dark:bg-slate-900	",
+      text: "text-[#70be43]",
       icon: "heroicons:arrow-trending-up-solid",
     },
     {
@@ -264,10 +255,26 @@ const GroupChart2 = () => {
   const DeviceCounter = () => {
 
   }
+  async function getGroupCount() {
+    try {
+      let result = await GroupService.countGroup();
+      setGroupCount(result.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
   async function getDevicesCount() {
     try {
       let result = await DeviceService.countDevices();
       setDeviceCount(result.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  async function getUsersCount() {
+    try {
+      let result = await AuthService.countUsers();
+      setUserCount(result.data);
     } catch (error) {
       console.log(error)
     }
@@ -282,16 +289,18 @@ const GroupChart2 = () => {
   }
     useEffect(() => {
       getDevicesCount();
-      getCompaniesCount()
+      getCompaniesCount();
+      getUsersCount();
+      getGroupCount();
     }, []);
   return (
     <>
       {" "}
       {statistics.map((item, i) => (
         <div key={i}>
-          <Card bodyClass="pt-4 pb-3 px-4">
-            <div className="flex space-x-3 rtl:space-x-reverse">
-              <div className="flex-none">
+          <Card bodyClass="pt-4 pb-3 px-4 ">
+            <div className="flex space-x-3 rtl:space-x-reverse ">
+              <div className="flex-none ">
                 <div
                   className={`${item.bg} ${item.text} h-12 w-12 rounded-full flex flex-col items-center justify-center text-2xl`}
                 >
@@ -302,7 +311,7 @@ const GroupChart2 = () => {
                 <div className="text-slate-600 dark:text-slate-300 text-sm mb-1 font-medium">
                   {item.title}
                 </div>
-                <div className="text-slate-900 dark:text-white text-lg font-medium">
+                <div className="text-slate-900 dark:text-white text-lg font-medium ">
                   {item.count}
                 </div>
               </div>

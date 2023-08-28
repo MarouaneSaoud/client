@@ -8,6 +8,7 @@ async function allClient() {
 async function addClient(values) {
     return await http.post("/client/save",values,{headers});
 }
+
 async function deleteClient(id) {
     return await http.delete("/client/delete/"+id,{headers});
 }

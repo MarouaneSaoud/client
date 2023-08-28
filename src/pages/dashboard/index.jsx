@@ -53,7 +53,7 @@ const Ecommerce = () => {
             <ImageBlock2 />
           </div>
           <div className="2xl:col-span-9 lg:col-span-8 col-span-12">
-            <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
+            <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
               <GroupChart2 />
             </div>
           </div>

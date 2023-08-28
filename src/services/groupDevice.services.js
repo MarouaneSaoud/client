@@ -13,6 +13,9 @@ async function deleteGroup(id) {
     return await http.delete("/deviceGroup/delete/"+id,{headers});
 }
 
+async function countGroup(values) {
+    return await http.get("/deviceGroup/count",{headers});
+}
 
-const GroupService = {addDeviceGroup,deleteGroup,deviceFromGroup};
+const GroupService = {addDeviceGroup,deleteGroup,deviceFromGroup,countGroup};
 export default GroupService;
