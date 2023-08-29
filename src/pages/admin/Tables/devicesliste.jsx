@@ -201,6 +201,7 @@ const DevicesList = ({ title = "Devices" }) => {
                                 </button>
                             </Tooltip>
                         )}
+                        {role==="SUPER_ADMIN"  && (
                         <Tooltip
                             content="Delete"
                             placement="top"
@@ -212,13 +213,14 @@ const DevicesList = ({ title = "Devices" }) => {
                                 <Icon icon="heroicons:trash" />
                             </button>
                         </Tooltip>
+                        )}
                     </div>
                 );
             },
         },
 
     ];
-
+    const role = authRole();
     const [Device, setDevice] = useState([]);
     async function getDevices() {
         try {
