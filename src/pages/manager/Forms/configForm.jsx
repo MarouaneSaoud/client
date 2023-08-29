@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Textinput from "@/components/ui/Textinput";
 import Textarea from "@/components/ui/Textarea";
 import { useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Card from "../../../components/ui/Card";
 import Radio from "../../../components/ui/Radio";
+import {useNavigate} from "react-router-dom";
 
 const FormValidationSchema = yup
     .object({
@@ -36,6 +37,38 @@ const FormValidationSchema = yup
     .required();
 
 const ConfigForm = () => {
+    const navigate=useNavigate();
+
+    useEffect(() => {
+        const checkUserAndToken = () => {
+
+            if (whoAuth.isCurrentUserClient()||whoAuth.isCurrentUserAdmin()) {
+                navigate('/403');
+            }
+
+            const storedToken = localStorage.getItem('accessToken');
+
+            if (storedToken) {
+
+                const isExpired = authTokenExpired;
+
+                if (isExpired) {
+                    localStorage.removeItem('accessToken');
+                    navigate('/login');
+                }
+            } else {
+                navigate('/login');
+            }
+        };
+
+        checkUserAndToken();
+
+        const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []);
     const [selectoperatingMode, setSelectoperatingMode] = useState("0");
     const handleoperatingMode = (e) => {
         setSelectoperatingMode(e.target.value);

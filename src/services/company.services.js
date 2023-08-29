@@ -38,6 +38,9 @@ async function percentageAllocatedDevices(email) {
 async function companyStatistic(email) {
     return await http.get("/company/companyStatistic/"+email,{headers});
 }
+async function Top5Company() {
+    return await http.get("/company/topcompanies",{headers});
+}
 
-const CompanyServices = {allCompany,companyStatistic,percentageAllocatedDevices,addCompany,infosCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
+const CompanyServices = {Top5Company,allCompany,companyStatistic,percentageAllocatedDevices,addCompany,infosCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
 export default CompanyServices;
