@@ -67,7 +67,7 @@ const Ecommerce = () => {
             </Card>
           </div>
           <div className="lg:col-span-4 col-span-12">
-            <Card title="Overview" headerslot={<SelectMonth />}>
+            <Card title="Overview">
               <RadialsChart />
             </Card>
           </div>
