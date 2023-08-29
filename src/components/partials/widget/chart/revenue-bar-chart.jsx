@@ -72,7 +72,7 @@ const RevenueBarChart = ({ height = 400 }) => {
       },
     },
     title: {
-      text: "Revenue Report",
+      text: "Statistics Report",
       align: "left",
 
       offsetX: isRtl ? "0%" : 0,
