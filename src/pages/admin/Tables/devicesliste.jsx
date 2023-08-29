@@ -17,8 +17,7 @@ import DeviceService from "../../../services/device.services";
 import CompanyAllocate from "./companyAllocate.jsx"
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
-import AuthService from "../../../services/auth.services";
-
+import authRole from "@/services/auth/auth.role.js";
 
 
 
