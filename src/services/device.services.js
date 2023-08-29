@@ -28,5 +28,8 @@ async function allocateDeviceToGroup(values) {
 async function removeDeviceFromGroup(imei) {
     return await http.get("/device/removeDeviceFromGroup/"+imei,{headers});
 }
-const DeviceService = {allDevice,addDevice,countDevices,decommission,allocateDevice,decommissionToClient,allocateDeviceToClient,allocateDeviceToGroup,removeDeviceFromGroup};
+async function deleteDevice(imei) {
+    return await http.delete("/device/delete/"+imei,{headers});
+}
+const DeviceService = {allDevice,deleteDevice,addDevice,countDevices,decommission,allocateDevice,decommissionToClient,allocateDeviceToClient,allocateDeviceToGroup,removeDeviceFromGroup};
 export default DeviceService;

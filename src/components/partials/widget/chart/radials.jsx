@@ -6,7 +6,7 @@ import useWidth from "@/hooks/useWidth";
 const RadialsChart = () => {
   const [isDark] = useDarkMode();
   const { width, breakpoints } = useWidth();
-  const series = [44, 55, 67, 83];
+  const series = [55, 67, 83];
   const options = {
     chart: {
       toolbar: {
@@ -39,8 +39,8 @@ const RadialsChart = () => {
         },
       },
     },
-    labels: ["A", "B", "C", "D"],
-    colors: ["#4669FA", "#FA916B", "#50C793", "#0CE7FA"],
+    labels: [ "B", "C", "D"],
+    colors: [ "#FA916B", "#50C793", "#0CE7FA"],
   };
 
   return (

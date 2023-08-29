@@ -17,6 +17,7 @@ import DeviceService from "../../../services/device.services";
 import CompanyAllocate from "./companyAllocate.jsx"
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
+import AuthService from "../../../services/auth.services";
 
 
 
@@ -200,6 +201,17 @@ const DevicesList = ({ title = "Devices" }) => {
                                 </button>
                             </Tooltip>
                         )}
+                        <Tooltip
+                            content="Delete"
+                            placement="top"
+                            arrow
+                            animation="shift-away"
+                            theme="danger"
+                        >
+                            <button className="action-btn" type="button" onClick={() => deleteDevice(row)}>
+                                <Icon icon="heroicons:trash" />
+                            </button>
+                        </Tooltip>
                     </div>
                 );
             },
@@ -225,6 +237,14 @@ const DevicesList = ({ title = "Devices" }) => {
     useEffect(()=>{
         getDevices();
     },[])
+    async function deleteDevice(row) {
+        try {
+            const imei = row.cell.row.original.imei;
+            await DeviceService.deleteDevice(imei)
+            getDevices();
+        } catch (error) {
+        }
+    }
 
     const columns = useMemo(() => COLUMNS, []);
     const data = Device ;

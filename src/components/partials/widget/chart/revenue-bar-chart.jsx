@@ -2,8 +2,6 @@ import React, {useEffect, useState} from "react";
 import Chart from "react-apexcharts";
 import useDarkMode from "@/hooks/useDarkMode";
 import useRtl from "@/hooks/useRtl";
-import AuthServices from "@/services/auth.services.js";
-import authNameAuth from "@/services/auth/auth.email.js";
 import StatisticsService from "@/services/statistics.service.js";
 
 const RevenueBarChart = ({ height = 400 }) => {
@@ -72,7 +70,7 @@ const RevenueBarChart = ({ height = 400 }) => {
       },
     },
     title: {
-      text: "Statistics Report",
+      text: "Statistics",
       align: "left",
 
       offsetX: isRtl ? "0%" : 0,

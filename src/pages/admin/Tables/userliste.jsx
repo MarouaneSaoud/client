@@ -16,6 +16,7 @@ import whoAuth from "../../../services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import AuthService from "../../../services/auth.services";
 import AuthRole from "@/services/auth/auth.role.js";
+import ClientService from "../../../services/client.services";
 
 
 
@@ -126,6 +127,17 @@ const UserListe = ({ title = "Users" }) => {
                                 </button>
                             </Tooltip>
                         )}
+                        <Tooltip
+                            content="Delete"
+                            placement="top"
+                            arrow
+                            animation="shift-away"
+                            theme="danger"
+                        >
+                            <button className="action-btn" type="button" onClick={() => deleteUser(row)}>
+                                <Icon icon="heroicons:trash" />
+                            </button>
+                        </Tooltip>
                     </div>
                 );
             },
@@ -196,6 +208,14 @@ const UserListe = ({ title = "Users" }) => {
     const columns = useMemo(() => COLUMNS, []);
     const data = user ;
 
+    async function deleteUser(row) {
+        try {
+            const id = row.cell.row.original.id;
+            await AuthService.deleteUser(id)
+            getUsers();
+        } catch (error) {
+        }
+    }
 
     const tableInstance = useTable(
         {

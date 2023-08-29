@@ -36,7 +36,9 @@ async function countUsers(values) {
 async function allUsersAdmin() {
     return await http.get("/users/findAdminUsers",{headers});
 }
-
-const AuthService = {login , countUsers,loadUserByUsername,addUserAdmin,allUsersAdmin,disableUser,unableUser};
+async function deleteUser(id) {
+    return await http.delete("/users/delete/"+id,{headers});
+}
+const AuthService = {login,deleteUser , countUsers,loadUserByUsername,addUserAdmin,allUsersAdmin,disableUser,unableUser};
 
 export default AuthService;
