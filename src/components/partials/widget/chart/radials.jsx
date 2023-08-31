@@ -1,12 +1,27 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Chart from "react-apexcharts";
 import useDarkMode from "@/hooks/useDarkMode";
 import useWidth from "@/hooks/useWidth";
+import StatisticsService from "@/services/statistics.service.js";
 
 const RadialsChart = () => {
+  const [statistic, setStatistic] = useState({total: 0, active: 0, offline: 0,inactive: 0,});
+  let total =0;
+  const getStatistics = async () => {
+    try {
+      const response = await StatisticsService.getDeviceStatistic();
+      setStatistic(response.data);
+      total=response.data.total;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(()=>{
+    getStatistics();
+  },[])
   const [isDark] = useDarkMode();
   const { width, breakpoints } = useWidth();
-  const series = [55, 67, 83];
+  const series = [statistic.active, statistic.offline, statistic.inactive];
   const options = {
     chart: {
       toolbar: {
@@ -26,10 +41,10 @@ const RadialsChart = () => {
           },
           total: {
             show: true,
-            label: "Total",
+            label: `Total devices`,
             color: isDark ? "#CBD5E1" : "#475569",
             formatter: function () {
-              return 249;
+             return total
             },
           },
         },
@@ -39,8 +54,8 @@ const RadialsChart = () => {
         },
       },
     },
-    labels: [ "B", "C", "D"],
-    colors: [ "#FA916B", "#50C793", "#0CE7FA"],
+    labels: [ "online devices", "offline devices ", "inactive devices"],
+    colors: [  "#50C793", "#0CE7FA","#FA916B"],
   };
 
   return (

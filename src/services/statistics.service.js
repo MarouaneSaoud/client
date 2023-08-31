@@ -5,6 +5,9 @@ const headers = getAuthHeaders();
 async function getStatistics() {
     return await http.get("/statistics/statisticAdmin",{headers});
 }
+async function getDeviceStatistic() {
+    return await http.get("/statistics/statisticDevices",{headers});
+}
 
-const Statistics = {getStatistics}
+const Statistics = {getStatistics,getDeviceStatistic}
 export default Statistics;

@@ -8,8 +8,8 @@ const RevenueBarChart = ({ height = 400 }) => {
   const [isDark] = useDarkMode();
   const [isRtl] = useRtl();
   const [statistic , setStatistic] = useState([]);
-  const getStatistics = () => {
-    StatisticsService.getStatistics()
+  const getStatistics =  async () => {
+    await StatisticsService.getStatistics()
         .then(response => {
           setStatistic(response.data)
         })

@@ -122,15 +122,15 @@ const ConfigForm = () => {
     });
 
     const generateFileContent = (data) => {
-        const content = `Server IP: ${data.serverip} 
-Port: ${data.port}
-Apn: ${data.apn}
-SMS Response: ${data.sms}
-Operating Mode: ${selectoperatingMode}
-P.Stop: ${data.pStop}
-Sending Interval: ${data.sendingInterval}
-Angle: ${data.angle}
-S.D.M: ${selectsdm}
+        const content = `serverIp: ${data.serverip} 
+port: ${data.port}
+apn: ${data.apn}
+smsResponse: ${data.sms}
+mode: ${selectoperatingMode}
+pStop ${data.pStop}
+sendingInterval: ${data.sendingInterval}
+angle: ${data.angle}
+sdm: ${selectsdm}
 wifiPassword: ${data.wifi}
 smsPassword: ${data.password}`;
 

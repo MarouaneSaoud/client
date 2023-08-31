@@ -64,14 +64,16 @@ export default function Config({ visible, onClose, imei }) {
         const lines = iniText.split("\n");
 
         lines.forEach((line) => {
-            const [key, value] = line.split(":");
-            if (key && value) {
+            const [key, ...valueParts] = line.split(": ");
+            if (key && valueParts.length > 0) {
+                const value = valueParts.join(": ");
                 iniObject[key.trim()] = value.trim();
             }
         });
 
         return iniObject;
     };
+
     async function sendDeviceSequentially(index = 0) {
         if (index >= imei.length) {
             onClose();
@@ -83,7 +85,6 @@ export default function Config({ visible, onClose, imei }) {
             ...iniData,
             imei: myImei
         };
-        console.log(payload)
 
         try {
             await ConfigurationServices.config(payload);

@@ -259,15 +259,28 @@ const devicesForm = () => {
         }
     });
     const handleDownload = () => {
-        const csvFilePath = 'src/constant/deviceExample.csv'; // Chemin relatif au composant
+        const csvData = Papa.unparse(
+            [{ serialNum: '', imei: '', reference: '', description: '' }],
+            {
+                quotes: true,
+                delimiter: ',',
+                header: true,
+            }
+        );
+
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+
         const link = document.createElement('a');
-        link.href = csvFilePath;
-        link.setAttribute('download', 'deviceExample.csv');
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'header_only.csv');
+
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    };
 
+        URL.revokeObjectURL(url);
+    };
 
     return (
         <>

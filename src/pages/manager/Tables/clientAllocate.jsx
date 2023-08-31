@@ -103,7 +103,7 @@ export default function ClientAllocate({ visible, onClose, imei }) {
             id="container"
             className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center items-center drop-shadow-2xl"
         >
-            <Card title="Allocate">
+            <Card title="Allocate Device To Client">
                 <form onSubmit={submitHandler}>
                     <div className="lg:grid-cols-3 md:grid-cols-2 grid-cols-1 grid gap-5 mb-5 last:mb-0">
                         <Select
