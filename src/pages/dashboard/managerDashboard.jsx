@@ -56,7 +56,7 @@ const CrmPage = () => {
             <Card>
               <header className="md:flex md:space-y-0 space-y-4">
                 <h6 className="flex-1 text-slate-900 dark:text-white capitalize">
-                  Deal distribution by stage
+                 Statistics
                 </h6>
                 <div className="flex-none">
                   <SelectMonth />
