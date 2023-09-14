@@ -127,7 +127,7 @@ port: ${data.port}
 apn: ${data.apn}
 smsResponse: ${data.sms}
 mode: ${selectoperatingMode}
-pStop ${data.pStop}
+pStop: ${data.pStop}
 sendingInterval: ${data.sendingInterval}
 angle: ${data.angle}
 sdm: ${selectsdm}
@@ -199,9 +199,9 @@ smsPassword: ${data.password}`;
                     register={register}
                     error={errors.sms}
                 />
-                <div class="fromGroup">
+                <div className="fromGroup">
                     <label className="block capitalize form-label  ">Operating Mode</label>
-                    <div class="relative mt-4">
+                    <div className="relative mt-4">
                         <div className="flex flex-wrap space-xy-5">
                             {operatingMode.map((mode) => (
                                 <Radio
@@ -242,9 +242,9 @@ smsPassword: ${data.password}`;
                     register={register}
                     error={errors.angle}
                 />
-                <div class="fromGroup">
+                <div className="fromGroup">
                     <label className="block capitalize form-label  ">S.D.M</label>
-                    <div class="relative mt-4">
+                    <div className="relative mt-4">
                         <div className="flex flex-wrap space-xy-5">
                             {sdm.map((mode) => (
                                 <Radio

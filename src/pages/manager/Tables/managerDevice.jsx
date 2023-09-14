@@ -332,7 +332,6 @@ const DevicesList = ({ title = "Devices" }) => {
     return (
         <>
             <Card>
-
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
@@ -344,83 +343,89 @@ const DevicesList = ({ title = "Devices" }) => {
                                     className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-3"
                                     onClick={handleExport}
                                 />
-                                 <Button
-                                        icon="heroicons-outline:rectangle-stack"
-                                        text="Allocate to group"
-                                        className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-4 mr-4 -mr-10"
-                                        onClick={()=>{handleOpenGroupAllocate()}}
-                                    />
+                                <Button
+                                    icon="heroicons-outline:rectangle-stack"
+                                    text="Allocate to group"
+                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-4 mr-4 -mr-10"
+                                    onClick={() => { handleOpenGroupAllocate() }}
+                                />
                                 <Button
                                     icon="heroicons-outline:adjustments-horizontal"
                                     text="Add Configuration"
                                     className="btn-dark rounded-[999px] px-4 py-2 text-sm -mr-2"
-                                    onClick={()=>{handleOpenConfig()}}
+                                    onClick={() => { handleOpenConfig() }}
                                 />
-
                             </div>
 
                             <div className="ml-16">
-                                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
-
+                                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+                            </div>
                         </div>
-
                     </div>
                 </div>
 
-                <div className="overflow-x-auto -mx-6">
-                    <div className="inline-block min-w-full align-middle">
-                        <div className="overflow-hidden ">
-                            <table
-                                className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700"
-                                {...getTableProps}
-                            >
-                                <thead className="bg-slate-200 dark:bg-slate-700">
-                                {headerGroups.map((headerGroup) => (
-                                    <tr {...headerGroup.getHeaderGroupProps()}>
-                                        {headerGroup.headers.map((column) => (
-                                            <th
-                                                {...column.getHeaderProps(
-                                                    column.getSortByToggleProps()
-                                                )}
-                                                scope="col"
-                                                className=" table-th "
-                                            >
-                                                {column.render("Header")}
-                                                <span>
-                            {column.isSorted
-                                ? column.isSortedDesc
-                                    ? " 🔽"
-                                    : " 🔼"
-                                : ""}
-                          </span>
-                                            </th>
-                                        ))}
-                                    </tr>
-                                ))}
-                                </thead>
-                                <tbody
-                                    className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700"
-                                    {...getTableBodyProps}
+                {Device.length === 0 ? (
+                    <p className="text-gray-500">Devices not found.</p>
+                ) : (
+                    <div className="overflow-x-auto -mx-6">
+                        <div className="inline-block min-w-full align-middle">
+                            <div className="overflow-hidden">
+                                <table
+                                    className="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700"
+                                    {...getTableProps}
                                 >
-                                {page.map((row) => {
-                                    prepareRow(row);
-                                    return (
-                                        <tr {...row.getRowProps()}>
-                                            {row.cells.map((cell) => {
-                                                return (
-                                                    <td {...cell.getCellProps()} className="table-td">
-                                                        {cell.render("Cell")}
-                                                    </td>
-                                                );
-                                            })}
+                                    <thead className="bg-slate-200 dark:bg-slate-700">
+                                    {headerGroups.map((headerGroup) => (
+                                        <tr {...headerGroup.getHeaderGroupProps()}>
+                                            {headerGroup.headers.map((column) => (
+                                                <th
+                                                    {...column.getHeaderProps(
+                                                        column.getSortByToggleProps()
+                                                    )}
+                                                    scope="col"
+                                                    className="table-th"
+                                                >
+                                                    {column.render("Header")}
+                                                    <span>
+                                                        {column.isSorted
+                                                            ? column.isSortedDesc
+                                                                ? " 🔽"
+                                                                : " 🔼"
+                                                            : ""}
+                                                    </span>
+                                                </th>
+                                            ))}
                                         </tr>
-                                    );
-                                })}
-                                </tbody>
-                            </table>
+                                    ))}
+                                    </thead>
+                                    <tbody
+                                        className="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700"
+                                        {...getTableBodyProps}
+                                    >
+                                    {page.map((row) => {
+                                        prepareRow(row);
+                                        return (
+                                            <tr {...row.getRowProps()}>
+                                                {row.cells.map((cell) => {
+                                                    return (
+                                                        <td
+                                                            {...cell.getCellProps()}
+                                                            className="table-td"
+                                                        >
+                                                            {cell.render("Cell")}
+                                                        </td>
+                                                    );
+                                                })}
+                                            </tr>
+                                        );
+                                    })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
+
                 <div className="md:flex md:space-y-0 space-y-5 justify-between mt-6 items-center">
                     <div className=" flex items-center space-x-3 rtl:space-x-reverse">
                         <select
@@ -428,18 +433,18 @@ const DevicesList = ({ title = "Devices" }) => {
                             value={pageSize}
                             onChange={(e) => setPageSize(Number(e.target.value))}
                         >
-                            {[100,500,1000,5000].map((pageSize) => (
+                            {[100, 500, 1000, 5000].map((pageSize) => (
                                 <option key={pageSize} value={pageSize}>
                                     Show {pageSize}
                                 </option>
                             ))}
                         </select>
                         <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-              Page{" "}
+                        Page{" "}
                             <span>
-                {pageIndex + 1} of {pageOptions.length}
-              </span>
-            </span>
+                            {pageIndex + 1} of {pageOptions.length}
+                        </span>
+                    </span>
                     </div>
                     <ul className="flex items-center  space-x-3  rtl:space-x-reverse">
                         <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">
@@ -504,15 +509,13 @@ const DevicesList = ({ title = "Devices" }) => {
                         </li>
                     </ul>
                 </div>
-                {/*end*/}
             </Card>
-            <ClientAllocate onClose={handleOnClose} visible={showMyModal} imei={selectedImei}  />
-            <GroupAllocate onClose={handleOnCloseGroup} visible={showGroupModal} imei={selectedImei}  />
-
-            <Config onClose={handleOnCloseConfig} visible={showConfig} imei={selectedImei}  />
-
+            <ClientAllocate onClose={handleOnClose} visible={showMyModal} imei={selectedImei} />
+            <GroupAllocate onClose={handleOnCloseGroup} visible={showGroupModal} imei={selectedImei} />
+            <Config onClose={handleOnCloseConfig} visible={showConfig} imei={selectedImei} />
         </>
     );
+
 };
 
 export default DevicesList;
