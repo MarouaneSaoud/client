@@ -235,12 +235,9 @@ const DevicesList = ({ title = "Devices" }) => {
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
-                        <div className="grid grid-cols-2 gap-2">
-
                             <div className="ml-16">
                                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
                             </div>
-                        </div>
                     </div>
                 </div>
 

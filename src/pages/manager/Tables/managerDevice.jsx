@@ -332,37 +332,36 @@ const DevicesList = ({ title = "Devices" }) => {
     return (
         <>
             <Card>
+
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
-                        <div className="grid grid-cols-2 gap-2">
-                            <div className="flex items-center">
-                                <Button
-                                    icon="heroicons-outline:newspaper"
-                                    text="Export"
-                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-3"
-                                    onClick={handleExport}
-                                />
-                                <Button
-                                    icon="heroicons-outline:rectangle-stack"
-                                    text="Allocate to group"
-                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-4 mr-4 -mr-10"
-                                    onClick={() => { handleOpenGroupAllocate() }}
-                                />
-                                <Button
-                                    icon="heroicons-outline:adjustments-horizontal"
-                                    text="Add Configuration"
-                                    className="btn-dark rounded-[999px] px-4 py-2 text-sm -mr-2"
-                                    onClick={() => { handleOpenConfig() }}
-                                />
-                            </div>
-
-                            <div className="ml-16">
-                                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                            </div>
+                        <div>
+                            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
                         </div>
                     </div>
                 </div>
+                <div className="flex justify-end mb-1.5">
+                    <Button
+                        icon="heroicons-outline:newspaper"
+                        text="Export"
+                        className="btn-dark rounded-[999px] px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm ml-3"
+                        onClick={handleExport}
+                    />
+                    <Button
+                        icon="heroicons-outline:rectangle-stack"
+                        text="Grouping"
+                        className="btn-dark rounded-[999px] px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm ml-4 mr-4 -mr-10"
+                        onClick={() => { handleOpenGroupAllocate() }}
+                    />
+                    <Button
+                        icon="heroicons-outline:adjustments-horizontal"
+                        text="Configs"
+                        className="btn-dark rounded-[999px] px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm"
+                        onClick={() => { handleOpenConfig() }}
+                    />
+                </div>
+
 
                 {Device.length === 0 ? (
                     <p className="text-gray-500">Devices not found.</p>
