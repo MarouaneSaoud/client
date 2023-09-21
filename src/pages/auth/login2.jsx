@@ -1,19 +1,17 @@
-import React, {useState} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import LoginForm from "./common/login-form";
 import Social from "./common/social";
 import { ToastContainer } from "react-toastify";
 import useDarkMode from "@/hooks/useDarkMode";
-import loginpic from "../../assets/images/all-img/loginpic.png"
+import loginpic from "../../assets/images/all-img/loginpic.png";
 
-// image import
+// Importation des images
 import LogoWhite from "@/assets/images/logo/logo-white.svg";
 import Logo from "@/assets/images/logo/logo.svg";
 import bgImage from "@/assets/images/all-img/login-bg.png";
 
-
-const login2 = () => {
-
+const Login2 = () => {
   const [isDark] = useDarkMode();
   return (
       <>
@@ -33,22 +31,22 @@ const login2 = () => {
                     </Link>
                   </div>
                   <div className="text-center 2xl:mb-10 mb-4">
-                    <h4 className="font-medium">Sign in</h4>
+                    <h4 className="font-medium">Se connecter</h4>
                     <div className="text-slate-500 dark:text-slate-400 text-base">
-                      Sign in to your account to start using Numotronic
+                      Connectez-vous à votre compte pour commencer à utiliser Numotronic
                     </div>
                   </div>
                   <LoginForm />
 
-            {/*      <div className="md:max-w-[345px] mt-6 mx-auto font-normal text-slate-500 dark:text-slate-400mt-12 uppercase text-sm">
-                    Don’t have an account?{" "}
-                    <Link
-                        to="/register"
-                        className="text-slate-900 dark:text-white font-medium hover:underline"
-                    >
-                      Sign up
-                    </Link>
-                  </div>*/}
+                  {/* <div className="md:max-w-[345px] mt-6 mx-auto font-normal text-slate-500 dark:text-slate-400 mt-12 uppercase text-sm">
+                  Vous n'avez pas de compte ?{" "}
+                  <Link
+                    to="/register"
+                    className="text-slate-900 dark:text-white font-medium hover:underline"
+                  >
+                    Inscrivez-vous
+                  </Link>
+                </div> */}
                 </div>
               </div>
             </div>
@@ -59,15 +57,15 @@ const login2 = () => {
                 }}
             >
               <div className="flex flex-col h-full justify-center ">
-                <div className="flex-1 flex flex-col  justify-center items-center"style={{ marginTop: '-250px' }}>
+                <div className="flex-1 flex flex-col  justify-center items-center" style={{ marginTop: '-250px' }}>
                   <Link to="/">
                     <img src={LogoWhite} alt="" className="mb-10" />
                   </Link>
                 </div>
                 <div>
                   <div className="black-500-title max-w-[525px] mx-auto pb-20 text-center" style={{ marginBottom: '-55px' }}>
-                    Achieve A Greater
-                    <span className="font-bold" >  Performance </span>
+                    Atteignez de meilleures performances
+                    <span className="font-bold" >.</span>
                   </div>
                 </div>
               </div>
@@ -78,4 +76,4 @@ const login2 = () => {
   );
 };
 
-export default login2;
+export default Login2;

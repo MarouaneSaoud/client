@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Textinput from "@/components/ui/Textinput.jsx";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,20 +6,22 @@ import * as yup from "yup";
 import Card from "@/components/ui/Card.jsx";
 import Select from "react-select";
 import ReactFlagsSelect from "react-flags-select";
-import CompanyService from "../../../services/company.services.js";
-import {toast} from "react-toastify";
-import {countryNames , department} from "@/constant/data.js";
+import ServiceEntreprise from "../../../services/company.services.js";
+import { toast } from "react-toastify";
+import { countryNames, department } from "@/constant/data.js";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 const FormValidationSchema = yup
     .object({
-        name: yup.string().required("The name is required"),
-        altname: yup.string().required("Alternative name is required"),
-        address: yup.string().required("Adress is required"),
-        email: yup.string().email("Email is not valid").required("Email is required"),
-
+        name: yup.string().required("Le nom est requis"),
+        altname: yup.string().required("Le nom alternatif est requis"),
+        address: yup.string().required("L'adresse est requise"),
+        email: yup.string().email("L'e-mail n'est pas valide").required("L'e-mail est requis"),
     })
+    .required();
+
 const styles = {
     option: (provided, state) => ({
         ...provided,
@@ -28,7 +30,7 @@ const styles = {
 };
 
 const userForm = () => {
-    const [selected, setSelected] = useState('');
+    const [selected, setSelected] = useState("");
 
     const {
         register,
@@ -38,8 +40,24 @@ const userForm = () => {
         resolver: yupResolver(FormValidationSchema),
     });
 
+    const [values, setValues] = useState({
+        name: "",
+        altname: "",
+        cin: 0,
+        address: "",
+        postalCode: 0,
+        dep: department[0],
+        email: "",
+        website: "",
+        skype: "",
+        idrc: 0,
+        idif: 0,
+        patent: 0,
+        cnss: 0,
+        country: "",
+        logo: null,
+    });
 
-    const [values, setValues] = useState({ name: "", altName: "",cin: 0, address: "",postalCode:0,dep:department[0],email:"",website:"",skype:"",idrc:0,idif:0,patent:0,cnss:0,country:"" ,logo:null});
     const handleCountrySelect = (code) => {
         setSelected(code);
         setValues({
@@ -47,28 +65,16 @@ const userForm = () => {
             country: countryNames[code],
         });
     };
+
     async function submitHandler(e) {
         e.target.reset();
         e.preventDefault();
-        console.log(values)
-        await CompanyService.addCompany(values).then(response=>{
-            if (response.status === 200) {
-                toast.success('Company Added', {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                });
-            }
-        })
-            .catch(error=>{
-                if (error.response) {
-                    toast.error("error!", {
-                        position: "top-right",
+        console.log(values);
+        await ServiceEntreprise.addCompany(values)
+            .then((response) => {
+                if (response.status === 200) {
+                    toast.success("Entreprise ajoutée", {
+                        position: toast.POSITION.TOP_RIGHT,
                         autoClose: 1500,
                         hideProgressBar: false,
                         closeOnClick: true,
@@ -79,26 +85,40 @@ const userForm = () => {
                     });
                 }
             })
+            .catch((error) => {
+                if (error.response) {
+                    toast.error("Erreur !", {
+                        position: "top-right",
+                        autoClose: 1500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                }
+            });
     }
-    const navigate=useNavigate();
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const checkUserAndToken = () => {
             if (whoAuth.isCurrentUserManager()) {
-                navigate('/403');
+                navigate("/403");
             }
-            const storedToken = localStorage.getItem('accessToken');
+            const storedToken = localStorage.getItem("accessToken");
 
             if (storedToken) {
-
                 const isExpired = authTokenExpired;
 
                 if (isExpired) {
-                    localStorage.removeItem('accessToken');
-                    navigate('/login');
+                    localStorage.removeItem("accessToken");
+                    navigate("/login");
                 }
             } else {
-                navigate('/login');
+                navigate("/login");
             }
         };
 
@@ -110,18 +130,19 @@ const userForm = () => {
             clearInterval(intervalId);
         };
     }, []);
+
     return (
         <div className="xl:col-span-2 col-span-1">
-            <Card title="Companies Form">
+            <Card title="Formulaire d'entreprise">
                 <div>
                     <form
                         onSubmit={submitHandler}
                         className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
                     >
                         <Textinput
-                            label="Name"
+                            label="Nom"
                             type="text"
-                            placeholder=" Name"
+                            placeholder="Nom"
                             name="name"
                             register={register}
                             error={errors.name}
@@ -133,10 +154,10 @@ const userForm = () => {
                             }
                         />
                         <Textinput
-                            label="Alternative name"
+                            label="Nom alternatif"
                             type="text"
-                            placeholder="Alternative name"
-                            name="altName"
+                            placeholder="Nom alternatif"
+                            name="altname"
                             register={register}
                             error={errors.altname}
                             onChange={(e) =>
@@ -147,9 +168,9 @@ const userForm = () => {
                             }
                         />
                         <Textinput
-                            label="National Identity Card"
+                            label="Carte d'identité nationale"
                             type="text"
-                            placeholder="National Identity Card"
+                            placeholder="Carte d'identité nationale"
                             name="cin"
                             register={register}
                             error={errors.cin}
@@ -160,11 +181,10 @@ const userForm = () => {
                                 })
                             }
                         />
-
                         <Textinput
-                            label="Address"
+                            label="Adresse"
                             type="text"
-                            placeholder="Address"
+                            placeholder="Adresse"
                             name="address"
                             register={register}
                             error={errors.address}
@@ -176,9 +196,9 @@ const userForm = () => {
                             }
                         />
                         <Textinput
-                            label="Postal code"
+                            label="Code postal"
                             type="number"
-                            placeholder="Postal code"
+                            placeholder="Code postal"
                             name="postalCode"
                             register={register}
                             onChange={(e) =>
@@ -189,8 +209,8 @@ const userForm = () => {
                             }
                         />
                         <div>
-                            <label htmlFor=" hh2" className="form-label ">
-                                Departement
+                            <label htmlFor="department" className="form-label">
+                                Département
                             </label>
                             <Select
                                 className="react-select"
@@ -202,19 +222,18 @@ const userForm = () => {
                                 isClearable
                                 id="department"
                                 register={register}
-                                onChange={(selectedOption)=>{
+                                onChange={(selectedOption) => {
                                     setValues({
                                         ...values,
                                         dep: selectedOption.label,
-                                    })
+                                    });
                                 }}
-
                             />
                         </div>
                         <Textinput
-                            label="Email"
+                            label="E-mail"
                             type="email"
-                            placeholder="Email"
+                            placeholder="E-mail"
                             name="email"
                             register={register}
                             error={errors.email}
@@ -226,9 +245,9 @@ const userForm = () => {
                             }
                         />
                         <Textinput
-                            label="Website"
+                            label="Site Web"
                             type="url"
-                            placeholder="Website"
+                            placeholder="Site Web"
                             name="website"
                             register={register}
                             onChange={(e) =>
@@ -252,9 +271,9 @@ const userForm = () => {
                             }
                         />
                         <Textinput
-                            label="Id prof (R.C)"
+                            label="Identifiant professionnel (R.C)"
                             type="number"
-                            placeholder="Id prof (R.C)"
+                            placeholder="Identifiant professionnel (R.C)"
                             name="idrc"
                             register={register}
                             onChange={(e) =>
@@ -265,9 +284,9 @@ const userForm = () => {
                             }
                         />
                         <Textinput
-                            label="Id prof (I.F)"
+                            label="Identifiant professionnel (I.F)"
                             type="number"
-                            placeholder="Id prof (I.F)"
+                            placeholder="Identifiant professionnel (I.F)"
                             name="idif"
                             register={register}
                             onChange={(e) =>
@@ -278,9 +297,9 @@ const userForm = () => {
                             }
                         />
                         <Textinput
-                            label="Id prof (patent)"
+                            label="Identifiant professionnel (brevet)"
                             type="number"
-                            placeholder="Id prof (patent)"
+                            placeholder="Identifiant professionnel (brevet)"
                             name="patent"
                             register={register}
                             onChange={(e) =>
@@ -304,22 +323,20 @@ const userForm = () => {
                             }
                         />
                         <div className="xl:col-span-1 col-span-1">
-                        <label className="block capitalize form-label  ">
-                            Country
-                        </label>
+                            <label className="block capitalize form-label  ">
+                                Pays
+                            </label>
                             <ReactFlagsSelect
                                 countries={Object.keys(countryNames)}
                                 customLabels={countryNames}
                                 selectedSize={14}
                                 selected={selected}
                                 onSelect={handleCountrySelect}
-
                             />
-
-                    </div>
+                        </div>
                         <div className="lg:col-span-2 col-span-1">
                             <div className="ltr:text-right rtl:text-left">
-                                <button className="btn btn-dark  text-center">Submit</button>
+                                <button className="btn btn-dark  text-center">Soumettre</button>
                             </div>
                         </div>
                     </form>

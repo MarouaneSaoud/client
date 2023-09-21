@@ -255,19 +255,19 @@ export const AdminMenu = [
 
   {
     isHeadr: true,
-    title: "Companies",
+    title: "Entreprises",
     isOpen: true,
     isHide: true,
     icon: "heroicons-outline:home-modern",
     child: [
 
       {
-        childtitle: "New company",
+        childtitle: "Nouvelle entreprise",
         childlink: "add-company",
       },
 
       {
-        childtitle: "Companies",
+        childtitle: "Entreprises",
         childlink:  "list-company",
       },
     ],
@@ -275,19 +275,19 @@ export const AdminMenu = [
 
   {
     isHeadr: true,
-    title: "Devices",
+    title: "Appareils",
     isOpen: true,
     isHide: true,
     icon: "heroicons-outline:cpu-chip",
     child: [
 
       {
-        childtitle:"New device",
+        childtitle:"Nouvel appareil",
         childlink:"add-devices",
       },
 
       {
-        childtitle: "Devices",
+        childtitle: "Appareils",
         childlink:  "list-devices",
       },
     ],
@@ -349,19 +349,19 @@ export const SuperAdminMenu = [
 
   {
     isHeadr: true,
-    title: "Companies",
+    title: "Entreprises",
     isOpen: true,
     isHide: true,
     icon: "heroicons-outline:home-modern",
     child: [
 
       {
-        childtitle: "New company",
+        childtitle: "Nouvelle entreprise",
         childlink: "add-company",
       },
 
       {
-        childtitle: "Companies",
+        childtitle: "Entreprises",
         childlink:  "list-company",
       },
     ],
@@ -369,19 +369,19 @@ export const SuperAdminMenu = [
 
   {
     isHeadr: true,
-    title: "Devices",
+    title: "Appareils",
     isOpen: true,
     isHide: true,
     icon: "heroicons-outline:cpu-chip",
     child: [
 
       {
-        childtitle:"New device",
+        childtitle:"Nouvel appareil",
         childlink:"add-devices",
       },
 
       {
-        childtitle: "Devices",
+        childtitle: "Appareils",
         childlink:  "list-devices",
       },
     ],
@@ -402,18 +402,18 @@ export const SuperAdminMenu = [
   },*/
   {
     isHeadr: true,
-    title: "Users",
+    title: "Administrateur",
     isOpen: true,
     isHide: true,
     icon: "heroicons-outline:user",
     child: [
 
       {
-        childtitle:"New User",
+        childtitle:"Nouveau administrateur",
         childlink:"add-users",
       },
       {
-        childtitle:"Users",
+        childtitle:"Administrateurs",
         childlink:"list-users",
       },
     ],

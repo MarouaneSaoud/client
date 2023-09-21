@@ -14,7 +14,7 @@ import CompanyService from "../../../services/company.services";
 
 const COLUMNS = [
   {
-    Header: "Serial number",
+    Header: "Numéro de série",
     accessor: "id",
     Cell: (row) => {
 
@@ -22,14 +22,14 @@ const COLUMNS = [
     },
   },
   {
-    Header: "Name",
+    Header: "Nom",
     accessor: "name",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;
     },
   },
   {
-    Header: "Alternative Name",
+    Header: "Nom alternatif",
     accessor: "altName",
     Cell: (row) => {
       return <span>{row?.cell?.value}</span>;

@@ -62,7 +62,7 @@ const Flatpicker = lazy(() => import("./pages/forms/date-time-picker"));
 
 // form numotronic
 const  CompanyForm = lazy(() => import("./pages/admin/forms/companyForm.jsx"));
-const  ReferenceForm = lazy(() => import("./pages/admin/forms/referenceForm"));
+const  ReferenceForm = lazy(() => import("./pages/admin/model/referenceForm.jsx"));
 const  DevicesForm = lazy(() => import("./pages/admin/forms/devicesForm"));
 const  UsersForm = lazy(() => import("./pages/admin/forms/userForm.jsx"));
 

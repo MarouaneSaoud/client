@@ -41,7 +41,7 @@ const RadialsChart = () => {
           },
           total: {
             show: true,
-            label: `Total devices`,
+            label: `Total des appareils`,
             color: isDark ? "#CBD5E1" : "#475569",
             formatter: function () {
              return total
@@ -54,7 +54,7 @@ const RadialsChart = () => {
         },
       },
     },
-    labels: [ "online devices", "offline devices ", "inactive devices"],
+    labels: [ "appareils en ligne", "appareils hors ligne ", "dispositifs inactifs"],
     colors: [  "#50C793", "#0CE7FA","#FA916B"],
   };
 

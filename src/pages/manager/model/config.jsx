@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Card from "@/components/ui/Card";
-import DropConfig from "@/pages/manager/Forms/DropConfig.jsx";
+import Card from "@/components/ui/Card.jsx";
+import DropConfig from "@/pages/manager/model/DropConfig.jsx";
 import ConfigurationServices from "@/services/configuration.services.js";
 import { toast } from "react-toastify";
 import whoAuth from "@/services/auth/auth.who.js";
@@ -59,7 +59,9 @@ export default function Config({ visible, onClose, imei }) {
             "smsPassword"
         ];
 
+
         for (const key of requiredKeys) {
+
             if (!iniObject.hasOwnProperty(key)) {
                 return false;
             }
@@ -77,24 +79,26 @@ export default function Config({ visible, onClose, imei }) {
             return false;
         }
 
-        if (!isValidNumericRange(iniObject.smsResponse, 6, 16)) {
+        if (!isValidNumber(iniObject.smsResponse)) {
             return false;
         }
 
         if (!isValidNumber(iniObject.mode) && iniObject.mode !== "0" && iniObject.mode !== "1") {
             return false;
+
         }
 
-        if (!isValidNumericRange(iniObject.pStop, 1, 20)) {
+        if (!isValidNumericRange(iniObject.pStop, 0, 20)) {
             return false;
         }
-
         if (!isValidNumericRange(iniObject.sendingInterval, 6, 120)) {
             return false;
+
         }
 
         if (!isValidNumericRange(iniObject.angle, 6, 380)) {
             return false;
+
         }
 
         if (!isValidNumber(iniObject.sdm)) {
@@ -109,7 +113,7 @@ export default function Config({ visible, onClose, imei }) {
             return false;
         }
 
-        return true; // If all checks pass, the INI is considered valid
+        return true;
     };
 
     const isValidSmsPassword = (password) => {
@@ -128,7 +132,10 @@ export default function Config({ visible, onClose, imei }) {
     };
 
     const isValidUrl = (url) => {
-        const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+        if (url === "") {
+            return true;
+        }
+        const urlRegex = /^www\.[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
         return urlRegex.test(url);
     };
 
@@ -141,11 +148,6 @@ export default function Config({ visible, onClose, imei }) {
         const number = parseInt(value, 10);
         return !isNaN(number) && number >= min && number <= max;
     };
-
-
-
-
-
 
 
     let data = null;
@@ -178,8 +180,8 @@ export default function Config({ visible, onClose, imei }) {
                 iniObject[key.trim()] = value.trim();
             }
         });
-
         return iniObject;
+
     };
 
     async function sendDeviceSequentially(index = 0) {
@@ -203,6 +205,7 @@ export default function Config({ visible, onClose, imei }) {
             ...data,
             imei: myImei
         };
+
 
         try {
             await ConfigurationServices.config(payload);

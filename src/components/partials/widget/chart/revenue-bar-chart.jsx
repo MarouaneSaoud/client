@@ -26,11 +26,11 @@ const RevenueBarChart = ({ height = 400 }) => {
       data: statistic.map(item => item.clientCount),
     },
     {
-      name: "devices",
+      name: "Appareils",
       data: statistic.map(item => item.deviceCount),
     },
     {
-      name: "Companies",
+      name: "Entreprises",
       data: statistic.map(item => item.companyCount),
     },
   ];
@@ -70,7 +70,7 @@ const RevenueBarChart = ({ height = 400 }) => {
       },
     },
     title: {
-      text: "Statistics",
+      text: "Statistiques",
       align: "left",
 
       offsetX: isRtl ? "0%" : 0,

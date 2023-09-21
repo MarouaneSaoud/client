@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
+import Card from "@/components/ui/Card.jsx";
+import Button from "@/components/ui/Button.jsx";
 import Select from "react-select";
 import CompanyServices from "@/services/company.services.js";
 import DeviceService from "@/services/device.services.js";
@@ -8,9 +8,11 @@ import { toast } from "react-toastify";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import {useNavigate} from "react-router-dom";
+import ClientService from "@/services/client.services.js";
+import getEmail from "@/services/auth/auth.email.js";
 
-export default function ReferenceForm({ visible, onClose, imei }) {
-    const [values, setValues] = useState({ imei: imei, company: "" });
+export default function ClientAllocate({ visible, onClose, imei }) {
+    const [values, setValues] = useState({ imei: imei, client: "" });
 
     const handleClose = (e) => {
         if (e.target.id === "container") onClose();
@@ -23,7 +25,7 @@ export default function ReferenceForm({ visible, onClose, imei }) {
     };
     async function submitHandler(e) {
         e.preventDefault();
-        await DeviceService.allocateDevice(values)
+        await DeviceService.allocateDeviceToClient(values)
             .then((response) => {
                 if (response.data) {
                     onClose();
@@ -44,18 +46,18 @@ export default function ReferenceForm({ visible, onClose, imei }) {
                 }
             });
     }
-    const [Company, setCompany] = useState([]);
+    const [client, setClient] = useState([]);
 
-    async function getCompany() {
-        await CompanyServices.allCompany()
+    async function getClient() {
+        await CompanyServices.companyClientByEmail(getEmail())
             .then((response) => {
                 const data = response.data;
-                setCompany(data.map((item) => ({ value: item.id, label: item.name })));
+                setClient(data.map((item) => ({ value: item.id, label: item.name })));
             })
             .catch((error) => {});
     }
     useEffect(() => {
-        getCompany();
+        getClient()
     }, []);
 
     useEffect(() => {
@@ -66,10 +68,9 @@ export default function ReferenceForm({ visible, onClose, imei }) {
     useEffect(() => {
         const checkUserAndToken = () => {
 
-            if (whoAuth.isCurrentUserManager()) {
+            if (whoAuth.isCurrentUserClient()||whoAuth.isCurrentUserAdmin()) {
                 navigate('/403');
             }
-
             const storedToken = localStorage.getItem('accessToken');
 
             if (storedToken) {
@@ -102,20 +103,20 @@ export default function ReferenceForm({ visible, onClose, imei }) {
             id="container"
             className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center items-center drop-shadow-2xl"
         >
-            <Card title="Allocate">
+            <Card title="Allocate Device To Client">
                 <form onSubmit={submitHandler}>
                     <div className="lg:grid-cols-3 md:grid-cols-2 grid-cols-1 grid gap-5 mb-5 last:mb-0">
                         <Select
                             className="react-select"
                             classNamePrefix="select"
                             styles={styles}
-                            options={Company}
-                            defaultValue={Company[0]}
+                            options={client}
+                            defaultValue={client[0]}
                             isClearable
                             onChange={(e) => {
                                 setValues({
                                     ...values,
-                                    company: e.value,
+                                    client: e.value,
                                 });
                                 console.log(values);
                             }}

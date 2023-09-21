@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Tooltip from "@/components/ui/Tooltip";
@@ -16,7 +16,6 @@ import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import authRole from "@/services/auth/auth.role.js";
 
-
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
         const defaultRef = React.useRef();
@@ -25,7 +24,6 @@ const IndeterminateCheckbox = React.forwardRef(
         React.useEffect(() => {
             resolvedRef.current.indeterminate = indeterminate;
         }, [resolvedRef, indeterminate]);
-
 
         return (
             <>
@@ -40,14 +38,12 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-const ExampleTwo = ({ title = "Companies" }) => {
+const ComanyListe = ({ title = "Entreprises" }) => {
     const navigate = useNavigate();
     const role = authRole();
 
-
     useEffect(() => {
         const checkUserAndToken = () => {
-
             if (whoAuth.isCurrentUserManager()) {
                 navigate('/403');
             }
@@ -55,9 +51,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
             const storedToken = localStorage.getItem('accessToken');
 
             if (storedToken) {
-
-                const isExpired = authTokenExpired;
-
+                const isExpired = authTokenExpired
                 if (isExpired) {
                     localStorage.removeItem('accessToken');
                     navigate('/login');
@@ -72,38 +66,35 @@ const ExampleTwo = ({ title = "Companies" }) => {
         return () => {
             clearInterval(intervalId);
         };
-    }, []);
+    }, [navigate]);
 
-    const handleViewCompany = (row) => {
-        const companyId = row.cell.row.original.id;
-        navigate(`/view-company/${companyId}`);
+    const handleVoirEntreprise = (row) => {
+        const idEntreprise = row.cell.row.original.id;
+        navigate(`/view-company/${idEntreprise}`);
     };
 
     const COLUMNS = [
         {
-            Header: "Serial number",
+            Header: "Numéro de série",
             accessor: "id",
             Cell: (row) => {
-
                 return <span>{row?.cell?.value}</span>;
             },
         },
         {
-            Header: "Name",
+            Header: "Nom",
             accessor: "name",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
             },
         },
         {
-            Header: "Alternative Name",
+            Header: "Nom Alternatif",
             accessor: "altName",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
             },
         },
-
-
         {
             Header: "Email",
             accessor: "email",
@@ -111,76 +102,74 @@ const ExampleTwo = ({ title = "Companies" }) => {
                 return <span>{row?.cell?.value}</span>;
             },
         },
-
         {
-            Header: "action",
+            Header: "Action",
             accessor: "action",
             Cell: (row) => {
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                        <Tooltip content="View" placement="top" arrow animation="shift-away">
+                        <Tooltip content="Voir" placement="top" arrow animation="shift-away">
                             <button className="action-btn text-orange-600"
-                                    onClick={() => handleViewCompany(row)}
+                                    onClick={() => handleVoirEntreprise(row)}
                                     type="button" >
                                 <Icon icon="heroicons:eye"/>
                             </button>
                         </Tooltip>
 
-                        {role==="SUPER_ADMIN"  && (
+                        {role === "SUPER_ADMIN" && (
                             <Tooltip
-                                content="Delete"
+                                content="Supprimer"
                                 placement="top"
                                 arrow
                                 animation="shift-away"
                                 theme="danger"
                             >
-                                <button className="action-btn" type="button" onClick={() => deleteCompany(row)}>
+                                <button className="action-btn" type="button" onClick={() => supprimerEntreprise(row)}>
                                     <Icon icon="heroicons:trash" />
                                 </button>
                             </Tooltip>
-                        ) }
-
+                        )}
                     </div>
                 );
             },
         },
     ];
 
+    const [Entreprises, setEntreprises] = useState([]);
 
-    const [Company, setCompany] = useState([]);
-        async function getCompany() {
-            try {
-                let result = await CompanyService.allCompany();
-                setCompany(result.data);
-            } catch (error) {
-            }
-        }
-    async function deleteCompany(row) {
+    async function getEntreprises() {
         try {
-            const companyId = row.cell.row.original.id;
-            await CompanyService.deleteCompany(companyId);
-            getCompany();
+            let result = await CompanyService.allCompany();
+            setEntreprises(result.data);
         } catch (error) {
         }
     }
-        useEffect(()=>{
-            getCompany();
-        },[])
 
-        const columns = useMemo(() => COLUMNS, []);
-        const data = Company ;
+    async function deleteEntreprise(row) {
+        try {
+            const idEntreprise = row.cell.row.original.id;
+            await CompanyService.deleteCompany(idEntreprise);
+            getEntreprises();
+        } catch (error) {
+        }
+    }
+
+    useEffect(() => {
+        getEntreprises();
+    }, []);
+
+    const columns = useMemo(() => COLUMNS, []);
+    const data = Entreprises;
 
     const tableInstance = useTable(
         {
             columns,
             data,
         },
-
         useGlobalFilter,
         useSortBy,
         usePagination,
         useRowSelect,
-
         (hooks) => {
             hooks.visibleColumns.push((columns) => [
                 {
@@ -200,6 +189,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
             ]);
         }
     );
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -250,12 +240,12 @@ const ExampleTwo = ({ title = "Companies" }) => {
                                             >
                                                 {column.render("Header")}
                                                 <span>
-                            {column.isSorted
-                                ? column.isSortedDesc
-                                    ? " 🔽"
-                                    : " 🔼"
-                                : ""}
-                          </span>
+                                                    {column.isSorted
+                                                        ? column.isSortedDesc
+                                                            ? " 🔽"
+                                                            : " 🔼"
+                                                        : ""}
+                                                </span>
                                             </th>
                                         ))}
                                     </tr>
@@ -291,18 +281,18 @@ const ExampleTwo = ({ title = "Companies" }) => {
                             value={pageSize}
                             onChange={(e) => setPageSize(Number(e.target.value))}
                         >
-                            {[100, 500, 1000,5000].map((pageSize) => (
+                            {[100, 500, 1000, 5000].map((pageSize) => (
                                 <option key={pageSize} value={pageSize}>
-                                    Show {pageSize}
+                                    Afficher {pageSize}
                                 </option>
                             ))}
                         </select>
                         <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-              Page{" "}
+                            Page{" "}
                             <span>
-                {pageIndex + 1} of {pageOptions.length}
-              </span>
-            </span>
+                                {pageIndex + 1} sur {pageOptions.length}
+                            </span>
+                        </span>
                     </div>
                     <ul className="flex items-center  space-x-3  rtl:space-x-reverse">
                         <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">
@@ -324,7 +314,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
                                 onClick={() => previousPage()}
                                 disabled={!canPreviousPage}
                             >
-                                Prev
+                                Préc
                             </button>
                         </li>
                         {pageOptions.map((page, pageIdx) => (
@@ -351,7 +341,7 @@ const ExampleTwo = ({ title = "Companies" }) => {
                                 onClick={() => nextPage()}
                                 disabled={!canNextPage}
                             >
-                                Next
+                                Suiv
                             </button>
                         </li>
                         <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">
@@ -367,10 +357,9 @@ const ExampleTwo = ({ title = "Companies" }) => {
                         </li>
                     </ul>
                 </div>
-                {/*end*/}
             </Card>
         </>
     );
 };
 
-export default ExampleTwo;
+export default ComanyListe;

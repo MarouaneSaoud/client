@@ -14,9 +14,9 @@ import {
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import DeviceService from "../../../services/device.services";
-import ClientAllocate from "./clientAllocate.jsx"
-import GroupAllocate from "./groupAllocate.jsx"
-import Config from "./config.jsx"
+import ClientAllocate from "../model/clientAllocate.jsx"
+import GroupAllocate from "../model/groupAllocate.jsx"
+import Config from "../model/config.jsx"
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import CompanyServices from "@/services/company.services.js";

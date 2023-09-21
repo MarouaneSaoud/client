@@ -12,7 +12,12 @@ import authTokenExpired from "@/services/auth/auth.token.expired.js";
 const FormValidationSchema = yup
     .object({
         filename: yup.string().required(),
-        apn: yup.string().required().url(),
+        apn: yup.string().test('is-apn', 'APN must be in the format www.example.com', function (value) {
+            if (value && value !== '') {
+                return /^www\..+\..+$/.test(value);
+            }
+            return true; // La validation passe si le champ est vide ou non fourni
+        }),
         serverip: yup
             .string()
             .required()
@@ -22,17 +27,17 @@ const FormValidationSchema = yup
             .required("The Number between field is required")
             .positive()
             .min(1)
-            .max(9999),
+            .max(65535),
 
-        sms: yup.number().required("The Sms field is required").positive().min(6).max(16),
-        pStop: yup.number().required("The pStop field is required").positive().min(6).max(20),
+        sms: yup.number().required("The Sms field is required"),
+        pStop: yup.number().required("The pStop field is required").positive().min(0).max(20),
         sendingInterval: yup.number().required("The Sending Interval field is required").positive().min(6).max(120),
         angle: yup.number().required("The Angle field is required").positive().min(6).max(360),
-        wifi: yup.string().required("The Wifi field is required").matches(/^.{9,}$/, "Must be at least 9 characters"),
+        wifiPassword: yup.string().required("The Wifi field is required").matches(/^.{8,}$/, "Must be at least 8 characters"),
 
-        password: yup
+        smsPassword: yup
             .string()
-            .required()
+            .required("The Sms Password field is required")
             .matches(/^\d{6}$/, "Sms password must be exactly 6 digits"),
     })
     .required();
@@ -131,8 +136,8 @@ pStop: ${data.pStop}
 sendingInterval: ${data.sendingInterval}
 angle: ${data.angle}
 sdm: ${selectsdm}
-wifiPassword: ${data.wifi}
-smsPassword: ${data.password}`;
+wifiPassword: ${data.wifiPassword}
+smsPassword: ${data.smsPassword}`;
 
         return content;
     };
@@ -176,7 +181,7 @@ smsPassword: ${data.password}`;
                 <Textinput
                     label="Port"
                     type="number"
-                    placeholder="Enter Port Number between 1 & 9999"
+                    placeholder="Enter Port Number between 1 & 65535"
                     name="port"
                     register={register}
                     error={errors.port}
@@ -184,7 +189,7 @@ smsPassword: ${data.password}`;
 
                 <Textinput
                     label="Apn"
-                    type="url"
+                    type="text"
                     placeholder="Enter your Apn"
                     name="apn"
                     register={register}
@@ -194,7 +199,7 @@ smsPassword: ${data.password}`;
                 <Textinput
                     label="Sms response"
                     type="number"
-                    placeholder="Enter minimum 6 and maximum 16 numbers"
+                    placeholder="Enter Sms response"
                     name="sms"
                     register={register}
                     error={errors.sms}
@@ -221,7 +226,7 @@ smsPassword: ${data.password}`;
                 <Textinput
                     label="P.Stop"
                     type="number"
-                    placeholder="Enter Your P.stop between (1-20)"
+                    placeholder="Enter Your P.stop between (0-20)"
                     name="pStop"
                     register={register}
                     error={errors.pStop}
@@ -263,17 +268,17 @@ smsPassword: ${data.password}`;
                     label="WIFI Password"
                     type="text"
                     placeholder="Enter Your WIFI Password"
-                    name="wifi"
+                    name="wifiPassword"
                     register={register}
-                    error={errors.wifi}
+                    error={errors.wifiPassword}
                 />
                 <Textinput
                     label="SMS Password"
                     type="text"
                     placeholder="Enter Your SMS Password "
-                    name="password"
+                    name="smsPassword"
                     register={register}
-                    error={errors.password}
+                    error={errors.smsPassword}
                 />
 
                 <div className="lg:col-span-2 col-span-1">

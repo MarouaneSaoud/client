@@ -1,4 +1,4 @@
-import React, { useState, useMemo,useEffect} from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { AdvancedTable } from "../../../constant/table-data";
 import Card from "../../../components/ui/Card";
 import Icon from "../../../components/ui/Icon";
@@ -11,18 +11,13 @@ import {
     usePagination,
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import whoAuth from "../../../services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import AuthService from "../../../services/auth.services";
 import AuthRole from "@/services/auth/auth.role.js";
-import ClientService from "../../../services/client.services";
 
-
-
-
-
-const UserListe = ({ title = "Users" }) => {
+const UserListe = ({ title = "Utilisateurs" }) => {
 
     const COLUMNS = [
         {
@@ -33,15 +28,12 @@ const UserListe = ({ title = "Users" }) => {
             },
         },
         {
-            Header: "Name",
+            Header: "Nom",
             accessor: "name",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
             },
         },
-
-
-
         {
             Header: "Email",
             accessor: "username",
@@ -50,35 +42,27 @@ const UserListe = ({ title = "Users" }) => {
             },
         },
         {
-            Header: "status",
+            Header: "Statut",
             accessor: "actived",
             Cell: (row) => {
-                const statusText = row?.cell?.value ? "active" : "inactive";
+                const statusText = row?.cell?.value ? "actif" : "inactif";
                 return (
                     <span className="block w-full">
-          <span
-              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-                  row?.cell?.value === true
-                      ? "text-success-500 bg-success-500"
-                      : "Active"
-              } 
-            ${
-                  row?.cell?.value === false
-                      ? "text-warning-500 bg-warning-500"
-                      : "Inactive"
-              }
-            
-             `}
-          >
-             {statusText}
-          </span>
-        </span>
+                        <span
+                            className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
+                                row?.cell?.value === true
+                                    ? "text-success-500 bg-success-500"
+                                    : "text-warning-500 bg-warning-500"
+                            }`}
+                        >
+                            {statusText}
+                        </span>
+                    </span>
                 );
             },
         },
-
         {
-            Header: "Role",
+            Header: "Rôle",
             accessor: "roles",
             Cell: (row) => {
                 const roles = row?.cell?.value;
@@ -91,44 +75,39 @@ const UserListe = ({ title = "Users" }) => {
                         </ul>
                     );
                 } else {
-                    return <span>No Roles</span>;
+                    return <span>Pas de rôles</span>;
                 }
             },
         },
-
         {
-            Header: "action",
+            Header: "Action",
             accessor: "action",
             Cell: (row) => {
-                const status= row.cell.row.original.actived;
-                const id =row.cell.row.original.id;
+                const status = row.cell.row.original.actived;
+                const id = row.cell.row.original.id;
                 return (
-
                     <div className="flex space-x-3 rtl:space-x-reverse">
-
-                        {status== true && (
-                            <Tooltip content="disable" placement="top" arrow animation="shift-away">
-                                <button className="action-btn text-red-600" type="button" onClick={()=> {
-                                    handelDisabled (
+                        {status === true && (
+                            <Tooltip content="Désactiver" placement="top" arrow animation="shift-away">
+                                <button className="action-btn text-red-600" type="button" onClick={() => {
+                                    handleDisabled(
                                         id
                                     )
                                 }}>
                                     <Icon icon="heroicons:x-mark" />
                                 </button>
                             </Tooltip>
-
                         )}
-                        { status==false && (
-
-                            <Tooltip content="unable" placement="top" arrow animation="shift-away">
+                        {status === false && (
+                            <Tooltip content="Activer" placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-green-600" type="button"
-                                        onClick={()=>handelUnable(id)}>
+                                        onClick={() => handleUnable(id)}>
                                     <Icon icon="heroicons:check-circle" />
                                 </button>
                             </Tooltip>
                         )}
                         <Tooltip
-                            content="Delete"
+                            content="Supprimer"
                             placement="top"
                             arrow
                             animation="shift-away"
@@ -148,15 +127,13 @@ const UserListe = ({ title = "Users" }) => {
 
     useEffect(() => {
         const checkUserAndToken = () => {
-
-            if (whoAuth.isCurrentUserManager() || whoAuth.isCurrentUserClient() || role==='ADMIN') {
+            if (whoAuth.isCurrentUserManager() || whoAuth.isCurrentUserClient() || role === 'ADMIN') {
                 navigate('/403');
             }
 
             const storedToken = localStorage.getItem('accessToken');
 
             if (storedToken) {
-
                 const isExpired = authTokenExpired;
 
                 if (isExpired) {
@@ -175,38 +152,41 @@ const UserListe = ({ title = "Users" }) => {
         };
     }, []);
 
-    const [user, setuser] = useState([]);
+    const [user, setUser] = useState([]);
     async function getUsers() {
         try {
             let result = await AuthService.allUsersAdmin()
-            setuser(result.data);
+            setUser(result.data);
         } catch (error) {
         }
     }
-    async function handelDisabled(id) {
+
+    async function handleDisabled(id) {
         try {
             let result = await AuthService.disableUser(id);
-            if (result.data){
+            if (result.data) {
                 getUsers()
             }
         } catch (error) {
         }
     }
-    async function handelUnable(id) {
+
+    async function handleUnable(id) {
         try {
             let result = await AuthService.unableUser(id);
-            if (result.data){
+            if (result.data) {
                 getUsers()
             }
         } catch (error) {
         }
     }
-    useEffect(()=>{
+
+    useEffect(() => {
         getUsers();
-    },[])
+    }, [])
 
     const columns = useMemo(() => COLUMNS, []);
-    const data = user ;
+    const data = user;
 
     async function deleteUser(row) {
         try {
@@ -222,15 +202,12 @@ const UserListe = ({ title = "Users" }) => {
             columns,
             data,
         },
-
         useGlobalFilter,
         useSortBy,
         usePagination,
         useRowSelect,
-
         (hooks) => {
             hooks.visibleColumns.push((columns) => [
-
                 ...columns,
             ]);
         }
@@ -255,17 +232,12 @@ const UserListe = ({ title = "Users" }) => {
     } = tableInstance;
 
     const { globalFilter, pageIndex, pageSize } = state;
-    const navigate=useNavigate();
-    useEffect(()=>{
-        if(whoAuth.isCurrentUserManager()){
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (whoAuth.isCurrentUserManager()) {
             navigate("/403");
         }
     })
-
-
-
-
-
 
     return (
         <>
@@ -339,14 +311,14 @@ const UserListe = ({ title = "Users" }) => {
                         >
                             {[10, 25, 50].map((pageSize) => (
                                 <option key={pageSize} value={pageSize}>
-                                    Show {pageSize}
+                                    Afficher {pageSize}
                                 </option>
                             ))}
                         </select>
                         <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
               Page{" "}
                             <span>
-                {pageIndex + 1} of {pageOptions.length}
+                {pageIndex + 1} de {pageOptions.length}
               </span>
             </span>
                     </div>
@@ -370,7 +342,7 @@ const UserListe = ({ title = "Users" }) => {
                                 onClick={() => previousPage()}
                                 disabled={!canPreviousPage}
                             >
-                                Prev
+                                Préc
                             </button>
                         </li>
                         {pageOptions.map((page, pageIdx) => (
@@ -397,7 +369,7 @@ const UserListe = ({ title = "Users" }) => {
                                 onClick={() => nextPage()}
                                 disabled={!canNextPage}
                             >
-                                Next
+                                Suiv
                             </button>
                         </li>
                         <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">
@@ -413,7 +385,7 @@ const UserListe = ({ title = "Users" }) => {
                         </li>
                     </ul>
                 </div>
-                {/*end*/}
+                {/* Fin */}
             </Card>
         </>
     );

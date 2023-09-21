@@ -67,13 +67,13 @@ const Ecommerce = () => {
             </Card>
           </div>
           <div className="lg:col-span-4 col-span-12">
-            <Card title="Overview">
+            <Card title="Aperçu de la situation">
               <RadialsChart />
             </Card>
           </div>
 
           <div className="col-span-12">
-            <Card title="Top 5 Companies" noborder>
+            <Card title="Les 5 premières entreprises" noborder>
               <RecentOrderTable />
             </Card>
           </div>

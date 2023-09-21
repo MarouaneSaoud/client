@@ -218,7 +218,7 @@ const GroupChart2 = () => {
   const statistics = [
     {
       name: shapeLine1,
-      title: "Devices",
+      title: "Appareils",
       count: deviceCount,
       bg: "bg-[#E5F9FF] dark:bg-slate-900	",
       text: "text-info-500",
@@ -227,7 +227,7 @@ const GroupChart2 = () => {
 
     {
       name: shapeLine3,
-      title: "Group of devices",
+      title: "Groupe d'appareils",
       count: groupCount,
       bg: "bg-[#EAE6FF] dark:bg-slate-900	",
       text: "text-[#5743BE]",
@@ -236,7 +236,7 @@ const GroupChart2 = () => {
 
     {
       name: shapeLine3,
-      title: "Users",
+      title: "Utilisateurs",
       count: userCount,
       bg: "bg-[#e6ffe7] dark:bg-slate-900	",
       text: "text-[#70be43]",
@@ -244,17 +244,13 @@ const GroupChart2 = () => {
     },
     {
       name: shapeLine2,
-      title: "Child Company",
+      title: "Entreprise",
       count: companyCount,
       bg: "bg-[#FFEDE6] dark:bg-slate-900	",
       text: "text-warning-500",
       icon: "heroicons:arrow-trending-up-solid",
     },
   ];
-
-  const DeviceCounter = () => {
-
-  }
   async function getGroupCount() {
     try {
       let result = await GroupService.countGroup();
