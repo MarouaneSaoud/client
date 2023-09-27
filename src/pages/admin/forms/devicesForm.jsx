@@ -280,14 +280,19 @@ const devicesForm = () => {
             <Card title="Ajouter des périphériques">
                 <h4>Télécharger automatiquement des périphériques</h4>
                 <div className="my-8">
-                    <Fileinput selectedFile={selectedFile} name="basic" onChange={handleFileUpload} />
-                    <Button
-                        onClick={handleDownload}
-                        icon="heroicons-outline:newspaper"
-                        className="btn btn-dark  rounded-[999px] bg-black-900 mt-6"
-                    />
-                    Télécharger le fichier CSV d'exemple
+                    <div>
+                        <Fileinput selectedFile={selectedFile} name="basic" onChange={handleFileUpload} />
+                    </div>
+                    <div>
+                        <Button
+                            onClick={handleDownload}
+                            icon="heroicons-outline:newspaper"
+                            className="btn btn-dark  rounded-[999px] bg-black-900 mt-6"
+                        />
+                        <label className="ml-2">Télécharger le fichier CSV d'exemple</label>
+                    </div>
                 </div>
+
 
                 <div>
                     <h4>Uploader manuellement des périphériques</h4>

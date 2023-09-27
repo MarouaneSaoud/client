@@ -2,9 +2,9 @@ import React from "react";
 
 const Fileinput = ({
   name,
-  label = "Browse",
+  label = "Parcourir",
   onChange,
-  placeholder = "Choose a file or drop it here...",
+  placeholder = "Choisissez un fichier ou déposez-le ici...",
   multiple,
   preview,
   className = "custom-class",
