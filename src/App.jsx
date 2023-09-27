@@ -69,7 +69,7 @@ const  AdminForm = lazy(() => import("./pages/admin/forms/AdminForm.jsx"));
 //table numotronic
 const  Companyliste = lazy(() => import("./pages/admin/Tables/companyliste"));
 const  Devicesliste = lazy(() => import("./pages/admin/Tables/devicesliste"));
-const  Userliste = lazy(() => import("./pages/admin/Tables/Adminliste.jsx"));
+const  Adminliste = lazy(() => import("./pages/admin/Tables/Adminliste.jsx"));
 const ViewCompany=lazy(() =>import ("./pages/admin/views/viewCompany"));
 
 //page numotronic
@@ -255,7 +255,7 @@ function App() {
 
           <Route path="list-devices" element={<Devicesliste/>} />
           <Route path="list-company" element={<Companyliste/>} />
-          <Route path="list-users" element={<Userliste/>} />
+          <Route path="list-users" element={<Adminliste/>} />
           <Route path="view-company/:id" element={<ViewCompany/>} />
 
 
