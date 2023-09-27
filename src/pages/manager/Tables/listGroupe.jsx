@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Tooltip from "@/components/ui/Tooltip";
@@ -44,13 +44,11 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-const listGroupe = ({ title = "Groups" }) => {
+const ListGroupe = ({ title = "Groupes" }) => {
     const navigate = useNavigate();
-
 
     useEffect(() => {
         const checkUserAndToken = () => {
-
             if (whoAuth.isCurrentUserAdmin() || whoAuth.isCurrentUserClient()) {
                 navigate('/403');
             }
@@ -58,7 +56,6 @@ const listGroupe = ({ title = "Groups" }) => {
             const storedToken = localStorage.getItem('accessToken');
 
             if (storedToken) {
-
                 const isExpired = authTokenExpired;
 
                 if (isExpired) {
@@ -84,15 +81,14 @@ const listGroupe = ({ title = "Groups" }) => {
 
     const COLUMNS = [
         {
-            Header: "Id",
+            Header: "ID",
             accessor: "deviceGroup.id",
             Cell: (row) => {
-
                 return <span>{row?.cell?.value}</span>;
             },
         },
         {
-            Header: "Group Name",
+            Header: "Nom du groupe",
             accessor: "deviceGroup.name",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
@@ -100,7 +96,7 @@ const listGroupe = ({ title = "Groups" }) => {
         },
 
         {
-            Header: "Created at",
+            Header: "Créé le",
             accessor: "deviceGroup.createdAt",
             Cell: (row) => {
                 const formattedDate = format(new Date(row?.cell?.value), "dd/MM/yyyy HH:mm");
@@ -108,46 +104,45 @@ const listGroupe = ({ title = "Groups" }) => {
             },
         },
         {
-            Header: "Devices",
+            Header: "Appareils",
             accessor: "deviceCount",
             Cell: (row) => {
                 return <span> {row?.cell?.value}</span>;
             },
         },
         {
-            Header: "action",
+            Header: "Action",
             accessor: "action",
             Cell: (row) => {
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                         <Tooltip content="View" placement="top" arrow animation="shift-away">
+                        <Tooltip content="Voir" placement="top" arrow animation="shift-away">
                             <button className="action-btn text-orange-600"
                                     onClick={() => handleViewDevices(row)}
-                                    type="button" >
+                                    type="button">
                                 <Icon icon="heroicons:eye"/>
                             </button>
                         </Tooltip>
-                            <Tooltip
-                                content="Delete"
-                                placement="top"
-                                arrow
-                                animation="shift-away"
-                                theme="danger"
-                            >
-                                <button className="action-btn" type="button" onClick={() => deleteGroup(row)}>
-                                    <Icon icon="heroicons:trash" />
-                                </button>
-                            </Tooltip>
-
+                        <Tooltip
+                            content="Supprimer"
+                            placement="top"
+                            arrow
+                            animation="shift-away"
+                            theme="danger"
+                        >
+                            <button className="action-btn" type="button" onClick={() => deleteGroup(row)}>
+                                <Icon icon="heroicons:trash" />
+                            </button>
+                        </Tooltip>
                     </div>
                 );
             },
         },
     ];
-    const [showMyModal,setShowMyModal]=useState(false)
-    const handleOnClose =()=>{setShowMyModal(false)
+    const [showMyModal, setShowMyModal] = useState(false)
+    const handleOnClose = () => {
+        setShowMyModal(false)
         getGroupDevice()
-
     }
     async function deleteGroup(row) {
         try {
@@ -162,17 +157,16 @@ const listGroupe = ({ title = "Groups" }) => {
         try {
             let result = await CompanyServices.deviceGroupWithDeviceCount(getEmail());
             setGroup(result.data);
-
         } catch (error) {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getGroupDevice();
-    },[])
+    }, [])
 
     const columns = useMemo(() => COLUMNS, []);
-    const data = Group ;
+    const data = Group;
 
     const tableInstance = useTable(
         {
@@ -233,14 +227,12 @@ const listGroupe = ({ title = "Groups" }) => {
                         <div className="flex items-center">
                             <Button
                                 icon="heroicons-outline:plus"
-                                text="Add Group"
+                                text="Ajouter un groupe"
                                 className="btn-dark rounded-[999px] px-4 py-2 text-sm ml-16"
-                                onClick={()=> setShowMyModal(true)}
+                                onClick={() => setShowMyModal(true)}
                             />
                         </div>
-
                         <div><GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} /></div>
-
                     </div>
                 </div>
                 <div className="overflow-x-auto -mx-6">
@@ -304,16 +296,16 @@ const listGroupe = ({ title = "Groups" }) => {
                             value={pageSize}
                             onChange={(e) => setPageSize(Number(e.target.value))}
                         >
-                            {[10,25,50,100, 500, 1000,5000].map((pageSize) => (
+                            {[10, 25, 50, 100, 500, 1000, 5000].map((pageSize) => (
                                 <option key={pageSize} value={pageSize}>
-                                    Show {pageSize}
+                                    Afficher {pageSize}
                                 </option>
                             ))}
                         </select>
                         <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
               Page{" "}
                             <span>
-                {pageIndex + 1} of {pageOptions.length}
+                {pageIndex + 1} de {pageOptions.length}
               </span>
             </span>
                     </div>
@@ -337,7 +329,7 @@ const listGroupe = ({ title = "Groups" }) => {
                                 onClick={() => previousPage()}
                                 disabled={!canPreviousPage}
                             >
-                                Prev
+                                Préc
                             </button>
                         </li>
                         {pageOptions.map((page, pageIdx) => (
@@ -364,7 +356,7 @@ const listGroupe = ({ title = "Groups" }) => {
                                 onClick={() => nextPage()}
                                 disabled={!canNextPage}
                             >
-                                Next
+                                Suiv
                             </button>
                         </li>
                         <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">
@@ -380,11 +372,10 @@ const listGroupe = ({ title = "Groups" }) => {
                         </li>
                     </ul>
                 </div>
-                {/*end*/}
             </Card>
-            <GroupeDeviceForm onClose={handleOnClose} visible={showMyModal}/>
+            <GroupeDeviceForm onClose={handleOnClose} visible={showMyModal} />
         </>
     );
 };
 
-export default listGroupe;
+export default ListGroupe;

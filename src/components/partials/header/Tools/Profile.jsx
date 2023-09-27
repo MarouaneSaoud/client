@@ -35,7 +35,7 @@ const Profile = () => {
   const ProfileMenu = [
 
     {
-      label: "Logout",
+      label: "Se déconnecter",
       icon: "heroicons-outline:login",
       action: () => {
         dispatch(handleLogout(false));

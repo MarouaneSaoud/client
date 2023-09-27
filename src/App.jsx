@@ -64,12 +64,12 @@ const Flatpicker = lazy(() => import("./pages/forms/date-time-picker"));
 const  CompanyForm = lazy(() => import("./pages/admin/forms/companyForm.jsx"));
 const  ReferenceForm = lazy(() => import("./pages/admin/model/referenceForm.jsx"));
 const  DevicesForm = lazy(() => import("./pages/admin/forms/devicesForm"));
-const  UsersForm = lazy(() => import("./pages/admin/forms/userForm.jsx"));
+const  AdminForm = lazy(() => import("./pages/admin/forms/AdminForm.jsx"));
 
 //table numotronic
 const  Companyliste = lazy(() => import("./pages/admin/Tables/companyliste"));
 const  Devicesliste = lazy(() => import("./pages/admin/Tables/devicesliste"));
-const  Userliste = lazy(() => import("./pages/admin/Tables/userliste"));
+const  Userliste = lazy(() => import("./pages/admin/Tables/Adminliste.jsx"));
 const ViewCompany=lazy(() =>import ("./pages/admin/views/viewCompany"));
 
 //page numotronic
@@ -251,9 +251,7 @@ function App() {
           <Route path="add-company" element={<CompanyForm />} />
           <Route path="add-reference" element={<ReferenceForm/>} />
           <Route path="add-devices" element={<DevicesForm/>} />
-          <Route path="add-users" element={<UsersForm/>} />
-
-
+          <Route path="add-users" element={<AdminForm/>} />
 
           <Route path="list-devices" element={<Devicesliste/>} />
           <Route path="list-company" element={<Companyliste/>} />

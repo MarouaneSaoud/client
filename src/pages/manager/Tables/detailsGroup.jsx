@@ -1,6 +1,6 @@
-import React, { useState, useMemo , useEffect  } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Card from "../../../components/ui/Card";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Icon from "../../../components/ui/Icon";
 import Tooltip from "../../../components/ui/Tooltip";
 import { useParams } from 'react-router-dom';
@@ -12,18 +12,14 @@ import {
     usePagination,
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
-
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
-
 import GroupService from "@/services/groupDevice.services.js";
 import DeviceService from "@/services/device.services.js";
-import Button from "@/components/ui/Button.jsx";
-
 
 const DevicesList = ({ title = "Devices" }) => {
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const { id } = useParams();
 
     useEffect(() => {
@@ -71,33 +67,32 @@ const DevicesList = ({ title = "Devices" }) => {
             },
         },
         {
-            Header: "status",
+            Header: "Status",
             accessor: "statusDevice",
             Cell: (row) => {
                 return (
                     <span className="block w-full">
-          <span
-              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-                  row?.cell?.value === "ONLINE"
-                      ? "text-success-500 bg-success-500"
-                      : ""
-              } 
-            ${
-                  row?.cell?.value === "OFFLINE"
-                      ? "text-warning-500 bg-warning-500"
-                      : ""
-              }
-            ${
-                  row?.cell?.value === "INACTIF"
-                      ? "text-danger-500 bg-danger-500"
-                      : ""
-              }
-            
-             `}
-          >
-            {row?.cell?.value}
-          </span>
-        </span>
+                        <span
+                            className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
+                                row?.cell?.value === "ONLINE"
+                                    ? "text-success-500 bg-success-500"
+                                    : ""
+                            } 
+                            ${
+                                row?.cell?.value === "OFFLINE"
+                                    ? "text-warning-500 bg-warning-500"
+                                    : ""
+                            }
+                            ${
+                                row?.cell?.value === "INACTIVE"
+                                    ? "text-danger-500 bg-danger-500"
+                                    : ""
+                            }
+                        `}
+                        >
+                            {row?.cell?.value}
+                        </span>
+                    </span>
                 );
             },
         },
@@ -122,40 +117,40 @@ const DevicesList = ({ title = "Devices" }) => {
             Cell: (row) => {
                 return (
                     <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
-                     {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated To Any Client"}
-                  </span>
+                        {row?.cell?.value !== null ? row?.cell?.value : "GPS is not allocated to any client"}
+                    </span>
                 );
             },
         },
         {
-            Header: "action",
+            Header: "Action",
             accessor: "action",
             Cell: (row) => {
                 const imeiValue = row?.cell?.row?.original?.imei;
 
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-
-                            <Tooltip content="remove from this group" placement="top" arrow animation="shift-away">
-                                <button className="action-btn text-red-600" type="button" onClick={()=> {
-                                    removeDeviceFromGroup(
-                                        imeiValue
-                                    )
-                                }}>
-                                    <Icon icon="heroicons:arrow-left-on-rectangle" />
-                                </button>
-                            </Tooltip>
+                        <Tooltip content="Remove from this group" placement="top" arrow animation="shift-away">
+                            <button className="action-btn text-red-600" type="button" onClick={() => {
+                                removeDeviceFromGroup(
+                                    imeiValue
+                                )
+                            }}>
+                                <Icon icon="heroicons:arrow-left-on-rectangle" />
+                            </button>
+                        </Tooltip>
                     </div>
                 );
             },
         },
-
     ];
+
     async function removeDeviceFromGroup(imei) {
         try {
             await DeviceService.removeDeviceFromGroup(imei);
-            getDevices()
+            getDevices();
         } catch (error) {
+            // Handle error
         }
     }
 
@@ -165,28 +160,26 @@ const DevicesList = ({ title = "Devices" }) => {
             let result = await GroupService.deviceFromGroup(id);
             setDevice(result.data);
         } catch (error) {
+            // Handle error
         }
     }
-    useEffect(()=>{
-        getDevices()
-    },[])
 
+    useEffect(() => {
+        getDevices();
+    }, []);
 
     const columns = useMemo(() => COLUMNS, []);
-    const data = Device ;
-
+    const data = Device;
 
     const tableInstance = useTable(
         {
             columns,
             data,
         },
-
         useGlobalFilter,
         useSortBy,
         usePagination,
         useRowSelect,
-
         (hooks) => {
             hooks.visibleColumns.push((columns) => [
                 {
@@ -203,8 +196,8 @@ const DevicesList = ({ title = "Devices" }) => {
                 ...columns,
             ]);
         }
-
     );
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -223,21 +216,19 @@ const DevicesList = ({ title = "Devices" }) => {
         setGlobalFilter,
         prepareRow,
         selectedFlatRows,
-
     } = tableInstance;
 
-
-
     const { globalFilter, pageIndex, pageSize } = state;
+
     return (
         <>
             <Card>
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
-                            <div className="ml-16">
-                                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                            </div>
+                        <div className="ml-16">
+                            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+                        </div>
                     </div>
                 </div>
 
@@ -304,7 +295,7 @@ const DevicesList = ({ title = "Devices" }) => {
                 )}
 
                 <div className="md:flex md:space-y-0 space-y-5 justify-between mt-6 items-center">
-                    <div className=" flex items-center space-x-3 rtl:space-x-reverse">
+                    <div className="flex items-center space-x-3 rtl:space-x-reverse">
                         <select
                             className="form-control py-2 w-max"
                             value={pageSize}
@@ -317,11 +308,11 @@ const DevicesList = ({ title = "Devices" }) => {
                             ))}
                         </select>
                         <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                        Page{" "}
+                            Page{" "}
                             <span>
-                            {pageIndex + 1} of {pageOptions.length}
+                                {pageIndex + 1} of {pageOptions.length}
+                            </span>
                         </span>
-                    </span>
                     </div>
                     <ul className="flex items-center  space-x-3  rtl:space-x-reverse">
                         <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">

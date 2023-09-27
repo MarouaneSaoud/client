@@ -1,30 +1,35 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Textinput from "@/components/ui/Textinput.jsx";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import GroupService from "../../../services/groupDevice.services";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import getEmail from "@/services/auth/auth.email.js";
 
+export default function GroupDeviceForm({ visible, onClose }) {
+    // État local pour stocker les valeurs du formulaire
+    const [values, setValues] = useState({ name: "", email: getEmail() });
 
-export default function GroupDeviceForm({visible, onClose}){
-    const [values , SetValues]=useState({name:"",email:getEmail()})
-    const handleClose=(e)=>{
-        if(e.target.id==='container')
-            onClose()
-    }
+    // Fonction pour gérer la fermeture du formulaire
+    const handleClose = (e) => {
+        if (e.target.id === "container") onClose();
+    };
+
+    // Fonction pour soumettre le formulaire
     async function submitHandler(e) {
         e.target.reset();
         e.preventDefault();
 
-        await GroupService.addDeviceGroup(values).then(response=>{
-            if (response.status === 200) {
-                onClose()
-            }
-        })
-            .catch(error=>{
+        // Appel à GroupService pour ajouter un groupe de dispositifs
+        await GroupService.addDeviceGroup(values)
+            .then((response) => {
+                if (response.status === 200) {
+                    onClose(); // Fermer le formulaire après soumission réussie
+                }
+            })
+            .catch((error) => {
                 if (error.response) {
-                    toast.error("error", {
+                    toast.error("Erreur", {
                         position: "top-right",
                         autoClose: 1500,
                         hideProgressBar: false,
@@ -35,44 +40,40 @@ export default function GroupDeviceForm({visible, onClose}){
                         theme: "light",
                     });
                 }
-            })
-
+            });
     }
 
-    if(!visible)
-        return null;
+    // Si le formulaire n'est pas visible, retourner null
+    if (!visible) return null;
 
-    return(
-        <div onClick={handleClose}
-             id="container"
-             className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center items-center drop-shadow-2xl">
-
-
-            <Card
-                title="Add Group">
+    return (
+        <div
+            onClick={handleClose}
+            id="container"
+            className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center items-center drop-shadow-2xl"
+        >
+            <Card title="Ajouter un groupe">
                 <form onSubmit={submitHandler}>
                     <div
                         className="lg:grid-cols-3 md:grid-cols-2 grid-cols-1 grid gap-5 mb-5 last:mb-0"
                     >
                         <Textinput
                             onChange={(e) =>
-                                SetValues({
+                                setValues({
                                     ...values,
                                     name: e.target.value,
                                 })
-
                             }
-                            label="Group Name"
+                            label="Nom du groupe"
                             type="text"
-                            placeholder="Add Group Name"
+                            placeholder="Ajouter un nom de groupe"
                         />
                     </div>
                     <div className="ltr:text-right rtl:text-left">
-                        <Button type="submit" text="Submit" className="btn-dark" />
+                        <Button type="submit" text="Soumettre" className="btn-dark" />
                     </div>
                 </form>
             </Card>
-
         </div>
     );
 }

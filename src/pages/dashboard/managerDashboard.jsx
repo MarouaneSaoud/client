@@ -25,11 +25,11 @@ const CrmPage = () => {
   },[])
   const campaigns = [
     {
-      name: "Name",
+      name: "Nom",
       value: company.name,
     },
     {
-      name: "Alternative name",
+      name: "Nom alternatif",
       value: company.altName,
     },
     {
@@ -37,7 +37,7 @@ const CrmPage = () => {
       value: company.email,
     },
     {
-      name: "Address",
+      name: "Adresse",
       value: company.address,
     },
 
@@ -69,7 +69,7 @@ const CrmPage = () => {
           </div>
           <div className="lg:col-span-4 col-span-12 space-y-5">
             <div className="lg:col-span-4 col-span-12 space-y-5">
-              <Card title="Company" >
+              <Card title="Entreprise" >
                 <ul className="divide-y divide-slate-100 dark:divide-slate-700">
                   {campaigns.map((item, i) => (
                     <li
@@ -84,7 +84,7 @@ const CrmPage = () => {
                   ))}
                 </ul>
               </Card>
-              <Card title="Device statistics" >
+              <Card title="Statistiques des appareils" >
                 <div className="legend-ring3">
                   <Calculation />
                 </div>

@@ -43,7 +43,6 @@ export default function Config({ visible, onClose, imei }) {
         };
     }, []);
 
-
     const isValidIni = (iniObject) => {
         const requiredKeys = [
             "serverIp",
@@ -153,10 +152,10 @@ export default function Config({ visible, onClose, imei }) {
     let data = null;
     const handleIniFileSelected = async (iniText) => {
         const iniObject = parseIni(iniText);
-        data=iniObject;
+        data = iniObject;
 
         if (!isValidIni(iniObject)) {
-            toast.error("Configuration file is invalid", {
+            toast.error("Le fichier de configuration est invalide", {
                 position: "top-right",
                 autoClose: 5000,
             });
@@ -165,7 +164,7 @@ export default function Config({ visible, onClose, imei }) {
         try {
             await sendDeviceSequentially();
         } catch (error) {
-            console.error("Error during configuration:", error);
+            console.error("Erreur pendant la configuration :", error);
         }
     };
 
@@ -186,7 +185,7 @@ export default function Config({ visible, onClose, imei }) {
 
     async function sendDeviceSequentially(index = 0) {
         if (index >= imei.length) {
-            toast.success("Configuration successfully completed.", {
+            toast.success("Configuration terminée avec succès.", {
                 position: "top-right",
                 autoClose: 1500,
                 hideProgressBar: false,
@@ -210,8 +209,8 @@ export default function Config({ visible, onClose, imei }) {
         try {
             await ConfigurationServices.config(payload);
         } catch (error) {
-            console.error("Error during configuration:", error);
-            toast.error("An error has occurred during configuration", {
+            console.error("Erreur pendant la configuration :", error);
+            toast.error("Une erreur s'est produite pendant la configuration", {
                 position: "top-right",
                 autoClose: 1500,
             });
@@ -228,7 +227,7 @@ export default function Config({ visible, onClose, imei }) {
             id="container"
             className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center items-center drop-shadow-2xl"
         >
-            <Card title="Config" className="w-2/4">
+            <Card title="Configuration" className="w-2/4">
                 <div>
                     <DropConfig onIniFileSelected={handleIniFileSelected} />
                 </div>

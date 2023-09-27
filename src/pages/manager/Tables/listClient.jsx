@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Card from "@/components/ui/Card";
 import Icon from "@/components/ui/Icon";
 import Tooltip from "@/components/ui/Tooltip";
@@ -42,7 +42,7 @@ const IndeterminateCheckbox = React.forwardRef(
     }
 );
 
-const ExampleTwo = ({ title = "Clients" }) => {
+const ClientList = ({ title = "Clients" }) => {
     const navigate = useNavigate();
 
 
@@ -91,7 +91,7 @@ const ExampleTwo = ({ title = "Clients" }) => {
             },
         },
         {
-            Header: "User name",
+            Header: "Nom d'utilisateur",
             accessor: "name",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
@@ -107,21 +107,21 @@ const ExampleTwo = ({ title = "Clients" }) => {
 
 
         {
-            Header: "National identity card",
+            Header: "Numéro de carte d'identité nationale",
             accessor: "cin",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
             },
         },
         {
-            Header: "Address",
+            Header: "Adresse",
             accessor: "address",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
             },
         },
         {
-            Header: "Postal Code",
+            Header: "Code Postal",
             accessor: "postalCode",
             Cell: (row) => {
                 return <span>{row?.cell?.value}</span>;
@@ -129,22 +129,22 @@ const ExampleTwo = ({ title = "Clients" }) => {
         },
 
         {
-            Header: "action",
+            Header: "Action",
             accessor: "action",
             Cell: (row) => {
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                            <Tooltip
-                                content="Delete"
-                                placement="top"
-                                arrow
-                                animation="shift-away"
-                                theme="danger"
-                            >
-                                <button className="action-btn" type="button" onClick={() => deleteClient(row)}>
-                                    <Icon icon="heroicons:trash" />
-                                </button>
-                            </Tooltip>
+                        <Tooltip
+                            content="Supprimer"
+                            placement="top"
+                            arrow
+                            animation="shift-away"
+                            theme="danger"
+                        >
+                            <button className="action-btn" type="button" onClick={() => deleteClient(row)}>
+                                <Icon icon="heroicons:trash" />
+                            </button>
+                        </Tooltip>
 
 
                     </div>
@@ -300,14 +300,14 @@ const ExampleTwo = ({ title = "Clients" }) => {
                         >
                             {[100, 500, 1000,5000].map((pageSize) => (
                                 <option key={pageSize} value={pageSize}>
-                                    Show {pageSize}
+                                    Afficher {pageSize}
                                 </option>
                             ))}
                         </select>
                         <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
               Page{" "}
                             <span>
-                {pageIndex + 1} of {pageOptions.length}
+                {pageIndex + 1} de {pageOptions.length}
               </span>
             </span>
                     </div>
@@ -331,7 +331,7 @@ const ExampleTwo = ({ title = "Clients" }) => {
                                 onClick={() => previousPage()}
                                 disabled={!canPreviousPage}
                             >
-                                Prev
+                                Préc
                             </button>
                         </li>
                         {pageOptions.map((page, pageIdx) => (
@@ -358,7 +358,7 @@ const ExampleTwo = ({ title = "Clients" }) => {
                                 onClick={() => nextPage()}
                                 disabled={!canNextPage}
                             >
-                                Next
+                                Suiv
                             </button>
                         </li>
                         <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">
@@ -380,4 +380,4 @@ const ExampleTwo = ({ title = "Clients" }) => {
     );
 };
 
-export default ExampleTwo;
+export default ClientList;

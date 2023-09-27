@@ -54,7 +54,7 @@ const RadialsChart = () => {
         },
       },
     },
-    labels: [ "appareils en ligne", "appareils hors ligne ", "dispositifs inactifs"],
+    labels: [ "appareils en ligne", "appareils hors ligne ", "appareils inactifs"],
     colors: [  "#50C793", "#0CE7FA","#FA916B"],
   };
 

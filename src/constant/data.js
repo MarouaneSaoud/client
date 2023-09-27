@@ -824,7 +824,7 @@ export const ManagerMenu = [
 
   },
   {
-    title: "My Devices",
+    title: "Mes appareils",
     icon: "heroicons-outline:cpu-chip",
     link: "managerDevice",
     isOpen: true,
@@ -832,7 +832,7 @@ export const ManagerMenu = [
 
   },
   {
-    title: "Device Group",
+    title: "Mes Groupes d'appareils",
     isOpen: true,
     isHide: true,
     icon: "heroicons-outline:rectangle-stack",
@@ -853,14 +853,14 @@ export const ManagerMenu = [
 
 {
     isHeadr: true,
-    title: "Client",
+    title: "Mes Clients",
     isOpen: true,
     isHide: true,
     icon: "heroicons-outline:user",
     child: [
 
       {
-        childtitle:"New Client",
+        childtitle:"Nouveau client",
         childlink:"add-clients",
       },
 

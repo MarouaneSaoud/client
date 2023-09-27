@@ -15,14 +15,14 @@ const GroupChart3 = () => {
   const statistics = [
 
     {
-      title: "Devices",
+      title: "Appareils",
       bg: "bg-warning-500",
       text: "text-primary-500",
       count: statistic.device,
       img: shade1,
     },
     {
-      title: "Groups ",
+      title: "Groupes ",
       count: statistic.group,
       bg: "bg-info-500",
       text: "text-primary-500",

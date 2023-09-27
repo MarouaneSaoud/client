@@ -3,12 +3,13 @@ import { useDropzone } from "react-dropzone";
 import uploadSvgImage from "@/assets/images/svg/upload.svg";
 
 const DropConfig = ({ onIniFileSelected }) => {
+    // Utilisation du composant useDropzone pour gérer le glisser-déposer de fichiers
     const { getRootProps, getInputProps, isDragAccept } = useDropzone({
-        accept: ".ini",
+        accept: ".ini", // Accepte uniquement les fichiers avec l'extension .ini
         onDrop: async (acceptedFiles) => {
             const file = acceptedFiles[0];
             const text = await file.text();
-            onIniFileSelected(text);
+            onIniFileSelected(text); // Appelle la fonction onIniFileSelected avec le contenu du fichier .ini
         },
     });
 
@@ -20,11 +21,11 @@ const DropConfig = ({ onIniFileSelected }) => {
                     <img src={uploadSvgImage} alt="" className="mx-auto mb-4" />
                     {isDragAccept ? (
                         <p className="text-sm text-slate-500 dark:text-slate-300 ">
-                            Drop the .ini file here ...
+                            Déposez le fichier .ini ici ...
                         </p>
                     ) : (
                         <p className="text-sm text-slate-500 dark:text-slate-300">
-                            Drop your .ini file
+                            Déposez votre fichier .ini
                         </p>
                     )}
                 </div>

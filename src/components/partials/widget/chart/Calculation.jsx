@@ -21,7 +21,7 @@ const Calculation = ({ height = 335 }) => {
   const series = [data.affected,data.notAffected];
 
   const options = {
-    labels: ["Affected", "Not Affected"],
+    labels: ["Affecté", "Non Affecté"],
     dataLabels: {
       enabled: true,
     },

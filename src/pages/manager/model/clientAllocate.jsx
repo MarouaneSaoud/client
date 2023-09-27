@@ -7,8 +7,7 @@ import DeviceService from "@/services/device.services.js";
 import { toast } from "react-toastify";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
-import {useNavigate} from "react-router-dom";
-import ClientService from "@/services/client.services.js";
+import { useNavigate } from "react-router-dom";
 import getEmail from "@/services/auth/auth.email.js";
 
 export default function ClientAllocate({ visible, onClose, imei }) {
@@ -17,12 +16,14 @@ export default function ClientAllocate({ visible, onClose, imei }) {
     const handleClose = (e) => {
         if (e.target.id === "container") onClose();
     };
+
     const styles = {
         option: (provided, state) => ({
             ...provided,
             fontSize: "14px",
         }),
     };
+
     async function submitHandler(e) {
         e.preventDefault();
         await DeviceService.allocateDeviceToClient(values)
@@ -33,7 +34,7 @@ export default function ClientAllocate({ visible, onClose, imei }) {
             })
             .catch((error) => {
                 if (error.response) {
-                    toast.error("error", {
+                    toast.error("Erreur", {
                         position: "top-right",
                         autoClose: 1500,
                         hideProgressBar: false,
@@ -46,6 +47,7 @@ export default function ClientAllocate({ visible, onClose, imei }) {
                 }
             });
     }
+
     const [client, setClient] = useState([]);
 
     async function getClient() {
@@ -56,6 +58,7 @@ export default function ClientAllocate({ visible, onClose, imei }) {
             })
             .catch((error) => {});
     }
+
     useEffect(() => {
         getClient()
     }, []);
@@ -63,18 +66,17 @@ export default function ClientAllocate({ visible, onClose, imei }) {
     useEffect(() => {
         setValues((prevValues) => ({ ...prevValues, imei: imei }));
     }, [imei]);
-    const navigate=useNavigate();
-    
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         const checkUserAndToken = () => {
-
-            if (whoAuth.isCurrentUserClient()||whoAuth.isCurrentUserAdmin()) {
+            if (whoAuth.isCurrentUserClient() || whoAuth.isCurrentUserAdmin()) {
                 navigate('/403');
             }
             const storedToken = localStorage.getItem('accessToken');
 
             if (storedToken) {
-
                 const isExpired = authTokenExpired;
 
                 if (isExpired) {
@@ -103,7 +105,7 @@ export default function ClientAllocate({ visible, onClose, imei }) {
             id="container"
             className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center items-center drop-shadow-2xl"
         >
-            <Card title="Allocate Device To Client">
+            <Card title="Attribuer une appareil à un client">
                 <form onSubmit={submitHandler}>
                     <div className="lg:grid-cols-3 md:grid-cols-2 grid-cols-1 grid gap-5 mb-5 last:mb-0">
                         <Select
@@ -118,12 +120,11 @@ export default function ClientAllocate({ visible, onClose, imei }) {
                                     ...values,
                                     client: e.value,
                                 });
-                                console.log(values);
                             }}
                         />
                     </div>
                     <div className="ltr:text-right rtl:text-left">
-                        <Button type="submit" text="Submit" className="btn-dark" />
+                        <Button type="submit" text="Soumettre" className="btn-dark" />
                     </div>
                 </form>
             </Card>

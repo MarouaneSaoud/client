@@ -1,7 +1,7 @@
-import React, { useState, useMemo , useEffect  } from "react";
-import Papa from "papaparse"
+import React, { useState, useMemo, useEffect } from "react";
+import Papa from "papaparse";
 import Card from "../../../components/ui/Card";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Icon from "../../../components/ui/Icon";
 import Tooltip from "../../../components/ui/Tooltip";
 import Button from "../../../components/ui/Button";
@@ -14,16 +14,13 @@ import {
 } from "react-table";
 import GlobalFilter from "../../table/react-tables/GlobalFilter";
 import DeviceService from "../../../services/device.services";
-import ClientAllocate from "../model/clientAllocate.jsx"
-import GroupAllocate from "../model/groupAllocate.jsx"
-import Config from "../model/config.jsx"
+import ClientAllocate from "../model/clientAllocate.jsx";
+import GroupAllocate from "../model/groupAllocate.jsx";
+import Config from "../model/config.jsx";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import CompanyServices from "@/services/company.services.js";
 import getEmail from "../../../services/auth/auth.email";
-
-
-
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {
@@ -40,20 +37,19 @@ const IndeterminateCheckbox = React.forwardRef(
                     {...rest}
                     className="table-checkbox"
                 />
-
             </>
         );
     }
 );
-const DevicesList = ({ title = "Devices" }) => {
-    const [showMyModal,setShowMyModal]=useState(false)
-    const [showGroupModal,setshowGroupModal]=useState(false)
-    const [showConfig,setshowConfig]=useState(false)
-    const navigate=useNavigate();
+
+const DevicesList = ({ title = "Appareils" }) => {
+    const [showMyModal, setShowMyModal] = useState(false);
+    const [showGroupModal, setshowGroupModal] = useState(false);
+    const [showConfig, setshowConfig] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const checkUserAndToken = () => {
-
             if (whoAuth.isCurrentUserAdmin() || whoAuth.isCurrentUserClient()) {
                 navigate('/403');
             }
@@ -61,7 +57,6 @@ const DevicesList = ({ title = "Devices" }) => {
             const storedToken = localStorage.getItem('accessToken');
 
             if (storedToken) {
-
                 const isExpired = authTokenExpired;
 
                 if (isExpired) {
@@ -79,33 +74,40 @@ const DevicesList = ({ title = "Devices" }) => {
             clearInterval(intervalId);
         };
     }, []);
-    const handleOnClose =()=>{
-        setShowMyModal(false)
-        getDevices()
-    }
-    const handleOnCloseGroup =()=>{
-        setshowGroupModal(false)
-        getDevices()
-    }
-    const handleOnCloseConfig =()=>{
-        setshowConfig(false)
-    }
+
+    const handleOnClose = () => {
+        setShowMyModal(false);
+        getDevices();
+    };
+
+    const handleOnCloseGroup = () => {
+        setshowGroupModal(false);
+        getDevices();
+    };
+
+    const handleOnCloseConfig = () => {
+        setshowConfig(false);
+    };
+
     const [selectedImei, setSelectedImei] = useState(null);
 
     const handleOpenReferenceForm = (imei) => {
         setSelectedImei(imei);
-        setShowMyModal(true )
+        setShowMyModal(true);
     };
+
     const handleOpenGroupAllocate = () => {
         const imeiValues = selectedFlatRows.map(row => row.original.imei);
         setSelectedImei(imeiValues);
-        setshowGroupModal(true )
+        setshowGroupModal(true);
     };
+
     const handleOpenConfig = () => {
         const imeiValues = selectedFlatRows.map(row => row.original.imei);
         setSelectedImei(imeiValues);
-        setshowConfig(true)
+        setshowConfig(true);
     };
+
     const COLUMNS = [
         {
             Header: "Id",
@@ -122,37 +124,35 @@ const DevicesList = ({ title = "Devices" }) => {
             },
         },
         {
-            Header: "status",
+            Header: "Statut",
             accessor: "statusDevice",
             Cell: (row) => {
                 return (
                     <span className="block w-full">
-          <span
-              className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-                  row?.cell?.value === "ONLINE"
-                      ? "text-success-500 bg-success-500"
-                      : ""
-              } 
-            ${
-                  row?.cell?.value === "OFFLINE"
-                      ? "text-warning-500 bg-warning-500"
-                      : ""
-              }
-            ${
-                  row?.cell?.value === "INACTIF"
-                      ? "text-danger-500 bg-danger-500"
-                      : ""
-              }
-            
-             `}
-          >
-            {row?.cell?.value}
-          </span>
-        </span>
+                        <span
+                            className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
+                                row?.cell?.value === "EN LIGNE"
+                                    ? "text-success-500 bg-success-500"
+                                    : ""
+                            } 
+                            ${
+                                row?.cell?.value === "HORS LIGNE"
+                                    ? "text-warning-500 bg-warning-500"
+                                    : ""
+                            }
+                            ${
+                                row?.cell?.value === "INACTIF"
+                                    ? "text-danger-500 bg-danger-500"
+                                    : ""
+                            }
+                        `}
+                        >
+                            {row?.cell?.value}
+                        </span>
+                    </span>
                 );
             },
         },
-
         {
             Header: "Firmware",
             accessor: "firmware",
@@ -173,27 +173,24 @@ const DevicesList = ({ title = "Devices" }) => {
             Cell: (row) => {
                 return (
                     <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
-                     {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated To Any Client"}
-                  </span>
+                        {row?.cell?.value !== null ? row?.cell?.value : "GPS non attribué à aucun client"}
+                    </span>
                 );
             },
         },
-
-
         {
-            Header: "Group",
+            Header: "Groupe",
             accessor: "group",
             Cell: (row) => {
                 return (
                     <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
-                     {row?.cell?.value !== null ? row?.cell?.value : "gps is not allocated to any group"}
-                      </span>
+                        {row?.cell?.value !== null ? row?.cell?.value : "GPS non attribué à un groupe"}
+                    </span>
                 );
             },
         },
-
         {
-            Header: "action",
+            Header: "Action",
             accessor: "action",
             Cell: (row) => {
                 const clientValue = row?.cell?.row?.original?.client;
@@ -201,9 +198,9 @@ const DevicesList = ({ title = "Devices" }) => {
 
                 return (
                     <div className="flex space-x-3 rtl:space-x-reverse">
-                        {clientValue!==null  && (
-                            <Tooltip content="Decommission From Client" placement="top" arrow animation="shift-away">
-                                <button className="action-btn text-red-600" type="button" onClick={()=> {
+                        {clientValue !== null && (
+                            <Tooltip content="Retirer du client" placement="top" arrow animation="shift-away">
+                                <button className="action-btn text-red-600" type="button" onClick={() => {
                                     decommissionToClient(
                                         imeiValue
                                     )
@@ -211,13 +208,11 @@ const DevicesList = ({ title = "Devices" }) => {
                                     <Icon icon="heroicons:no-symbol" />
                                 </button>
                             </Tooltip>
-
                         )}
-                        {clientValue===null && (
-
-                            <Tooltip content="Allocate To Client " placement="top" arrow animation="shift-away">
+                        {clientValue === null && (
+                            <Tooltip content="Attribuer au client" placement="top" arrow animation="shift-away">
                                 <button className="action-btn text-green-600" type="button"
-                                        onClick={()=>handleOpenReferenceForm(imeiValue)}>
+                                        onClick={() => handleOpenReferenceForm(imeiValue)}>
                                     <Icon icon="heroicons:link" />
                                 </button>
                             </Tooltip>
@@ -226,7 +221,6 @@ const DevicesList = ({ title = "Devices" }) => {
                 );
             },
         },
-
     ];
 
     const [Device, setDevice] = useState([]);
@@ -237,6 +231,7 @@ const DevicesList = ({ title = "Devices" }) => {
         } catch (error) {
         }
     }
+
     async function decommissionToClient(imei) {
         try {
             await DeviceService.decommissionToClient(imei);
@@ -244,26 +239,23 @@ const DevicesList = ({ title = "Devices" }) => {
         } catch (error) {
         }
     }
-    useEffect(()=>{
-        getDevices();
 
-    },[])
+    useEffect(() => {
+        getDevices();
+    }, []);
 
     const columns = useMemo(() => COLUMNS, []);
-    const data = Device ;
-
+    const data = Device;
 
     const tableInstance = useTable(
         {
             columns,
             data,
         },
-
         useGlobalFilter,
         useSortBy,
         usePagination,
         useRowSelect,
-
         (hooks) => {
             hooks.visibleColumns.push((columns) => [
                 {
@@ -282,8 +274,8 @@ const DevicesList = ({ title = "Devices" }) => {
                 ...columns,
             ]);
         }
-
     );
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -302,9 +294,10 @@ const DevicesList = ({ title = "Devices" }) => {
         setGlobalFilter,
         prepareRow,
         selectedFlatRows,
-
     } = tableInstance;
+
     const selectedRows = selectedFlatRows.map((row) => row.original);
+
     const handleExport = () => {
         // Convertir les données en une chaîne CSV en utilisant papaparse
         const csvString = Papa.unparse(selectedRows, {
@@ -319,7 +312,7 @@ const DevicesList = ({ title = "Devices" }) => {
         // Créer un lien pour le téléchargement
         const link = document.createElement('a');
         link.setAttribute('href', url);
-        link.setAttribute('download', 'devices.csv');
+        link.setAttribute('download', 'appareils.csv');
         document.body.appendChild(link);
         // Déclencher le téléchargement
         link.click();
@@ -327,12 +320,11 @@ const DevicesList = ({ title = "Devices" }) => {
         URL.revokeObjectURL(url);
     };
 
-
     const { globalFilter, pageIndex, pageSize } = state;
+
     return (
         <>
             <Card>
-
                 <div className="md:flex justify-between items-center mb-6">
                     <h4 className="card-title">{title}</h4>
                     <div>
@@ -344,27 +336,26 @@ const DevicesList = ({ title = "Devices" }) => {
                 <div className="flex justify-end mb-1.5">
                     <Button
                         icon="heroicons-outline:newspaper"
-                        text="Export"
+                        text="Exporter"
                         className="btn-dark rounded-[999px] px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm ml-3"
                         onClick={handleExport}
                     />
                     <Button
                         icon="heroicons-outline:rectangle-stack"
-                        text="Grouping"
+                        text="Regroupement"
                         className="btn-dark rounded-[999px] px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm ml-4 mr-4 -mr-10"
                         onClick={() => { handleOpenGroupAllocate() }}
                     />
                     <Button
                         icon="heroicons-outline:adjustments-horizontal"
-                        text="Configs"
+                        text="Configurations"
                         className="btn-dark rounded-[999px] px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm"
                         onClick={() => { handleOpenConfig() }}
                     />
                 </div>
 
-
                 {Device.length === 0 ? (
-                    <p className="text-gray-500">Devices not found.</p>
+                    <p className="text-gray-500">Aucun appareil trouvé.</p>
                 ) : (
                     <div className="overflow-x-auto -mx-6">
                         <div className="inline-block min-w-full align-middle">
@@ -386,12 +377,12 @@ const DevicesList = ({ title = "Devices" }) => {
                                                 >
                                                     {column.render("Header")}
                                                     <span>
-                                                        {column.isSorted
-                                                            ? column.isSortedDesc
-                                                                ? " 🔽"
-                                                                : " 🔼"
-                                                            : ""}
-                                                    </span>
+                                                            {column.isSorted
+                                                                ? column.isSortedDesc
+                                                                    ? " 🔽"
+                                                                    : " 🔼"
+                                                                : ""}
+                                                        </span>
                                                 </th>
                                             ))}
                                         </tr>
@@ -434,16 +425,16 @@ const DevicesList = ({ title = "Devices" }) => {
                         >
                             {[100, 500, 1000, 5000].map((pageSize) => (
                                 <option key={pageSize} value={pageSize}>
-                                    Show {pageSize}
+                                    Afficher {pageSize}
                                 </option>
                             ))}
                         </select>
                         <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                        Page{" "}
+                            Page{" "}
                             <span>
-                            {pageIndex + 1} of {pageOptions.length}
+                                {pageIndex + 1} sur {pageOptions.length}
+                            </span>
                         </span>
-                    </span>
                     </div>
                     <ul className="flex items-center  space-x-3  rtl:space-x-reverse">
                         <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">
@@ -465,7 +456,7 @@ const DevicesList = ({ title = "Devices" }) => {
                                 onClick={() => previousPage()}
                                 disabled={!canPreviousPage}
                             >
-                                Prev
+                                Préc
                             </button>
                         </li>
                         {pageOptions.map((page, pageIdx) => (
@@ -492,7 +483,7 @@ const DevicesList = ({ title = "Devices" }) => {
                                 onClick={() => nextPage()}
                                 disabled={!canNextPage}
                             >
-                                Next
+                                Suiv
                             </button>
                         </li>
                         <li className="text-xl leading-4 text-slate-900 dark:text-white rtl:rotate-180">
@@ -514,7 +505,6 @@ const DevicesList = ({ title = "Devices" }) => {
             <Config onClose={handleOnCloseConfig} visible={showConfig} imei={selectedImei} />
         </>
     );
-
 };
 
 export default DevicesList;

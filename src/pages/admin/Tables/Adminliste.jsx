@@ -17,7 +17,7 @@ import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import AuthService from "../../../services/auth.services";
 import AuthRole from "@/services/auth/auth.role.js";
 
-const UserListe = ({ title = "Utilisateurs" }) => {
+const Adminliste = ({ title = "Administrateurs" }) => {
 
     const COLUMNS = [
         {
@@ -391,4 +391,4 @@ const UserListe = ({ title = "Utilisateurs" }) => {
     );
 };
 
-export default UserListe;
+export default Adminliste;
