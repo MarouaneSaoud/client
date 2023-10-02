@@ -124,7 +124,7 @@ const ComanyListe = ({ title = "Entreprises" }) => {
                                 animation="shift-away"
                                 theme="danger"
                             >
-                                <button className="action-btn" type="button" onClick={() => supprimerEntreprise(row)}>
+                                <button className="action-btn" type="button" onClick={() => deleteEntreprise(row)}>
                                     <Icon icon="heroicons:trash" />
                                 </button>
                             </Tooltip>
@@ -146,10 +146,14 @@ const ComanyListe = ({ title = "Entreprises" }) => {
     }
 
     async function deleteEntreprise(row) {
+
         try {
-            const idEntreprise = row.cell.row.original.id;
-            await CompanyService.deleteCompany(idEntreprise);
-            getEntreprises();
+            const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ceci ?");
+            if (confirmDelete) {
+                const idEntreprise = row.cell.row.original.id;
+                await CompanyService.deleteCompany(idEntreprise);
+                getEntreprises();
+            }
         } catch (error) {
         }
     }

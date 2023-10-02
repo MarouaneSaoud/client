@@ -8,7 +8,7 @@ import Select from "react-select";
 import ReactFlagsSelect from "react-flags-select";
 import ServiceEntreprise from "../../../services/company.services.js";
 import { toast } from "react-toastify";
-import { countryNames, department } from "@/constant/data.js";
+import { countryNames, departments } from "@/constant/data.js";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 const FormValidationSchema = yup
     .object({
         name: yup.string().required("Le nom est requis"),
-        altname: yup.string().required("Le nom alternatif est requis"),
+        altName: yup.string().required("Le nom alternatif est requis"),
         address: yup.string().required("L'adresse est requise"),
         email: yup.string().email("L'e-mail n'est pas valide").required("L'e-mail est requis"),
     })
@@ -41,12 +41,13 @@ const userForm = () => {
     });
 
     const [values, setValues] = useState({
+
         name: "",
-        altname: "",
+        altName: "",
         cin: 0,
         address: "",
         postalCode: 0,
-        dep: department[0],
+        department: departments[0],
         email: "",
         website: "",
         skype: "",
@@ -157,7 +158,7 @@ const userForm = () => {
                             label="Nom alternatif"
                             type="text"
                             placeholder="Nom alternatif"
-                            name="altname"
+                            name="altName"
                             register={register}
                             error={errors.altname}
                             onChange={(e) =>
@@ -215,17 +216,17 @@ const userForm = () => {
                             <Select
                                 className="react-select"
                                 classNamePrefix="select"
-                                defaultValue={department[0]}
+                                defaultValue={departments[0]}
                                 styles={styles}
                                 name="department"
-                                options={department}
+                                options={departments}
                                 isClearable
                                 id="department"
                                 register={register}
                                 onChange={(selectedOption) => {
                                     setValues({
                                         ...values,
-                                        dep: selectedOption.label,
+                                        department: selectedOption.label,
                                     });
                                 }}
                             />

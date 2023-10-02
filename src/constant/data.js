@@ -1,4 +1,4 @@
-export const department = [
+export const departments = [
   { value: "Informatique / IT", label: "Informatique / IT" },
   { value: "Ressources Humaines", label: "Ressources Humaines" },
   { value: "Communication", label: "Communication" },

@@ -189,9 +189,11 @@ const Adminliste = ({ title = "Administrateurs" }) => {
 
     async function deleteUser(row) {
         try {
+            const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ceci ?");
+            if (confirmDelete) {
             const id = row.cell.row.original.id;
             await AuthService.deleteUser(id)
-            getUsers();
+            getUsers();}
         } catch (error) {
         }
     }

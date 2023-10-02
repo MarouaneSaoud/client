@@ -168,9 +168,11 @@ const ClientList = ({ title = "Clients" }) => {
     },[])
     async function deleteClient(row) {
         try {
+            const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ceci ?");
+            if (confirmDelete) {
             const id = row.cell.row.original.id;
             await ClientService.deleteClient(id)
-            getClient();
+            getClient();}
         } catch (error) {
         }
     }

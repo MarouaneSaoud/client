@@ -231,9 +231,12 @@ const DevicesList = ({ title = "Appareils" }) => {
     }, [])
     async function deleteDevice(row) {
         try {
-            const imei = row.cell.row.original.imei;
-            await DeviceService.deleteDevice(imei)
-            getDevices();
+            const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ceci ?");
+            if (confirmDelete) {
+                const imei = row.cell.row.original.imei;
+                await DeviceService.deleteDevice(imei)
+                getDevices();
+            }
         } catch (error) {
         }
     }

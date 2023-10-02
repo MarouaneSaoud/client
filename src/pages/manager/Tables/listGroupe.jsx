@@ -146,9 +146,11 @@ const ListGroupe = ({ title = "Groupes" }) => {
     }
     async function deleteGroup(row) {
         try {
+            const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ceci ?");
+            if (confirmDelete) {
             const id = row.cell.row.original.deviceGroup.id;
             await GroupService.deleteGroup(id);
-            getGroupDevice();
+            getGroupDevice();}
         } catch (error) {
         }
     }
