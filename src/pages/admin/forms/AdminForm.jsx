@@ -68,7 +68,7 @@ const FormulaireUtilisateur = () => {
 
     const [values, setValues] = useState({
         username: "",
-        nom: "",
+        name: "",
         password: "",
         confirmedPassword: "",
     });
