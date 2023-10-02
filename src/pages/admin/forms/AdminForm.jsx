@@ -11,29 +11,35 @@ import { toast } from "react-toastify";
 import AuthService from "../../../services/auth.services";
 import AuthRole from "@/services/auth/auth.role.js";
 
-const FormValidationSchema = yup
-    .object({
-        password: yup.string().required("Mot de passe requis"),
-        email: yup.string().email("Email invalide").required("Email requis"),
-        username: yup.string().required("Nom d'utilisateur requis"),
-        confirmpassword: yup
-            .string()
-            .required()
-            .oneOf([yup.ref("password")], "Les mots de passe doivent correspondre"),
-    })
-    .required();
+const FormValidationSchema = yup.object({
+    password: yup.string().required("Mot de passe requis"),
+    username: yup.string().email("Email invalide").required("Email requis"),
+    name: yup.string().required("Nom d'utilisateur requis"),
+    confirmedPassword: yup
+        .string()
+        .required("Confirmation du mot de pass requis")
+        .oneOf([yup.ref("password")], "Les mots de passe doivent correspondre")
+        .test(
+            "passwords-match",
+            "Les mots de passe doivent correspondre",
+            async function (value) {
+                return value === this.parent.password;
+            }
+        ),
+});
 
 const FormulaireUtilisateur = () => {
     const role = AuthRole();
     const {
         register,
-        formState: { errors },
         handleSubmit,
+        formState: { errors },
     } = useForm({
         resolver: yupResolver(FormValidationSchema),
     });
 
     const navigate = useNavigate();
+
     useEffect(() => {
         const verifierUtilisateurEtToken = () => {
             if (
@@ -66,19 +72,11 @@ const FormulaireUtilisateur = () => {
         };
     }, []);
 
-    const [values, setValues] = useState({
-        username: "",
-        name: "",
-        password: "",
-        confirmedPassword: "",
-    });
-
-    async function soumettreFormulaire(e) {
-        e.target.reset();
-        e.preventDefault();
-
+    const onSubmit = async (data) => {
         try {
-            const response = await AuthService.addUserAdmin(values);
+            const response = await AuthService.addUserAdmin(data);
+            console.log(response)
+
 
             if (response.status === 200) {
                 toast.success("Utilisateur ajouté", {
@@ -106,27 +104,22 @@ const FormulaireUtilisateur = () => {
                 });
             }
         }
-    }
+    };
 
     return (
         <Card title={"Formulaire d'Administrateur"}>
             <div>
                 <form
-                    onSubmit={soumettreFormulaire}
+                    onSubmit={handleSubmit(onSubmit)}
                     className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
                 >
                     <Textinput
-                        name="nom"
+                        name="name"
                         label="Nom d'utilisateur"
                         type="text"
                         register={register}
                         error={errors.username}
-                        onChange={(e) =>
-                            setValues({
-                                ...values,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+
                     />
                     <Textinput
                         name="username"
@@ -134,12 +127,7 @@ const FormulaireUtilisateur = () => {
                         type="email"
                         register={register}
                         error={errors.email}
-                        onChange={(e) =>
-                            setValues({
-                                ...values,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+
                     />
                     <Textinput
                         name="password"
@@ -147,30 +135,20 @@ const FormulaireUtilisateur = () => {
                         type="password"
                         register={register}
                         error={errors.password}
-                        onChange={(e) =>
-                            setValues({
-                                ...values,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+
                     />
                     <Textinput
                         name="confirmedPassword"
                         label="Confirmer le mot de passe"
                         type="password"
                         register={register}
-                        error={errors.confirmpassword}
-                        onChange={(e) =>
-                            setValues({
-                                ...values,
-                                [e.target.name]: e.target.value,
-                            })
-                        }
+                        error={errors.confirmedPassword}
+
                     />
 
                     <div className="lg:col-span-2 col-span-1">
                         <div className="ltr:text-right rtl:text-left">
-                            <button className="btn btn-dark  text-center">Soumettre</button>
+                            <button className="btn btn-dark text-center">Soumettre</button>
                         </div>
                     </div>
                 </form>
