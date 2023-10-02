@@ -131,12 +131,12 @@ const DevicesList = ({ title = "Appareils" }) => {
                     <span className="block w-full">
                         <span
                             className={` inline-block px-3 min-w-[90px] text-center mx-auto py-1 rounded-[999px] bg-opacity-25 ${
-                                row?.cell?.value === "EN LIGNE"
+                                row?.cell?.value === "ONLINE"
                                     ? "text-success-500 bg-success-500"
                                     : ""
                             } 
                             ${
-                                row?.cell?.value === "HORS LIGNE"
+                                row?.cell?.value === "OFFLINE"
                                     ? "text-warning-500 bg-warning-500"
                                     : ""
                             }
@@ -145,7 +145,8 @@ const DevicesList = ({ title = "Appareils" }) => {
                                     ? "text-danger-500 bg-danger-500"
                                     : ""
                             }
-                        `}
+
+                            `}
                         >
                             {row?.cell?.value}
                         </span>
@@ -184,7 +185,7 @@ const DevicesList = ({ title = "Appareils" }) => {
             Cell: (row) => {
                 return (
                     <span className={row?.cell?.value !== null ? "text-black" : "text-red-500"}>
-                        {row?.cell?.value !== null ? row?.cell?.value : "GPS non attribué à un groupe"}
+                        {row?.cell?.value !== null ? row?.cell?.value : "GPS non attribué à aucun groupe"}
                     </span>
                 );
             },
@@ -333,7 +334,7 @@ const DevicesList = ({ title = "Appareils" }) => {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-end mb-1.5">
+                <div className="flex justify-end mb-1.5 ">
                     <Button
                         icon="heroicons-outline:newspaper"
                         text="Exporter"
@@ -342,13 +343,13 @@ const DevicesList = ({ title = "Appareils" }) => {
                     />
                     <Button
                         icon="heroicons-outline:rectangle-stack"
-                        text="Regroupement"
+                        text="Grouper"
                         className="btn-dark rounded-[999px] px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm ml-4 mr-4 -mr-10"
                         onClick={() => { handleOpenGroupAllocate() }}
                     />
                     <Button
                         icon="heroicons-outline:adjustments-horizontal"
-                        text="Configurations"
+                        text="Configurer"
                         className="btn-dark rounded-[999px] px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm"
                         onClick={() => { handleOpenConfig() }}
                     />
