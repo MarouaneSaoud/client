@@ -16,6 +16,7 @@ const FormValidationSchema = yup
     .object({
         cin: yup.string().required("Numéro de carte d'identité nationale requis"),
         email: yup.string().email("Email invalide").required("Email requis"),
+        password: yup.string().required("Mot de passe requis"),
         username: yup.string().required("Nom d'utilisateur requis"),
         address: yup.string().required("Adresse requise"),
         postalCode: yup.string().required("Code postal requis"),
@@ -64,6 +65,7 @@ const userForm = () => {
 
     const [values, setValues] = useState({
         email: "",
+        password:"",
         name: "",
         cin: "",
         address: "",
@@ -139,6 +141,21 @@ const userForm = () => {
                                 [e.target.name]: e.target.value,
                             })
                         }
+                    />
+                    <Textinput
+                        name="password"
+                        label="Mot de passe"
+                        type="password"
+                        placeholder="Mot de passe"
+                        register={register}
+                        error={errors.password}
+                        onChange={(e) =>
+                            setValues({
+                                ...values,
+                                [e.target.name]: e.target.value,
+                            })
+                        }
+
                     />
                     <Textinput
                         name="cin"

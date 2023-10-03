@@ -19,6 +19,7 @@ const FormValidationSchema = yup
         altName: yup.string().required("Le nom alternatif est requis"),
         address: yup.string().required("L'adresse est requise"),
         email: yup.string().email("L'e-mail n'est pas valide").required("L'e-mail est requis"),
+        password: yup.string().required("Mot de passe requis"),
     })
     .required();
 
@@ -49,6 +50,7 @@ const userForm = () => {
         postalCode: 0,
         department: departments[0],
         email: "",
+        password:"",
         website: "",
         skype: "",
         idrc: 0,
@@ -244,6 +246,21 @@ const userForm = () => {
                                     [e.target.name]: e.target.value,
                                 })
                             }
+                        />
+                        <Textinput
+                            name="password"
+                            label="Mot de passe"
+                            placeholder="Mot de passe"
+                            type="password"
+                            register={register}
+                            error={errors.password}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
+
                         />
                         <Textinput
                             label="Site Web"
