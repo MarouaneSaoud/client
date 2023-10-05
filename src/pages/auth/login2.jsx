@@ -4,7 +4,7 @@ import LoginForm from "./common/login-form";
 import Social from "./common/social";
 import { ToastContainer } from "react-toastify";
 import useDarkMode from "@/hooks/useDarkMode";
-import loginpic from "../../assets/images/all-img/loginpic.png";
+import loginpic from "../../assets/images/all-img/login-bg3.jpg";
 
 // Importation des images
 import LogoWhite from "@/assets/images/logo/logo-white.svg";
@@ -59,7 +59,7 @@ const Login2 = () => {
               <div className="flex flex-col h-full justify-center ">
                 <div className="flex-1 flex flex-col  justify-center items-center" style={{ marginTop: '-250px' }}>
                   <Link to="/">
-                    <img src={LogoWhite} alt="" className="mb-10" />
+                    <img src={LogoWhite} alt="" className="mb-28" />
                   </Link>
                 </div>
                 <div>

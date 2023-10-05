@@ -1,10 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
-import Papa from "papaparse";
+import { toast } from "react-toastify";
 import Card from "../../../components/ui/Card";
 import { useNavigate } from "react-router-dom";
 import Icon from "../../../components/ui/Icon";
 import Tooltip from "../../../components/ui/Tooltip";
 import Button from "../../../components/ui/Button";
+import * as XLSX from 'xlsx';
+
 import {
     useTable,
     useRowSelect,
@@ -300,26 +302,34 @@ const DevicesList = ({ title = "Appareils" }) => {
     const selectedRows = selectedFlatRows.map((row) => row.original);
 
     const handleExport = () => {
-        // Convertir les données en une chaîne CSV en utilisant papaparse
-        const csvString = Papa.unparse(selectedRows, {
-            quotes: true, // Encadrer les valeurs entre guillemets
-            delimiter: ',', // Utiliser la virgule comme séparateur
-            header: true, // Inclure une ligne d'en-tête avec les noms de colonnes
-        });
-        // Créer un fichier blob à partir de la chaîne CSV
-        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-        // Créer un objet URL pour le fichier blob
-        const url = URL.createObjectURL(blob);
-        // Créer un lien pour le téléchargement
-        const link = document.createElement('a');
-        link.setAttribute('href', url);
-        link.setAttribute('download', 'appareils.csv');
-        document.body.appendChild(link);
-        // Déclencher le téléchargement
-        link.click();
-        // Nettoyer l'objet URL
-        URL.revokeObjectURL(url);
+        if (selectedRows.length === 0) {
+
+            toast.info("Veuillez sélectionner au moins une ligne avant d\'exporter !", {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+            return;
+        }
+
+        else{
+            const data = [
+                ['id', 'imei', 'statusDevice', 'firmware', 'configuration', 'company', 'client'],
+                ...selectedRows.map((row) => [row.id, row.imei, row.statusDevice, row.firmware, row.configuration, row.company, row.client, row.group]),
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Mes appareils');
+
+            XLSX.writeFile(wb, 'appareils.xlsx');
+        }
     };
+
 
     const { globalFilter, pageIndex, pageSize } = state;
 
