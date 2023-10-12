@@ -22,6 +22,7 @@ const schema = yup
 
 const LoginForm = () => {
     const dispatch = useDispatch();
+    const onChange = () => {};
 
     const [values, setValues] = useState({ username: "", password: "" });
     const [verified, setVerified] = useState(false);
@@ -164,7 +165,10 @@ const LoginForm = () => {
                         Mot de passe oublié ?{" "}
                     </Link>
                 </div>
-
+                <ReCAPTCHA
+                    sitekey="6LeOUfAmAAAAABGafdJd2exB5sjKIqh_cZGMB3Mr"
+                    onChange={onChange}
+                />
                 <button className="btn btn-dark block w-full text-center">Se connecter</button>
             </form>
         </>
