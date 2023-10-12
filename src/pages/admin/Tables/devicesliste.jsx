@@ -223,8 +223,11 @@ const DevicesList = ({ title = "Appareils" }) => {
     }
     async function decommission(imei) {
         try {
-            await DeviceService.decommission(imei);
-            getDevices()
+            const confirm = window.confirm("Êtes-vous certain de votre volonté de désaffecter cet appareil ?");
+            if (confirm) {
+                await DeviceService.decommission(imei);
+                getDevices()
+            }
         } catch (error) {
         }
     }

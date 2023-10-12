@@ -237,8 +237,11 @@ const DevicesList = ({ title = "Appareils" }) => {
 
     async function decommissionToClient(imei) {
         try {
-            await DeviceService.decommissionToClient(imei);
-            getDevices()
+            const confirm = window.confirm("Êtes-vous certain de votre volonté de désaffecter cet appareil ?");
+            if (confirm) {
+                await DeviceService.decommissionToClient(imei);
+                getDevices()
+            }
         } catch (error) {
         }
     }
