@@ -227,6 +227,7 @@ const DevicesList = ({ title = "Appareils" }) => {
             if (confirm) {
                 await DeviceService.decommission(imei);
                 getDevices()
+
             }
         } catch (error) {
         }
