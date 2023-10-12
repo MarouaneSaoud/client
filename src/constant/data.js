@@ -215,6 +215,20 @@ export const countryNames = {
   ZM: 'Zambia',
   ZW: 'Zimbabwe',
 };
+export const ClientMenu = [
+  {
+    isHeadr: true,
+    title: "menu",
+  },
+
+  {
+    title: "Dashboard",
+    icon: "heroicons-outline:home",
+    link: "/client",
+    isOpen: true,
+    isHide: true,
+
+  }]
 export const AdminMenu = [
   {
     isHeadr: true,

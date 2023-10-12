@@ -63,6 +63,9 @@ const LoginForm = () => {
                     } else if (role === 'MANAGER') {
                         navigate("/manager/dashboard");
                         dispatch(handleLogin(true));
+                    }else if (role === 'CLIENT') {
+                        navigate("/client");
+                        dispatch(handleLogin(true));
                     }
                 } else {
                     toast.info(`Votre compte est désactivé`, {
