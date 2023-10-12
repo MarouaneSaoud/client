@@ -113,7 +113,6 @@ export default function ClientAllocate({ visible, onClose, imei }) {
                             classNamePrefix="select"
                             styles={styles}
                             options={client}
-                            defaultValue={client[0]}
                             isClearable
                             onChange={(e) => {
                                 setValues({
