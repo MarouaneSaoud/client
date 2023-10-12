@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import SidebarLogo from "./Logo";
 import Navmenu from "./Navmenu";
-import {AdminMenu, ManagerMenu , SuperAdminMenu} from "@/constant/data";
+import {AdminMenu, ManagerMenu , SuperAdminMenu , ClientMenu} from "@/constant/data";
 import SimpleBar from "simplebar-react";
 import useSidebar from "@/hooks/useSidebar";
 import useSemiDark from "@/hooks/useSemiDark";
@@ -66,6 +66,7 @@ const Sidebar = () => {
             {whoAuth.isCurrentUserAdmin() && role === "SUPER_ADMIN" && <Navmenu menus={SuperAdminMenu} />}
             {whoAuth.isCurrentUserAdmin() && role === "ADMIN" && <Navmenu menus={AdminMenu} />}
             {whoAuth.isCurrentUserManager() && <Navmenu menus={ManagerMenu} />}
+            {whoAuth.isCurrentUserClient() && <Navmenu menus={ClientMenu} />}
 
         </SimpleBar>
       </div>

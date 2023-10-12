@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 
 import Navmenu from "./Navmenu";
-import {AdminMenu, ManagerMenu, SuperAdminMenu} from "@/constant/data";
+import {AdminMenu, ManagerMenu, SuperAdminMenu,ClientMenu} from "@/constant/data";
 import SimpleBar from "simplebar-react";
 import useSemiDark from "@/hooks/useSemiDark";
 import useSkin from "@/hooks/useSkin";
@@ -79,6 +79,8 @@ const MobileMenu = ({ className = "custom-class" }) => {
         {whoAuth.isCurrentUserAdmin() && role === "SUPER_ADMIN" && <Navmenu menus={SuperAdminMenu} />}
         {whoAuth.isCurrentUserAdmin() && role === "ADMIN" && <Navmenu menus={AdminMenu} />}
         {whoAuth.isCurrentUserManager() && <Navmenu menus={ManagerMenu} />}
+        {whoAuth.isCurrentUserClient() && <Navmenu menus={ClientMenu} />}
+
 
       </SimpleBar>
     </div>
