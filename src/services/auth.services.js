@@ -5,7 +5,7 @@ const headers = getAuthHeaders();
 
 
 async function login(values) {
-    return await axios.post("http://38.242.222.233:8080/login", values , { withCredentials: true   , headers:{ "Content-Type": "multipart/form-data"}} );
+    return await axios.post("http://localhost:8080/login", values , { withCredentials: true   , headers:{ "Content-Type": "multipart/form-data"}} );
 }
 async function loadUserByUsername(username , token) {
 

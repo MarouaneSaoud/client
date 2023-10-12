@@ -110,7 +110,6 @@ export default function ReferenceForm({ visible, onClose, imei }) {
                             classNamePrefix="select"
                             styles={styles}
                             options={Company}
-                            defaultValue={Company[0]}
                             isClearable
                             onChange={(e) => {
                                 setValues({
