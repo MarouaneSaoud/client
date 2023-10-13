@@ -22,10 +22,16 @@ const schema = yup
 
 const LoginForm = () => {
     const dispatch = useDispatch();
-    const onChange = () => {};
+    const ReCAPTCHA = () => {
 
-    const [values, setValues] = useState({ username: "", password: "" });
+        function onChange(value) {
+        console.log("Captcha value:",value);
+        setVerified(true);
+        }
+    };
     const [verified, setVerified] = useState(false);
+    const [values, setValues] = useState({ username: "", password: "" });
+ 
 
     const {
         register,
@@ -167,9 +173,9 @@ const LoginForm = () => {
                 </div>
                 <ReCAPTCHA
                     sitekey="6LeOUfAmAAAAABGafdJd2exB5sjKIqh_cZGMB3Mr"
-
+                    onChange={onChange}
                 />
-                <button className="btn btn-dark block w-full text-center" onChange={onChange} >Se connecter</button>
+                <button className="btn btn-dark block w-full text-center" disabled={!verified}>Se connecter</button>
             </form>
         </>
     );
