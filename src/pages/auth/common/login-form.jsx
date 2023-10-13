@@ -23,11 +23,9 @@ const schema = yup
 const LoginForm = () => {
     const dispatch = useDispatch();
     const ReCAPTCHA = () => {
-
         function onChange(value) {
         console.log("Captcha value:",value);
-        setVerified(true);
-        }
+        setVerified(true);}
     };
     const [verified, setVerified] = useState(false);
     const [values, setValues] = useState({ username: "", password: "" });
