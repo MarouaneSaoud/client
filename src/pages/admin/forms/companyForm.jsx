@@ -17,7 +17,7 @@ const FormValidationSchema = yup
     .object({
         name: yup.string().required("Le nom est requis"),
         altName: yup.string().required("Le nom alternatif est requis"),
-        address: yup.string().required("L'adresse est requise"),
+        address: yup.string().required("L'adresse est requis"),
         email: yup.string().email("L'e-mail n'est pas valide").required("L'e-mail est requis"),
         password: yup.string().required("Mot de passe requis"),
     })
@@ -47,8 +47,9 @@ const userForm = () => {
         altName: "",
         cin: 0,
         address: "",
+        tel:"",
         postalCode: 0,
-        department: departments[0],
+        department: "",
         email: "",
         password:"",
         website: "",
@@ -69,12 +70,12 @@ const userForm = () => {
         });
     };
 
-    async function submitHandler(e) {
-        e.target.reset();
+    async function submit(e) {
+
         e.preventDefault();
-        console.log(values);
         await ServiceEntreprise.addCompany(values)
             .then((response) => {
+                e.target.reset();
                 if (response.status === 200) {
                     toast.success("Entreprise ajoutée", {
                         position: toast.POSITION.TOP_RIGHT,
@@ -139,11 +140,16 @@ const userForm = () => {
             <Card title="Formulaire d'entreprise">
                 <div>
                     <form
-                        onSubmit={submitHandler}
+                        onSubmit={handleSubmit(submit)}
                         className="lg:grid-cols-2 grid gap-5 grid-cols-1 "
                     >
                         <Textinput
-                            label="Nom"
+                            label={
+                                <div>
+                                    Nom{' '}
+                                    <span style={{ color: 'red', paddingLeft: '5px' }}>*</span>
+                                </div>
+                            }
                             type="text"
                             placeholder="Nom"
                             name="name"
@@ -155,6 +161,7 @@ const userForm = () => {
                                     [e.target.name]: e.target.value,
                                 })
                             }
+
                         />
                         <Textinput
                             label="Nom alternatif"
@@ -171,9 +178,14 @@ const userForm = () => {
                             }
                         />
                         <Textinput
-                            label="Carte d'identité nationale"
+                            label={
+                                <div>
+                                    CIN / RC{' '}
+                                    <span style={{ color: 'red', paddingLeft: '5px' }}>*</span>
+                                </div>
+                            }
                             type="text"
-                            placeholder="Carte d'identité nationale"
+                            placeholder="Carte d'identité nationale / registre de commerce"
                             name="cin"
                             register={register}
                             error={errors.cin}
@@ -191,6 +203,19 @@ const userForm = () => {
                             name="address"
                             register={register}
                             error={errors.address}
+                            onChange={(e) =>
+                                setValues({
+                                    ...values,
+                                    [e.target.name]: e.target.value,
+                                })
+                            }
+                        />
+                        <Textinput
+                            label="Numéro de téléphone"
+                            type="text"
+                            placeholder="Numéro de téléphone"
+                            name="tel"
+                            register={register}
                             onChange={(e) =>
                                 setValues({
                                     ...values,
@@ -218,7 +243,6 @@ const userForm = () => {
                             <Select
                                 className="react-select"
                                 classNamePrefix="select"
-                                defaultValue={departments[0]}
                                 styles={styles}
                                 name="department"
                                 options={departments}
@@ -234,7 +258,12 @@ const userForm = () => {
                             />
                         </div>
                         <Textinput
-                            label="E-mail"
+                            label={
+                                <div>
+                                    E-mail{' '}
+                                    <span style={{ color: 'red', paddingLeft: '5px' }}>*</span>
+                                </div>
+                            }
                             type="email"
                             placeholder="E-mail"
                             name="email"
@@ -249,7 +278,12 @@ const userForm = () => {
                         />
                         <Textinput
                             name="password"
-                            label="Mot de passe"
+                            label={
+                                <div>
+                                    Mot de passe{' '}
+                                    <span style={{ color: 'red', paddingLeft: '5px' }}>*</span>
+                                </div>
+                            }
                             placeholder="Mot de passe"
                             type="password"
                             register={register}
@@ -288,19 +322,7 @@ const userForm = () => {
                                 })
                             }
                         />
-                        <Textinput
-                            label="Identifiant professionnel (R.C)"
-                            type="number"
-                            placeholder="Identifiant professionnel (R.C)"
-                            name="idrc"
-                            register={register}
-                            onChange={(e) =>
-                                setValues({
-                                    ...values,
-                                    [e.target.name]: e.target.value,
-                                })
-                            }
-                        />
+
                         <Textinput
                             label="Identifiant professionnel (I.F)"
                             type="number"

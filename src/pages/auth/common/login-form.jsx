@@ -167,9 +167,9 @@ const LoginForm = () => {
                 </div>
                 <ReCAPTCHA
                     sitekey="6LeOUfAmAAAAABGafdJd2exB5sjKIqh_cZGMB3Mr"
-                    onChange={onChange}
+
                 />
-                <button className="btn btn-dark block w-full text-center">Se connecter</button>
+                <button className="btn btn-dark block w-full text-center" onChange={onChange} >Se connecter</button>
             </form>
         </>
     );
