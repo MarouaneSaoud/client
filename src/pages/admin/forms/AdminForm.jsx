@@ -30,13 +30,10 @@ const FormValidationSchema = yup.object({
 
 const FormulaireUtilisateur = () => {
     const role = AuthRole();
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
+    const { register, formState: { errors }, handleSubmit, reset } = useForm({
         resolver: yupResolver(FormValidationSchema),
     });
+
 
     const navigate = useNavigate();
 
@@ -75,10 +72,8 @@ const FormulaireUtilisateur = () => {
     const onSubmit = async (data) => {
         try {
             const response = await AuthService.addUserAdmin(data);
-            console.log(response)
-
-
             if (response.status === 200) {
+                reset()
                 toast.success("Utilisateur ajouté", {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 1500,

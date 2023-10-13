@@ -13,15 +13,16 @@ import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 import { useNavigate } from "react-router-dom";
 
+
 const FormValidationSchema = yup
     .object({
         name: yup.string().required("Le nom est requis"),
-        altName: yup.string().required("Le nom alternatif est requis"),
-        address: yup.string().required("L'adresse est requis"),
+        cin_rc: yup.string().required("Le cin ou le rc est requis"),
         email: yup.string().email("L'e-mail n'est pas valide").required("L'e-mail est requis"),
         password: yup.string().required("Mot de passe requis"),
     })
     .required();
+
 
 const styles = {
     option: (provided, state) => ({
@@ -31,13 +32,11 @@ const styles = {
 };
 
 const userForm = () => {
+
     const [selected, setSelected] = useState("");
 
-    const {
-        register,
-        formState: { errors },
-        handleSubmit,
-    } = useForm({
+ ;
+    const { register, formState: { errors }, handleSubmit, reset } = useForm({
         resolver: yupResolver(FormValidationSchema),
     });
 
@@ -45,7 +44,7 @@ const userForm = () => {
 
         name: "",
         altName: "",
-        cin: 0,
+        cin_rc: 0,
         address: "",
         tel:"",
         postalCode: 0,
@@ -54,12 +53,10 @@ const userForm = () => {
         password:"",
         website: "",
         skype: "",
-        idrc: 0,
         idif: 0,
         patent: 0,
         cnss: 0,
         country: "",
-        logo: null,
     });
 
     const handleCountrySelect = (code) => {
@@ -70,13 +67,12 @@ const userForm = () => {
         });
     };
 
-    async function submit(e) {
-
-        e.preventDefault();
+    async function submit() {
         await ServiceEntreprise.addCompany(values)
             .then((response) => {
-                e.target.reset();
+
                 if (response.status === 200) {
+                    reset();
                     toast.success("Entreprise ajoutée", {
                         position: toast.POSITION.TOP_RIGHT,
                         autoClose: 1500,
@@ -91,18 +87,34 @@ const userForm = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    toast.error("Erreur !", {
-                        position: "top-right",
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
+                    if (error.response.data.message == "User already exists") {
+
+                        toast.error("Ce email exist deja!", {
+                            position: "top-right",
+                            autoClose: 1500,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
+
+                        } else{
+                        toast.error("Erreur !", {
+                            position: "top-right",
+                            autoClose: 1500,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        });
+                    }
                 }
             });
+
     }
 
     const navigate = useNavigate();
@@ -186,9 +198,9 @@ const userForm = () => {
                             }
                             type="text"
                             placeholder="Carte d'identité nationale / registre de commerce"
-                            name="cin"
+                            name="cin_rc"
                             register={register}
-                            error={errors.cin}
+                            error={errors.cin_rc}
                             onChange={(e) =>
                                 setValues({
                                     ...values,

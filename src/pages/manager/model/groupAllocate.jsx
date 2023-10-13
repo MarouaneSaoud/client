@@ -131,7 +131,6 @@ export default function groupAllocate({ visible, onClose, imei }) {
                             classNamePrefix="select"
                             styles={styles}
                             options={group}
-                            defaultValue={group[0]}
                             isClearable
                             onChange={(e) => {
                                 setValues({
