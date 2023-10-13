@@ -30,9 +30,19 @@ const HelloPage = lazy(()=> import("./pages/dashboard/clientDashboard"))
 
 import Loading from "@/components/Loading";
 function App() {
-
+    const responsiveStyles = {
+        fontSize: '16px',
+        '@media (min-width: 768px)': {
+            fontSize: '18px',
+        },
+        '@media (min-width: 1024px)': {
+            fontSize: '20px',
+        },
+    };
   return (
+
     <main className="App  relative">
+        <div style={responsiveStyles}/>
       <Routes>
         <Route
           path="/"
