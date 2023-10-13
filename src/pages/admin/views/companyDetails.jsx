@@ -4,41 +4,7 @@ import CompanyService from "../../../services/company.services";
 import whoAuth from "@/services/auth/auth.who.js";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 
-export const lists = [
-    {
-        title: "Project start date",
-        desc: "This parcel is paid for by the customer. Please contact the customer for any further information.",
-        date: "Sep 20, 2021 ",
-        time: "12:32 AM",
-        status: "ok",
-    },
-    {
-        title: "Project start date",
-        date: "Sep 20, 2021 ",
-        desc: "This parcel is paid for by the customer. Please contact the customer for any further information.",
-        time: "12:32 AM",
-        status: "ok",
-    },
-    {
-        title: "Project start date",
-        date: "Sep 20, 2021 ",
-        desc: "This parcel is paid for by the customer. Please contact the customer for any further information.",
-        time: "12:32 AM",
-        status: "ok",
-    },
-    {
-        title: "Project start date",
-        date: "Sep 20, 2021 ",
-        desc: "This parcel is paid for by the customer. Please contact the customer for any further information.",
-        time: "12:32 AM",
-    },
-    {
-        title: "Project start date",
-        date: "Sep 20, 2021 ",
-        desc: "This parcel is paid for by the customer. Please contact the customer for any further information.",
-        time: "12:32 AM",
-    },
-];
+
 const companyDetails = () => {
 
     const { id } = useParams();
@@ -119,14 +85,14 @@ const companyDetails = () => {
                                 </div>
                             </li>
                         ) : null}
-                        {company.cin ? (
+                        {company.cin_rc ? (
                             <li>
                                 <div className="p-[10px] relative top-[-20px]" >
                                     <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                        National Identity Card
+                                        National Identity Card | Registre de Commerce
                                     </h2>
                                     <p className="text-xs capitalize dark:text-slate-400">
-                                        {company.cin}
+                                        {company.cin_rc}
                                     </p>
                                 </div>
                             </li>
