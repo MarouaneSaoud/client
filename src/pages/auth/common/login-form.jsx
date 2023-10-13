@@ -158,19 +158,17 @@ const LoginForm = () => {
                         onChange={() => setChecked(!checked)}
                         label="Rester connecté"
                     />
-                    {/*<Link
+                    <Link
                         to="/forgot-password"
                         className="text-sm text-slate-800 dark:text-slate-400 leading-6 font-medium"
                     >
                         Mot de passe oublié ?{" "}
-                    </Link>*/}
+                    </Link>
                 </div>
-                <div class="flex justify-center items-center">
-                    <ReCAPTCHA
-                        sitekey="6LeOUfAmAAAAABGafdJd2exB5sjKIqh_cZGMB3Mr"
-                    />
-                </div>
+                <ReCAPTCHA
+                    sitekey="6LeOUfAmAAAAABGafdJd2exB5sjKIqh_cZGMB3Mr"
 
+                />
                 <button className="btn btn-dark block w-full text-center" onChange={onChange} >Se connecter</button>
             </form>
         </>
