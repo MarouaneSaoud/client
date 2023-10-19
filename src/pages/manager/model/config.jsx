@@ -11,7 +11,6 @@ export default function Config({ visible, onClose, imei }) {
     const handleClose = (e) => {
         if (e.target.id === "container") onClose();
     };
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -150,9 +149,12 @@ export default function Config({ visible, onClose, imei }) {
 
 
     let data = null;
-    const handleIniFileSelected = async (iniText) => {
+    let file =null;
+
+    const handleIniFileSelected = async (iniText , fileName) => {
         const iniObject = parseIni(iniText);
         data = iniObject;
+
 
         if (!isValidIni(iniObject)) {
             toast.error("Le fichier de configuration est invalide", {
@@ -161,6 +163,7 @@ export default function Config({ visible, onClose, imei }) {
             });
             return;
         }
+        file=fileName;
         try {
             await sendDeviceSequentially();
         } catch (error) {
@@ -202,14 +205,13 @@ export default function Config({ visible, onClose, imei }) {
         const myImei = imei[index];
         const payload = {
             ...data,
-            imei: myImei
+            imei: myImei,
+            fileName: file,
         };
-
 
         try {
             await ConfigurationServices.config(payload);
         } catch (error) {
-            console.error("Erreur pendant la configuration :", error);
             toast.error("Une erreur s'est produite pendant la configuration", {
                 position: "top-right",
                 autoClose: 1500,

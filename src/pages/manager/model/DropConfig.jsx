@@ -9,7 +9,7 @@ const DropConfig = ({ onIniFileSelected }) => {
         onDrop: async (acceptedFiles) => {
             const file = acceptedFiles[0];
             const text = await file.text();
-            onIniFileSelected(text); // Appelle la fonction onIniFileSelected avec le contenu du fichier .ini
+            onIniFileSelected(text,file.name); // Appelle la fonction onIniFileSelected avec le contenu du fichier .ini
         },
     });
 
