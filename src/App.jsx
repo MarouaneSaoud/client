@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-
 const Dashboard = lazy(() => import("./pages/dashboard"));
 const Login2 = lazy(() => import("./pages/auth/login2"));
 const ForgotPass2 = lazy(() => import("./pages/auth/forgot-password2"));
@@ -30,19 +29,8 @@ const HelloPage = lazy(()=> import("./pages/dashboard/clientDashboard"))
 
 import Loading from "@/components/Loading";
 function App() {
-    const responsiveStyles = {
-        fontSize: '16px',
-        '@media (min-width: 768px)': {
-            fontSize: '18px',
-        },
-        '@media (min-width: 1024px)': {
-            fontSize: '20px',
-        },
-    };
   return (
-
     <main className="App  relative">
-        <div style={responsiveStyles}/>
       <Routes>
         <Route
           path="/"
@@ -112,4 +100,5 @@ function App() {
     </main>
   );
 }
+
   export default App;

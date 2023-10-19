@@ -8,10 +8,13 @@ async function allClient() {
 async function addClient(values) {
     return await http.post("/client/save",values,{headers});
 }
+async function findDevicesByEmail(email) {
+    return await http.get("/client/findDevicesByEmail/"+email,{headers});
+}
 
 async function deleteClient(id) {
     return await http.delete("/client/delete/"+id,{headers});
 }
 
-const ClientService = {allClient,addClient,deleteClient};
+const ClientService = {allClient,addClient,deleteClient,findDevicesByEmail};
 export default ClientService;
