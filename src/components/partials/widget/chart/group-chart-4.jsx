@@ -5,6 +5,7 @@ import getEmail from "@/services/auth/auth.email.js";
 
 const GroupChart4 = () => {
   const [client, setclient] = useState( {});
+  const [nbDevice, setNbDevice] = useState( {});
 
   const statistics = [
     {
@@ -13,21 +14,29 @@ const GroupChart4 = () => {
       bg: "bg-info-500",
       text: "text-info-500",
       percent: "25.67% ",
-      icon: "heroicons-outline:menu-alt-1",
+      icon: "heroicons-outline:user",
     },
     {
       title: "Appareils ",
-      count:client.device,
+      count:nbDevice.data,
       bg: "bg-warning-500",
       text: "text-warning-500",
       percent: "8.67%",
-      icon: "heroicons-outline:chart-pie",
+      icon: "heroicons-outline:cpu-chip",
     },
   ];
   async function getClientCount() {
     try {
       let result = await ClientService.CountClientDevices(getEmail());
-      console.log(result)
+      setNbDevice(result)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  async function getClient() {
+    try {
+      let result = await ClientService.CurrentClient(getEmail());
       setclient(result.data)
 
     } catch (error) {
@@ -36,6 +45,7 @@ const GroupChart4 = () => {
   }
   useEffect(() => {
     getClientCount();
+    getClient();
   }, []);
   return (
     <>

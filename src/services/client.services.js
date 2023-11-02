@@ -21,5 +21,8 @@ async function Top5Clients() {
 async function CountClientDevices (email) {
     return await http.get("/client/countClientDevices/"+email,{headers});
 }
-const ClientService = {allClient,addClient,deleteClient,findDevicesByEmail,CountClientDevices};
+async function CurrentClient (email) {
+    return await http.get("/client/getClientForLoggedInUser/"+email,{headers});
+}
+const ClientService = {allClient,addClient,deleteClient,findDevicesByEmail,CountClientDevices,CurrentClient};
 export default ClientService;
