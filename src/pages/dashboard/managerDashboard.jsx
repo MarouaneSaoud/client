@@ -7,7 +7,7 @@ import Calculation from "../../components/partials/widget/chart/Calculation";
 import HomeBredCurbs from "./HomeBredCurbs";
 import CompanyService from "../../services/company.services";
 import getEmail from "../../services/auth/auth.email";
-
+import RecentOrderTable from "../../components/partials/Table/recentOrder-table";
 
 
 const CrmPage = () => {
@@ -53,18 +53,10 @@ const CrmPage = () => {
                 <GroupChart3 />
               </div>
             </Card>
-            <Card>
-              <header className="md:flex md:space-y-0 space-y-4">
-                <h6 className="flex-1 text-slate-900 dark:text-white capitalize">
-                 Statistics
-                </h6>
-                <div className="flex-none">
-                  <SelectMonth />
+            <Card title="Les 5 premières clients" noborder>
+                <div className="col-span-12">
+                  <RecentOrderTable />
                 </div>
-              </header>
-              <div className="legend-ring">
-                <StackBarChart />
-              </div>
             </Card>
           </div>
           <div className="lg:col-span-4 col-span-12 space-y-5">

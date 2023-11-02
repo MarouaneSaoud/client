@@ -65,7 +65,7 @@ const companyDetails = () => {
                             <li>
                                 <div className="p-[10px] relative top-[-20px]" >
                                     <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                        Departement
+                                        Département
                                     </h2>
                                     <p className="text-xs capitalize dark:text-slate-400">
                                         {}
@@ -77,7 +77,7 @@ const companyDetails = () => {
                             <li>
                                 <div className="p-[10px] relative top-[-20px]" >
                                     <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                        Address
+                                        Adresse
                                     </h2>
                                     <p className="text-xs capitalize dark:text-slate-400">
                                         {company.address}
@@ -89,7 +89,7 @@ const companyDetails = () => {
                             <li>
                                 <div className="p-[10px] relative top-[-20px]" >
                                     <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                        National Identity Card | Registre de Commerce
+                                        Carte nationale d'identité | Registre de Commerce
                                     </h2>
                                     <p className="text-xs capitalize dark:text-slate-400">
                                         {company.cin_rc}
@@ -101,7 +101,7 @@ const companyDetails = () => {
                            <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                    Email
+                                  Email
                                 </h2>
                                 <p className="text-xs capitalize dark:text-slate-400">
                                     {company.email}
@@ -113,7 +113,7 @@ const companyDetails = () => {
                         <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                    website
+                                    Site web
                                 </h2>
                                 <p className="text-xs capitalize dark:text-slate-400">
                                     {company.website}
@@ -129,18 +129,6 @@ const companyDetails = () => {
                                 </h2>
                                 <p className="text-xs capitalize dark:text-slate-400">
                                     {company.skype}
-                                </p>
-                            </div>
-                        </li>
-                        ) : null}
-                        {company.idrc ? (
-                        <li>
-                            <div className="p-[10px] relative top-[-20px]" >
-                                <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                   Id (rc)
-                                </h2>
-                                <p className="text-xs capitalize dark:text-slate-400">
-                                    {company.idrc}
                                 </p>
                             </div>
                         </li>
@@ -185,7 +173,7 @@ const companyDetails = () => {
                         <li>
                             <div className="p-[10px] relative top-[-20px]" >
                                 <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
-                                    Contry
+                                    Pays
                                 </h2>
                                 <p className="text-xs capitalize dark:text-slate-400">
                                     {company.country}
@@ -193,10 +181,21 @@ const companyDetails = () => {
                             </div>
                         </li>
                         ) : null}
-
+                        {company.tel ? (
+                            <li>
+                                <div className="p-[10px] relative top-[-20px]" >
+                                    <h2 className="text-sm font-medium dark:text-slate-400-900 mb-1 text-slate-600">
+                                        Telephone
+                                    </h2>
+                                    <p className="text-xs capitalize dark:text-slate-400">
+                                        {company.tel}
+                                    </p>
+                                </div>
+                            </li>
+                        ) : null}
                     </ul>
                 ) : (
-                    <div>Company not found</div>
+                    <div>Entreprise non trouvée</div>
                 )}
             </div>
         );
