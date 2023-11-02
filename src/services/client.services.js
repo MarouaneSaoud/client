@@ -19,7 +19,7 @@ async function Top5Clients() {
     return await http.get("//",{headers});
 }
 async function CountClientDevices (email) {
-    return await http.get("/countClientDevices/"+email,{headers});
+    return await http.get("/client/countClientDevices/"+email,{headers});
 }
 const ClientService = {allClient,addClient,deleteClient,findDevicesByEmail,CountClientDevices};
 export default ClientService;
