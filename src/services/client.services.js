@@ -24,5 +24,12 @@ async function CountClientDevices (email) {
 async function CurrentClient (email) {
     return await http.get("/client/getClientForLoggedInUser/"+email,{headers});
 }
-const ClientService = {allClient,addClient,deleteClient,findDevicesByEmail,CountClientDevices,CurrentClient};
+
+const ClientService = {
+    allClient,
+    addClient,
+    deleteClient,
+    findDevicesByEmail,
+    CountClientDevices,
+    CurrentClient};
 export default ClientService;

@@ -35,7 +35,6 @@ const userForm = () => {
 
     const [selected, setSelected] = useState("");
 
- ;
     const { register, formState: { errors }, handleSubmit, reset } = useForm({
         resolver: yupResolver(FormValidationSchema),
     });

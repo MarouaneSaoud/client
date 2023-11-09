@@ -79,7 +79,6 @@ const devicesForm = () => {
         };
     }, []);
 
-    // Charger un fichier de périphérique à partir d'un fichier CSV
     const [selectedFile, setSelectedFile] = useState(null);
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
@@ -180,21 +179,15 @@ const devicesForm = () => {
         }
     };
 
-    // Enregistrer un périphérique manuellement depuis le formulaire
-    const {
-        register,
-        formState: { errors },
-        handleSubmit,
-    } = useForm({
+    const { register, formState: { errors }, handleSubmit, reset } = useForm({
         resolver: yupResolver(FormValidationSchema),
     });
 
-    async function submitHandler(e) {
-        e.target.reset();
-        e.preventDefault();
+    async function submit() {
         await DeviceService.addDevice(values)
             .then((response) => {
                 if (response.status === 200) {
+                    reset();
                     toast.success("Périphérique ajouté", {
                         position: toast.POSITION.TOP_RIGHT,
                         autoClose: 1500,
@@ -209,7 +202,7 @@ const devicesForm = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    toast.error("Erreur !", {
+                    toast.error("Une erreur est survenue !", {
                         position: "top-right",
                         autoClose: 1500,
                         hideProgressBar: false,
@@ -296,7 +289,9 @@ const devicesForm = () => {
 
                 <div>
                     <h4>Uploader manuellement des périphériques</h4>
-                    <form onSubmit={submitHandler} className="lg:grid-cols-2 grid gap-5 grid-cols-1 ">
+                    <form
+                        onSubmit={handleSubmit(submit)}
+                        className="lg:grid-cols-2 grid gap-5 grid-cols-1 ">
                         <Textinput
                             label="Numéro de série"
                             type="number"

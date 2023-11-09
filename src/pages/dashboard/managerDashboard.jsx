@@ -1,14 +1,11 @@
 import React, {useEffect, useState} from "react";
 import Card from "@/components/ui/Card";
 import GroupChart3 from "../../components/partials/widget/chart/group-chart-3";
-import SelectMonth from "@/components/partials/SelectMonth";
-import StackBarChart from "../../components/partials/widget/chart/stack-bar";
 import Calculation from "../../components/partials/widget/chart/Calculation";
 import HomeBredCurbs from "./HomeBredCurbs";
 import CompanyService from "../../services/company.services";
 import getEmail from "../../services/auth/auth.email";
-import RecentOrderTable from "../../components/partials/Table/recentOrder-table";
-
+import TopClient from "@/components/partials/Table/TopClient.jsx";
 
 const CrmPage = () => {
   const [company, setCompany] = useState([]);
@@ -53,9 +50,9 @@ const CrmPage = () => {
                 <GroupChart3 />
               </div>
             </Card>
-            <Card title="Les 5 premières clients" noborder>
+            <Card title="Les meilleurs clients" noborder>
                 <div className="col-span-12">
-                  <RecentOrderTable />
+                  <TopClient />
                 </div>
             </Card>
           </div>

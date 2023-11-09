@@ -47,6 +47,27 @@ async function companyClientById(id) {
 async function Top5Company() {
     return await http.get("/company/topcompanies",{headers});
 }
+async function top5Client (email) {
+    return await http.get("/company/findTop5Clients/"+email,{headers});
+}
 
-const CompanyServices = {companyClientById,companyDeviceGroupById,Top5Company,allCompany,companyStatistic,percentageAllocatedDevices,addCompany,infosCompany,companyById,deviceGroupWithDeviceCount,companyDeviceByEmail,companyClientByEmail,companyDeviceGroupByEmail,countCompany,deleteCompany,};
+
+const CompanyServices = {
+    companyClientById,
+    companyDeviceGroupById,
+    Top5Company,
+    allCompany,
+    companyStatistic,
+    percentageAllocatedDevices,
+    addCompany,
+    infosCompany,
+    companyById,deviceGroupWithDeviceCount,
+    companyDeviceByEmail,
+    companyClientByEmail,
+    companyDeviceGroupByEmail,
+    countCompany,
+    deleteCompany,
+    top5Client,
+
+};
 export default CompanyServices;

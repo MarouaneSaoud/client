@@ -19,7 +19,6 @@ const FormValidationSchema = yup
         password: yup.string().required("Mot de passe requis"),
         username: yup.string().required("Nom d'utilisateur requis"),
         address: yup.string().required("Adresse requise"),
-        postalCode: yup.string().required("Code postal requis"),
     })
     .required();
 
@@ -73,13 +72,11 @@ const userForm = () => {
         CompanyEmail: getEmail(),
     });
 
-    async function submitHandler(e) {
-        e.target.reset();
-        e.preventDefault();
-        console.log(values);
+    async function submit() {
         try {
             const response = await ClientService.addClient(values);
             if (response.status === 200) {
+                reset();
                 toast.success('Client ajouté', {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 1500,
@@ -108,10 +105,10 @@ const userForm = () => {
     }
 
     return (
-        <Card title={"Formulaire Clients"}>
+        <Card title={"Formulaire des Clients"}>
             <div>
                 <form
-                    onSubmit={submitHandler}
+                    onSubmit={handleSubmit(submit)}
                     className="lg:grid-cols-2 grid gap-5 grid-cols-1"
                 >
                     <Textinput

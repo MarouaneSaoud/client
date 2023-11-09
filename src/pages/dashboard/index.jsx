@@ -3,8 +3,7 @@ import Card from "@/components/ui/Card";
 import ImageBlock2 from "@/components/partials/widget/block/image-block-2";
 import GroupChart2 from "@/components/partials/widget/chart/group-chart-2";
 import RevenueBarChart from "@/components/partials/widget/chart/revenue-bar-chart";
-import SelectMonth from "@/components/partials/SelectMonth";
-import RecentOrderTable from "../../components/partials/Table/recentOrder-table";
+import TopCompany from "@/components/partials/Table/TopCompany.jsx";
 import HomeBredCurbs from "./HomeBredCurbs";
 import RadialsChart from "@/components/partials/widget/chart/radials";
 import whoAuth from "../../services/auth/auth.who.js";
@@ -12,7 +11,6 @@ import {useNavigate} from "react-router-dom";
 import authTokenExpired from "@/services/auth/auth.token.expired.js";
 
 const Ecommerce = () => {
-  const [filterMap, setFilterMap] = useState("usa");
   const navigate=useNavigate();
 
   useEffect(() => {
@@ -73,8 +71,8 @@ const Ecommerce = () => {
           </div>
 
           <div className="col-span-12">
-            <Card title="Les 5 premières entreprises" noborder>
-              <RecentOrderTable />
+            <Card title="Les meilleurs entreprises" noborder>
+              <TopCompany />
             </Card>
           </div>
 

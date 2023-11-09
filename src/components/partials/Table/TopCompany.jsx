@@ -11,6 +11,7 @@ import {
   usePagination,
 } from "react-table";
 import CompanyService from "../../../services/company.services";
+import getEmail from "@/services/auth/auth.email.js";
 
 const COLUMNS = [
   {
@@ -48,7 +49,6 @@ const COLUMNS = [
 ];
 
 const Top5Company = () => {
-
   const [Top5Company, setTop5Company] = useState([]);
   async function getTop5Company() {
     try {

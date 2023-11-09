@@ -13,8 +13,8 @@ import AuthRole from "@/services/auth/auth.role.js";
 
 const FormValidationSchema = yup.object({
     password: yup.string().required("Mot de passe requis"),
-    username: yup.string().email("Email invalide").required("Email requis"),
-    name: yup.string().required("Nom d'utilisateur requis"),
+    email: yup.string().email("Email invalide"),
+    username: yup.string().required("Nom d'utilisateur requis"),
     confirmedPassword: yup
         .string()
         .required("Confirmation du mot de pass requis")
@@ -38,20 +38,17 @@ const FormulaireUtilisateur = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const verifierUtilisateurEtToken = () => {
-            if (
-                whoAuth.isCurrentUserManager() ||
-                whoAuth.isCurrentUserClient() ||
-                role === "ADMIN"
-            ) {
+        const checkUserAndToken = () => {
+            if (whoAuth.isCurrentUserManager()) {
                 navigate("/403");
             }
+
             const storedToken = localStorage.getItem("accessToken");
 
             if (storedToken) {
-                const estExpiré = authTokenExpired;
+                const isExpired = authTokenExpired;
 
-                if (estExpiré) {
+                if (isExpired) {
                     localStorage.removeItem("accessToken");
                     navigate("/login");
                 }
@@ -60,9 +57,9 @@ const FormulaireUtilisateur = () => {
             }
         };
 
-        verifierUtilisateurEtToken();
+        checkUserAndToken();
 
-        const intervalId = setInterval(verifierUtilisateurEtToken, 2 * 60 * 1000);
+        const intervalId = setInterval(checkUserAndToken, 2 * 60 * 1000);
 
         return () => {
             clearInterval(intervalId);
@@ -74,7 +71,7 @@ const FormulaireUtilisateur = () => {
             const response = await AuthService.addUserAdmin(data);
             if (response.status === 200) {
                 reset()
-                toast.success("Utilisateur ajouté", {
+                toast.success("Administrateur ajouté", {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 1500,
                     hideProgressBar: false,

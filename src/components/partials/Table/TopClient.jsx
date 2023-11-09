@@ -6,7 +6,8 @@ import {
     useGlobalFilter,
     usePagination,
 } from "react-table";
-import ClientService from "../../../services/client.services";
+import CompanyServices from "@/services/company.services.js";
+import getEmail from "@/services/auth/auth.email.js";
 
 const COLUMNS = [
     {
@@ -36,20 +37,20 @@ const COLUMNS = [
 ];
 
 const Top5Clients= () => {
-
-    const [Top5Company, setTop5Company] = useState([]);
-    async function getTop5Company() {
+    const email = getEmail();
+    const [Top5Clients, setTop5Clients] = useState([]);
+    async function getTop5Client() {
         try {
-            let result = await CompanyService.Top5Company();
-            setTop5Company(result.data);
+            let result = await CompanyServices.top5Client(email) ;
+            setTop5Clients(result.data);
         } catch (error) {
         }
     }
     useEffect(()=>{
-        getTop5Company()
+        getTop5Client()
     },[])
     const columns = useMemo(() => COLUMNS, []);
-    const data = Top5Company;
+    const data = Top5Clients;
 
     const tableInstance = useTable(
         {
@@ -149,4 +150,4 @@ const Top5Clients= () => {
     );
 };
 
-export default Top5Company;
+export default Top5Clients;
