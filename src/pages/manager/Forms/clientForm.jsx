@@ -17,18 +17,14 @@ const FormValidationSchema = yup
         cin: yup.string().required("Numéro de carte d'identité nationale requis"),
         email: yup.string().email("Email invalide").required("Email requis"),
         password: yup.string().required("Mot de passe requis"),
-        username: yup.string().required("Nom d'utilisateur requis"),
+        name: yup.string().required("Nom d'utilisateur requis"),
         address: yup.string().required("Adresse requise"),
     })
     .required();
 
 const userForm = () => {
     const role = AuthRole();
-    const {
-        register,
-        formState: { errors },
-        handleSubmit,
-    } = useForm({
+    const { register, formState: { errors }, handleSubmit, reset } = useForm({
         resolver: yupResolver(FormValidationSchema),
     });
 
@@ -69,13 +65,13 @@ const userForm = () => {
         cin: "",
         address: "",
         postalCode: "",
-        CompanyEmail: getEmail(),
+        CompanyEmail: role,
     });
 
     async function submit() {
         try {
             const response = await ClientService.addClient(values);
-            if (response.status === 200) {
+            if (response.status == 200) {
                 reset();
                 toast.success('Client ajouté', {
                     position: toast.POSITION.TOP_RIGHT,
@@ -90,6 +86,7 @@ const userForm = () => {
             }
         } catch (error) {
             if (error.response) {
+
                 toast.error("Une erreur est survenue !", {
                     position: "top-right",
                     autoClose: 1500,
@@ -117,7 +114,7 @@ const userForm = () => {
                         type="text"
                         placeholder="Ajouter votre nom d'utilisateur"
                         register={register}
-                        error={errors.username}
+                        error={errors.name}
                         onChange={(e) =>
                             setValues({
                                 ...values,

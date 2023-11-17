@@ -5,8 +5,23 @@ import Button from "@/components/ui/Button";
 import GroupService from "../../../services/groupDevice.services";
 import { toast } from "react-toastify";
 import getEmail from "@/services/auth/auth.email.js";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
+
+const FormValidationSchema = yup
+    .object({
+        name: yup.string().required("Le nom du groupe est requis"),
+
+    })
+    .required();
 export default function GroupDeviceForm({ visible, onClose }) {
+
+    const { register, formState: { errors }, handleSubmit, reset } = useForm({
+        resolver: yupResolver(FormValidationSchema),
+    });
+
     // État local pour stocker les valeurs du formulaire
     const [values, setValues] = useState({ name: "", email: getEmail() });
 
@@ -16,14 +31,13 @@ export default function GroupDeviceForm({ visible, onClose }) {
     };
 
     // Fonction pour soumettre le formulaire
-    async function submitHandler(e) {
-        e.target.reset();
-        e.preventDefault();
+    async function submit() {
 
         // Appel à GroupService pour ajouter un groupe de dispositifs
         await GroupService.addDeviceGroup(values)
             .then((response) => {
                 if (response.status === 200) {
+                    reset()
                     onClose(); // Fermer le formulaire après soumission réussie
                 }
             })
@@ -53,7 +67,7 @@ export default function GroupDeviceForm({ visible, onClose }) {
             className="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center items-center drop-shadow-2xl"
         >
             <Card title="Ajouter un groupe">
-                <form onSubmit={submitHandler}>
+                <form onSubmit={handleSubmit(submit)}>
                     <div
                         className="lg:grid-cols-3 md:grid-cols-2 grid-cols-1 grid gap-5 mb-5 last:mb-0"
                     >
@@ -64,6 +78,9 @@ export default function GroupDeviceForm({ visible, onClose }) {
                                     name: e.target.value,
                                 })
                             }
+                            name="name"
+                            register={register}
+                            error={errors.name}
                             label="Nom du groupe"
                             type="text"
                             placeholder="Ajouter un nom de groupe"
