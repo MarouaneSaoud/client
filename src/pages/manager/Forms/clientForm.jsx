@@ -65,7 +65,7 @@ const userForm = () => {
         cin: "",
         address: "",
         postalCode: "",
-        CompanyEmail: role,
+        CompanyEmail: getEmail(),
     });
 
     async function submit() {

@@ -15,7 +15,7 @@ export default defineConfig({
     ],
   },
   server: {
-    port: 80, // Changez le port ici
+    port: 3000, // Changez le port ici
   },
   plugins: [
     rollupReplace({
